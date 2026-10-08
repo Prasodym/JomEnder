@@ -2,10 +2,14 @@
 package de.jomender.blockentity;
 
 import de.jomender.ModBlockEntities;
+import de.jomender.ModDataComponents;
 import de.jomender.menu.CoalGeneratorMenu;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
@@ -13,38 +17,76 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.core.component.DataComponentGetter;
-import de.jomender.ModDataComponents;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.component.ItemContainerContents;
+import de.jomender.ModEnergyTransfer;
+import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 
+public class CoalGeneratorBlockEntity
+        extends BlockEntity implements Container, MenuProvider {
 
-public class CoalGeneratorBlockEntity extends BlockEntity
-        implements Container, MenuProvider {
+    // =========================
+    // ENERGIE
+    // =========================
 
     public static final int MAX_ENERGY = 20000;
     public static final int ENERGY_PER_TICK = 40;
 
-    private int energy = 0;
+    /*
+     * NeoForge-Energiespeicher
+     *
+     * Kapazität: 20.000 FE
+     * Aufnahme: 0 FE
+     * Entnahme: maximal 40 FE pro Vorgang
+     *
+     * Durch die Energy-Capability können später
+     * andere Technik-Mods darauf zugreifen.
+     */
+    private final SimpleEnergyHandler energyStorage =
+            new SimpleEnergyHandler(
+                    MAX_ENERGY,
+                    0,
+                    ENERGY_PER_TICK
+            ) {
+                @Override
+                protected void onEnergyChanged(int previousAmount) {
+                    CoalGeneratorBlockEntity.this.setChanged();
+                }
+            };
+
+    // =========================
+    // BRENNSTOFF
+    // =========================
+
     private int burnTime = 0;
     private int maxBurnTime = 0;
 
+    // =========================
+    // INVENTAR
+    // =========================
+
+    // Slot 0 = Kohle
+    // Slots 1-4 = Upgrades
+    private final NonNullList<ItemStack> items =
+            NonNullList.withSize(5, ItemStack.EMPTY);
+
+    // =========================
+    // GUI-DATEN
+    // =========================
 
     public final ContainerData data = new ContainerData() {
 
         @Override
         public int get(int index) {
             return switch (index) {
-                case 0 -> energy;
+                case 0 -> getEnergy();
                 case 1 -> burnTime;
                 case 2 -> maxBurnTime;
                 default -> 0;
@@ -54,9 +96,11 @@ public class CoalGeneratorBlockEntity extends BlockEntity
         @Override
         public void set(int index, int value) {
             switch (index) {
-                case 0 -> energy = value;
-                case 1 -> burnTime = value;
-                case 2 -> maxBurnTime = value;
+                case 0 -> energyStorage.set(
+                        Math.clamp(value, 0, MAX_ENERGY)
+                );
+                case 1 -> burnTime = Math.max(0, value);
+                case 2 -> maxBurnTime = Math.max(0, value);
             }
         }
 
@@ -66,24 +110,47 @@ public class CoalGeneratorBlockEntity extends BlockEntity
         }
     };
 
+    // =========================
+    // KONSTRUKTOR
+    // =========================
 
-    // 0 = Kohle, 1-4 = Upgrades
-    private final NonNullList<ItemStack> items =
-            NonNullList.withSize(5, ItemStack.EMPTY);
-
-    public CoalGeneratorBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.COAL_GENERATOR.get(), pos, state);
+    public CoalGeneratorBlockEntity(
+            BlockPos pos,
+            BlockState state
+    ) {
+        super(
+                ModBlockEntities.COAL_GENERATOR.get(),
+                pos,
+                state
+        );
     }
 
-    // Brennstoff aus bisherigem Rechtsklick-System
+    // =========================
+    // FE-SCHNITTSTELLE
+    // =========================
+
+    public SimpleEnergyHandler getEnergyStorage() {
+        return energyStorage;
+    }
+
+    public int getEnergy() {
+        return energyStorage.getAmountAsInt();
+    }
+
+    // =========================
+    // BRENNSTOFF HINZUFÜGEN
+    // =========================
+
     public boolean addFuel(ItemStack stack) {
+
         if (!isFuel(stack)) {
             return false;
         }
 
         ItemStack stored = items.get(0);
 
-        if (!stored.isEmpty() && !ItemStack.isSameItemSameComponents(stored, stack)) {
+        if (!stored.isEmpty()
+                && !ItemStack.isSameItemSameComponents(stored, stack)) {
             return false;
         }
 
@@ -92,10 +159,14 @@ public class CoalGeneratorBlockEntity extends BlockEntity
         }
 
         if (stored.isEmpty()) {
+
             ItemStack copy = stack.copy();
             copy.setCount(1);
+
             setItem(0, copy);
+
         } else {
+
             stored.grow(1);
             setChanged();
         }
@@ -104,10 +175,15 @@ public class CoalGeneratorBlockEntity extends BlockEntity
     }
 
     public static boolean isFuel(ItemStack stack) {
-        return stack.is(Items.COAL) || stack.is(Items.CHARCOAL);
+        return stack.is(Items.COAL)
+                || stack.is(Items.CHARCOAL);
     }
 
-    // Generator läuft serverseitig
+    // =========================
+    // GENERATOR-TICK
+    // =========================
+
+
     public static void serverTick(
             Level level,
             BlockPos pos,
@@ -118,37 +194,53 @@ public class CoalGeneratorBlockEntity extends BlockEntity
             return;
         }
 
-        if (generator.energy >= MAX_ENERGY) {
+        // Zuerst Strom an benachbarte FE-Verbraucher abgeben.
+        // Maximal 40 FE insgesamt pro Tick.
+        ModEnergyTransfer.sendToNeighbors(
+                level,
+                pos,
+                generator.getEnergyStorage(),
+                ENERGY_PER_TICK
+        );
+
+        // Wenn danach immer noch voll:
+        // Keine weitere Kohle verbrennen.
+        if (generator.getEnergy() >= MAX_ENERGY) {
             return;
         }
 
+        // Neue Kohle starten, falls nötig.
         if (generator.burnTime <= 0) {
             ItemStack fuel = generator.items.get(0);
 
             if (isFuel(fuel)) {
                 fuel.shrink(1);
-                generator.setChanged();
 
                 generator.burnTime = 1600;
                 generator.maxBurnTime = 1600;
+                generator.setChanged();
             }
         }
 
+        // Energie erzeugen.
         if (generator.burnTime > 0) {
             generator.burnTime--;
 
-            generator.energy = Math.min(
-                    MAX_ENERGY,
-                    generator.energy + ENERGY_PER_TICK
+            generator.getEnergyStorage().set(
+                    Math.min(
+                            MAX_ENERGY,
+                            generator.getEnergy() + ENERGY_PER_TICK
+                    )
             );
 
             generator.setChanged();
         }
     }
 
-    public int getEnergy() {
-        return energy;
-    }
+
+    // =========================
+    // STATUSWERTE
+    // =========================
 
     public int getBurnTime() {
         return burnTime;
@@ -162,7 +254,10 @@ public class CoalGeneratorBlockEntity extends BlockEntity
         return items.get(0).getCount();
     }
 
-    // Inventar
+    // =========================
+    // INVENTAR-METHODEN
+    // =========================
+
     @Override
     public int getContainerSize() {
         return items.size();
@@ -170,11 +265,13 @@ public class CoalGeneratorBlockEntity extends BlockEntity
 
     @Override
     public boolean isEmpty() {
+
         for (ItemStack stack : items) {
             if (!stack.isEmpty()) {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -185,6 +282,7 @@ public class CoalGeneratorBlockEntity extends BlockEntity
 
     @Override
     public ItemStack removeItem(int slot, int amount) {
+
         ItemStack result =
                 ContainerHelper.removeItem(items, slot, amount);
 
@@ -197,30 +295,37 @@ public class CoalGeneratorBlockEntity extends BlockEntity
 
     @Override
     public ItemStack removeItemNoUpdate(int slot) {
+
         ItemStack stack = items.get(slot);
         items.set(slot, ItemStack.EMPTY);
+
         return stack;
     }
 
     @Override
     public void setItem(int slot, ItemStack stack) {
+
         items.set(slot, stack);
+
         stack.limitSize(getMaxStackSize(stack));
+
         setChanged();
     }
 
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
+
         if (slot == 0) {
             return isFuel(stack);
         }
 
-        // Upgrades werden später freigeschaltet
+        // Upgrades kommen später.
         return false;
     }
 
     @Override
     public boolean stillValid(Player player) {
+
         return level != null
                 && level.getBlockEntity(worldPosition) == this
                 && player.distanceToSqr(
@@ -232,14 +337,18 @@ public class CoalGeneratorBlockEntity extends BlockEntity
 
     @Override
     public void clearContent() {
-        items.clear();
-        for (int i = 0; i < 5; i++) {
-            items.add(ItemStack.EMPTY);
+
+        for (int i = 0; i < items.size(); i++) {
+            items.set(i, ItemStack.EMPTY);
         }
+
         setChanged();
     }
 
-    // Menü
+    // =========================
+    // GUI
+    // =========================
+
     @Override
     public Component getDisplayName() {
         return Component.translatable(
@@ -261,58 +370,74 @@ public class CoalGeneratorBlockEntity extends BlockEntity
         );
     }
 
-
-
-
+    // =========================
+    // INVENTAR BEIM ABBAUEN
+    // =========================
 
     @Override
     public void preRemoveSideEffects(
             BlockPos pos,
             BlockState state
     ) {
-        // Den Inhalt NICHT einzeln droppen.
-        // Er soll zusammen mit der Energie
-        // im Generator-Item gespeichert bleiben.
-
-        // Hier absichtlich kein super-Aufruf.
+        /*
+         * Inventar nicht einzeln auswerfen!
+         *
+         * Kohle und Upgrades bleiben über
+         * minecraft:container im Generator-Item.
+         *
+         * Deshalb hier kein super-Aufruf.
+         */
     }
 
+    // =========================
+    // ITEM-DATEN SAMMELN
+    // =========================
 
-
-    // Energie für das Generator-Item bereitstellen
     @Override
     protected void collectImplicitComponents(
             DataComponentMap.Builder components
     ) {
+
         super.collectImplicitComponents(components);
 
-        // Gespeicherte Energie
+        // Gespeicherte FE
         components.set(
                 ModDataComponents.GENERATOR_ENERGY.get(),
-                energy
+                getEnergy()
         );
 
-        // Kohle + vier Upgrade-Slots
+        // Kohle und vier Upgrade-Slots
         components.set(
                 DataComponents.CONTAINER,
                 ItemContainerContents.fromItems(items)
         );
     }
 
-    // Energie beim Platzieren wieder einlesen
+    // =========================
+    // ITEM-DATEN WIEDERHERSTELLEN
+    // =========================
+
     @Override
     protected void applyImplicitComponents(
             DataComponentGetter components
     ) {
+
         super.applyImplicitComponents(components);
 
-        // Energie wiederherstellen
+        // FE wiederherstellen
         Integer savedEnergy = components.get(
                 ModDataComponents.GENERATOR_ENERGY.get()
         );
 
         if (savedEnergy != null) {
-            energy = Math.clamp(savedEnergy, 0, MAX_ENERGY);
+
+            energyStorage.set(
+                    Math.clamp(
+                            savedEnergy,
+                            0,
+                            MAX_ENERGY
+                    )
+            );
         }
 
         // Inventar wiederherstellen
@@ -326,45 +451,63 @@ public class CoalGeneratorBlockEntity extends BlockEntity
         setChanged();
     }
 
-    // Speichern
+    // =========================
+    // WELT SPEICHERN
+    // =========================
+
     @Override
     protected void saveAdditional(ValueOutput output) {
+
         super.saveAdditional(output);
 
-        output.putInt("energy", energy);
+        output.putInt("energy", getEnergy());
         output.putInt("burnTime", burnTime);
         output.putInt("maxBurnTime", maxBurnTime);
 
         ContainerHelper.saveAllItems(output, items);
     }
 
-    // Laden
+    // =========================
+    // WELT LADEN
+    // =========================
+
     @Override
     protected void loadAdditional(ValueInput input) {
+
         super.loadAdditional(input);
 
-        energy = Math.clamp(
-                input.getIntOr("energy", 0), 0, MAX_ENERGY
+        energyStorage.set(
+                Math.clamp(
+                        input.getIntOr("energy", 0),
+                        0,
+                        MAX_ENERGY
+                )
         );
 
         burnTime = Math.max(
-                0, input.getIntOr("burnTime", 0)
+                0,
+                input.getIntOr("burnTime", 0)
         );
 
         maxBurnTime = Math.max(
-                0, input.getIntOr("maxBurnTime", 0)
+                0,
+                input.getIntOr("maxBurnTime", 0)
         );
 
         ContainerHelper.loadAllItems(input, items);
 
-        // Alten Kohlevorrat übernehmen
+        // Kompatibilität mit alten Generator-Speicherdaten
         int oldCoal = input.getIntOr("storedCoal", 0);
 
         if (oldCoal > 0 && items.get(0).isEmpty()) {
-            items.set(0, new ItemStack(
-                    Items.COAL,
-                    Math.min(oldCoal, 64)
-            ));
+
+            items.set(
+                    0,
+                    new ItemStack(
+                            Items.COAL,
+                            Math.min(oldCoal, 64)
+                    )
+            );
         }
     }
 }

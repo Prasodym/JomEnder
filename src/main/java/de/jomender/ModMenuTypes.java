@@ -2,6 +2,7 @@
 package de.jomender;
 
 import de.jomender.menu.CoalGeneratorMenu;
+import de.jomender.menu.ElectricSmelterMenu;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.flag.FeatureFlags;
@@ -26,6 +27,17 @@ public class ModMenuTypes {
                     FeatureFlags.DEFAULT_FLAGS
             )
     );
+
+
+    public static final Supplier<MenuType<ElectricSmelterMenu>>
+            ELECTRIC_SMELTER = MENUS.register(
+            "electric_smelter",
+            () -> new MenuType<>(
+                    ElectricSmelterMenu::new,
+                    FeatureFlags.DEFAULT_FLAGS
+            )
+    );
+
 
     public static void register(IEventBus bus) {
         MENUS.register(bus);

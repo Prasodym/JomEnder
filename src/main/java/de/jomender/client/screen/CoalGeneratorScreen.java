@@ -121,6 +121,34 @@ public class CoalGeneratorScreen
     // ROTER ENERGIEBALKEN
     // =========================
 
+    @Override
+    protected void extractLabels(
+            GuiGraphicsExtractor graphics,
+            int mouseX,
+            int mouseY
+    ) {
+        // Electric Smelter – Türkis
+        graphics.text(
+                this.font,
+                this.title,
+                this.titleLabelX,
+                this.titleLabelY,
+                0xFF4CA5AA,
+                false
+        );
+
+        // Inventory – Eisblau
+        graphics.text(
+                this.font,
+                this.playerInventoryTitle,
+                this.inventoryLabelX,
+                this.inventoryLabelY,
+                0xFFE6F2F5,
+                false
+        );
+    }
+
+
     private void drawEnergyBar(
             GuiGraphicsExtractor graphics,
             int x,

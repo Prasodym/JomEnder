@@ -10,6 +10,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import de.jomender.client.screen.ElectricSmelterScreen;
 
 @Mod(value = Jomender.MOD_ID, dist = Dist.CLIENT)
 public class ClientScreens {
@@ -24,6 +25,10 @@ public class ClientScreens {
         event.register(
                 ModMenuTypes.COAL_GENERATOR.get(),
                 CoalGeneratorScreen::new
+        );
+        event.register(
+                ModMenuTypes.ELECTRIC_SMELTER.get(),
+                ElectricSmelterScreen::new
         );
     }
 }
