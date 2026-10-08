@@ -21,11 +21,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponentGetter;
+import de.jomender.ModDataComponents;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import java.util.List;
+import net.minecraft.world.item.component.ItemContainerContents;
 
 
 public class CoalGeneratorBlockEntity extends BlockEntity
@@ -279,7 +279,52 @@ public class CoalGeneratorBlockEntity extends BlockEntity
 
 
 
+    // Energie für das Generator-Item bereitstellen
+    @Override
+    protected void collectImplicitComponents(
+            DataComponentMap.Builder components
+    ) {
+        super.collectImplicitComponents(components);
 
+        // Gespeicherte Energie
+        components.set(
+                ModDataComponents.GENERATOR_ENERGY.get(),
+                energy
+        );
+
+        // Kohle + vier Upgrade-Slots
+        components.set(
+                DataComponents.CONTAINER,
+                ItemContainerContents.fromItems(items)
+        );
+    }
+
+    // Energie beim Platzieren wieder einlesen
+    @Override
+    protected void applyImplicitComponents(
+            DataComponentGetter components
+    ) {
+        super.applyImplicitComponents(components);
+
+        // Energie wiederherstellen
+        Integer savedEnergy = components.get(
+                ModDataComponents.GENERATOR_ENERGY.get()
+        );
+
+        if (savedEnergy != null) {
+            energy = Math.clamp(savedEnergy, 0, MAX_ENERGY);
+        }
+
+        // Inventar wiederherstellen
+        ItemContainerContents savedItems =
+                components.get(DataComponents.CONTAINER);
+
+        if (savedItems != null) {
+            savedItems.copyInto(items);
+        }
+
+        setChanged();
+    }
 
     // Speichern
     @Override

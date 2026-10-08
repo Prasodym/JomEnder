@@ -7,7 +7,17 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "jomender:coal_generator"
+          "name": "jomender:coal_generator",
+          "functions": [
+            {
+              "function": "minecraft:copy_components",
+              "source": "block_entity",
+              "include": [
+                "jomender:generator_energy",
+                "minecraft:container"
+              ]
+            }
+          ]
         }
       ],
       "conditions": [

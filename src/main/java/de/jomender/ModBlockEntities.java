@@ -2,6 +2,7 @@
 package de.jomender;
 
 import de.jomender.blockentity.CoalGeneratorBlockEntity;
+import de.jomender.blockentity.ElectricSmelterBlockEntity;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -28,6 +29,18 @@ public class ModBlockEntities {
                     ModBlocks.COAL_GENERATOR.get()
             )
     );
+
+
+    public static final Supplier<BlockEntityType<ElectricSmelterBlockEntity>>
+            ELECTRIC_SMELTER = BLOCK_ENTITIES.register(
+            "electric_smelter",
+            () -> new BlockEntityType<>(
+                    ElectricSmelterBlockEntity::new,
+                    false,
+                    ModBlocks.ELECTRIC_SMELTER.get()
+            )
+    );
+
 
     public static void register(IEventBus bus) {
         BLOCK_ENTITIES.register(bus);

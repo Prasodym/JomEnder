@@ -1,5 +1,6 @@
 package de.jomender;
 
+import de.jomender.block.ElectricSmelterBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.DropExperienceBlock;
@@ -71,7 +72,7 @@ public class ModBlocks {
     public static final DeferredBlock<Block> ELECTRIC_SMELTER =
             BLOCKS.registerBlock(
                     "electric_smelter",
-                    Block::new,
+                    ElectricSmelterBlock::new,
                     props -> props
                             .mapColor(MapColor.COLOR_GRAY)
                             .strength(3.5f, 6.0f)

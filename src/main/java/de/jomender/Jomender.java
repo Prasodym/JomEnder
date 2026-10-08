@@ -44,6 +44,7 @@ public Jomender(IEventBus bus, ModContainer modContainer) {
         ModBlockEntities.register(bus);
 
         ModMenuTypes.register(bus);
+        ModDataComponents.register(bus);
 
         NeoForge.EVENT_BUS.addListener(ModOreEvents::onBreak);
 
