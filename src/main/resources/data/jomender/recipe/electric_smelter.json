@@ -1,0 +1,19 @@
+
+
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SGI",
+    "G G",
+    "IGS"
+  ],
+  "key": {
+    "I": "minecraft:iron_ingot",
+    "G": "jomender:germanium_ingot",
+    "S": "jomender:germanium_clumb"
+  },
+  "result": {
+    "id": "jomender:coal_generator",
+    "count": 1
+  }
+}

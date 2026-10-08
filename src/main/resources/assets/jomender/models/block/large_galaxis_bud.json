@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "jomender:block/large_galaxis_bud",
+    "particle": "jomender:block/large_galaxis_bud"
+  }
+}

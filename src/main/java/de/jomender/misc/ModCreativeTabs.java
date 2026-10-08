@@ -31,6 +31,12 @@ public class ModCreativeTabs {
                                 output.accept(ModItems.DEEPSLATE_GERMANIUM_ORE.get());
                                 output.accept(ModItems.NETHER_GERMANIUM_ORE.get());
                                 output.accept(ModItems.END_GERMANIUM_ORE.get());
+                                output.accept(ModItems.BUDDING_GALAXIS.get());
+                                output.accept(ModItems.SMALL_GALAXIS_BUD.get());
+                                output.accept(ModItems.MEDIUM_GALAXIS_BUD.get());
+                                output.accept(ModItems.LARGE_GALAXIS_BUD.get());
+                                output.accept(ModItems.GALAXIS_CLUSTER.get());
+                                output.accept(ModItems.Galaxis_Quarz.get());
                                 output.accept(ModItems.Case.get());
                                 output.accept(ModItems.MachineFrame.get());
                                 output.accept(ModItems.MachineCore.get());

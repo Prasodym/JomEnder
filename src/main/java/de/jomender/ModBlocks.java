@@ -1,6 +1,8 @@
 package de.jomender;
 
+import de.jomender.block.BuddingGalaxisBlock;
 import de.jomender.block.ElectricSmelterBlock;
+import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.DropExperienceBlock;
@@ -80,6 +82,65 @@ public class ModBlocks {
                             .requiresCorrectToolForDrops()
             );
 
+
+
+    public static final DeferredBlock<BuddingGalaxisBlock> BUDDING_GALAXIS =
+            BLOCKS.registerBlock(
+                    "budding_galaxis",
+                    BuddingGalaxisBlock::new,
+                    properties -> properties
+                            .randomTicks()
+                            .strength(1.5f)
+                            .sound(SoundType.AMETHYST)
+            );
+
+    public static final DeferredBlock<AmethystClusterBlock>
+            SMALL_GALAXIS_BUD = BLOCKS.registerBlock(
+            "small_galaxis_bud",
+            properties -> new AmethystClusterBlock(
+                    3, 4, properties
+            ),
+            properties -> properties
+                    .strength(1.5f)
+                    .sound(SoundType.AMETHYST)
+                    .noOcclusion()
+    );
+
+    public static final DeferredBlock<AmethystClusterBlock>
+            MEDIUM_GALAXIS_BUD = BLOCKS.registerBlock(
+            "medium_galaxis_bud",
+            properties -> new AmethystClusterBlock(
+                    4, 3, properties
+            ),
+            properties -> properties
+                    .strength(1.5f)
+                    .sound(SoundType.AMETHYST)
+                    .noOcclusion()
+    );
+
+    public static final DeferredBlock<AmethystClusterBlock>
+            LARGE_GALAXIS_BUD = BLOCKS.registerBlock(
+            "large_galaxis_bud",
+            properties -> new AmethystClusterBlock(
+                    5, 3, properties
+            ),
+            properties -> properties
+                    .strength(1.5f)
+                    .sound(SoundType.AMETHYST)
+                    .noOcclusion()
+    );
+
+    public static final DeferredBlock<AmethystClusterBlock>
+            GALAXIS_CLUSTER = BLOCKS.registerBlock(
+            "galaxis_cluster",
+            properties -> new AmethystClusterBlock(
+                    7, 3, properties
+            ),
+            properties -> properties
+                    .strength(1.5f)
+                    .sound(SoundType.AMETHYST)
+                    .noOcclusion()
+    );
 
 
     public static void register(IEventBus bus) {

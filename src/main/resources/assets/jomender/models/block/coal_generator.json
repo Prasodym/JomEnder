@@ -1,6 +1,725 @@
 {
-  "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "minecraft:block/deepslate_tiles"
+    "casing": "minecraft:block/polished_deepslate",
+    "steel": "minecraft:block/netherite_block",
+    "panel": "minecraft:block/gray_concrete",
+    "recess": "minecraft:block/black_concrete",
+    "display": "minecraft:block/cyan_concrete",
+    "flame": "minecraft:block/orange_concrete",
+    "particle": "minecraft:block/polished_deepslate"
+  },
+  "elements": [
+    {
+      "name": "Grundgehäuse",
+      "from": [
+        1,
+        1,
+        1
+      ],
+      "to": [
+        15,
+        15,
+        15
+      ],
+      "faces": {
+        "north": {
+          "texture": "#casing"
+        },
+        "south": {
+          "texture": "#casing"
+        },
+        "east": {
+          "texture": "#casing"
+        },
+        "west": {
+          "texture": "#casing"
+        },
+        "up": {
+          "texture": "#casing"
+        },
+        "down": {
+          "texture": "#casing"
+        }
+      }
+    },
+    {
+      "name": "Bodenrahmen",
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        2,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#steel"
+        },
+        "south": {
+          "texture": "#steel"
+        },
+        "east": {
+          "texture": "#steel"
+        },
+        "west": {
+          "texture": "#steel"
+        },
+        "up": {
+          "texture": "#steel"
+        },
+        "down": {
+          "texture": "#steel"
+        }
+      }
+    },
+    {
+      "name": "Deckelrahmen",
+      "from": [
+        0,
+        14,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#steel"
+        },
+        "south": {
+          "texture": "#steel"
+        },
+        "east": {
+          "texture": "#steel"
+        },
+        "west": {
+          "texture": "#steel"
+        },
+        "up": {
+          "texture": "#steel"
+        },
+        "down": {
+          "texture": "#steel"
+        }
+      }
+    },
+    {
+      "name": "Linke Stahlstütze",
+      "from": [
+        0,
+        2,
+        0
+      ],
+      "to": [
+        2,
+        14,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#steel"
+        },
+        "south": {
+          "texture": "#steel"
+        },
+        "east": {
+          "texture": "#steel"
+        },
+        "west": {
+          "texture": "#steel"
+        },
+        "up": {
+          "texture": "#steel"
+        },
+        "down": {
+          "texture": "#steel"
+        }
+      }
+    },
+    {
+      "name": "Rechte Stahlstütze",
+      "from": [
+        14,
+        2,
+        0
+      ],
+      "to": [
+        16,
+        14,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#steel"
+        },
+        "south": {
+          "texture": "#steel"
+        },
+        "east": {
+          "texture": "#steel"
+        },
+        "west": {
+          "texture": "#steel"
+        },
+        "up": {
+          "texture": "#steel"
+        },
+        "down": {
+          "texture": "#steel"
+        }
+      }
+    },
+    {
+      "name": "Frontplatte",
+      "from": [
+        2,
+        2,
+        0
+      ],
+      "to": [
+        14,
+        14,
+        1
+      ],
+      "faces": {
+        "north": {
+          "texture": "#panel"
+        },
+        "south": {
+          "texture": "#panel"
+        },
+        "east": {
+          "texture": "#panel"
+        },
+        "west": {
+          "texture": "#panel"
+        },
+        "up": {
+          "texture": "#panel"
+        },
+        "down": {
+          "texture": "#panel"
+        }
+      }
+    },
+    {
+      "name": "Displayrahmen",
+      "from": [
+        3,
+        8,
+        -0.5
+      ],
+      "to": [
+        13,
+        13,
+        0.25
+      ],
+      "faces": {
+        "north": {
+          "texture": "#steel"
+        },
+        "south": {
+          "texture": "#steel"
+        },
+        "east": {
+          "texture": "#steel"
+        },
+        "west": {
+          "texture": "#steel"
+        },
+        "up": {
+          "texture": "#steel"
+        },
+        "down": {
+          "texture": "#steel"
+        }
+      }
+    },
+    {
+      "name": "Dunkler Displayhintergrund",
+      "from": [
+        3.5,
+        8.5,
+        -0.75
+      ],
+      "to": [
+        12.5,
+        12.5,
+        -0.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#recess"
+        },
+        "south": {
+          "texture": "#recess"
+        },
+        "east": {
+          "texture": "#recess"
+        },
+        "west": {
+          "texture": "#recess"
+        },
+        "up": {
+          "texture": "#recess"
+        },
+        "down": {
+          "texture": "#recess"
+        }
+      }
+    },
+    {
+      "name": "Türkises Display",
+      "from": [
+        4,
+        9,
+        -1
+      ],
+      "to": [
+        12,
+        12,
+        -0.75
+      ],
+      "faces": {
+        "north": {
+          "texture": "#display"
+        },
+        "south": {
+          "texture": "#display"
+        },
+        "east": {
+          "texture": "#display"
+        },
+        "west": {
+          "texture": "#display"
+        },
+        "up": {
+          "texture": "#display"
+        },
+        "down": {
+          "texture": "#display"
+        }
+      }
+    },
+    {
+      "name": "Brennkammerrahmen",
+      "from": [
+        3,
+        3,
+        -0.5
+      ],
+      "to": [
+        13,
+        7,
+        0.25
+      ],
+      "faces": {
+        "north": {
+          "texture": "#steel"
+        },
+        "south": {
+          "texture": "#steel"
+        },
+        "east": {
+          "texture": "#steel"
+        },
+        "west": {
+          "texture": "#steel"
+        },
+        "up": {
+          "texture": "#steel"
+        },
+        "down": {
+          "texture": "#steel"
+        }
+      }
+    },
+    {
+      "name": "Brennkammeröffnung",
+      "from": [
+        4,
+        3.5,
+        -0.75
+      ],
+      "to": [
+        12,
+        6.5,
+        -0.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#recess"
+        },
+        "south": {
+          "texture": "#recess"
+        },
+        "east": {
+          "texture": "#recess"
+        },
+        "west": {
+          "texture": "#recess"
+        },
+        "up": {
+          "texture": "#recess"
+        },
+        "down": {
+          "texture": "#recess"
+        }
+      }
+    },
+    {
+      "name": "Glühende Brennzone",
+      "from": [
+        5,
+        4,
+        -1
+      ],
+      "to": [
+        11,
+        6,
+        -0.75
+      ],
+      "faces": {
+        "north": {
+          "texture": "#flame"
+        },
+        "south": {
+          "texture": "#flame"
+        },
+        "east": {
+          "texture": "#flame"
+        },
+        "west": {
+          "texture": "#flame"
+        },
+        "up": {
+          "texture": "#flame"
+        },
+        "down": {
+          "texture": "#flame"
+        }
+      }
+    },
+    {
+      "name": "Linke Seitenplatte",
+      "from": [
+        0,
+        4,
+        3
+      ],
+      "to": [
+        0.75,
+        12,
+        13
+      ],
+      "faces": {
+        "north": {
+          "texture": "#panel"
+        },
+        "south": {
+          "texture": "#panel"
+        },
+        "east": {
+          "texture": "#panel"
+        },
+        "west": {
+          "texture": "#panel"
+        },
+        "up": {
+          "texture": "#panel"
+        },
+        "down": {
+          "texture": "#panel"
+        }
+      }
+    },
+    {
+      "name": "Rechte Seitenplatte",
+      "from": [
+        15.25,
+        4,
+        3
+      ],
+      "to": [
+        16,
+        12,
+        13
+      ],
+      "faces": {
+        "north": {
+          "texture": "#panel"
+        },
+        "south": {
+          "texture": "#panel"
+        },
+        "east": {
+          "texture": "#panel"
+        },
+        "west": {
+          "texture": "#panel"
+        },
+        "up": {
+          "texture": "#panel"
+        },
+        "down": {
+          "texture": "#panel"
+        }
+      }
+    },
+    {
+      "name": "Linke Kühlrippe 1",
+      "from": [
+        -0.25,
+        5,
+        5
+      ],
+      "to": [
+        0.5,
+        11,
+        6
+      ],
+      "faces": {
+        "north": {
+          "texture": "#steel"
+        },
+        "south": {
+          "texture": "#steel"
+        },
+        "east": {
+          "texture": "#steel"
+        },
+        "west": {
+          "texture": "#steel"
+        },
+        "up": {
+          "texture": "#steel"
+        },
+        "down": {
+          "texture": "#steel"
+        }
+      }
+    },
+    {
+      "name": "Rechte Kühlrippe 1",
+      "from": [
+        15.5,
+        5,
+        5
+      ],
+      "to": [
+        16.25,
+        11,
+        6
+      ],
+      "faces": {
+        "north": {
+          "texture": "#steel"
+        },
+        "south": {
+          "texture": "#steel"
+        },
+        "east": {
+          "texture": "#steel"
+        },
+        "west": {
+          "texture": "#steel"
+        },
+        "up": {
+          "texture": "#steel"
+        },
+        "down": {
+          "texture": "#steel"
+        }
+      }
+    },
+    {
+      "name": "Linke Kühlrippe 2",
+      "from": [
+        -0.25,
+        5,
+        8
+      ],
+      "to": [
+        0.5,
+        11,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#steel"
+        },
+        "south": {
+          "texture": "#steel"
+        },
+        "east": {
+          "texture": "#steel"
+        },
+        "west": {
+          "texture": "#steel"
+        },
+        "up": {
+          "texture": "#steel"
+        },
+        "down": {
+          "texture": "#steel"
+        }
+      }
+    },
+    {
+      "name": "Rechte Kühlrippe 2",
+      "from": [
+        15.5,
+        5,
+        8
+      ],
+      "to": [
+        16.25,
+        11,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#steel"
+        },
+        "south": {
+          "texture": "#steel"
+        },
+        "east": {
+          "texture": "#steel"
+        },
+        "west": {
+          "texture": "#steel"
+        },
+        "up": {
+          "texture": "#steel"
+        },
+        "down": {
+          "texture": "#steel"
+        }
+      }
+    },
+    {
+      "name": "Linke Kühlrippe 3",
+      "from": [
+        -0.25,
+        5,
+        11
+      ],
+      "to": [
+        0.5,
+        11,
+        12
+      ],
+      "faces": {
+        "north": {
+          "texture": "#steel"
+        },
+        "south": {
+          "texture": "#steel"
+        },
+        "east": {
+          "texture": "#steel"
+        },
+        "west": {
+          "texture": "#steel"
+        },
+        "up": {
+          "texture": "#steel"
+        },
+        "down": {
+          "texture": "#steel"
+        }
+      }
+    },
+    {
+      "name": "Rechte Kühlrippe 3",
+      "from": [
+        15.5,
+        5,
+        11
+      ],
+      "to": [
+        16.25,
+        11,
+        12
+      ],
+      "faces": {
+        "north": {
+          "texture": "#steel"
+        },
+        "south": {
+          "texture": "#steel"
+        },
+        "east": {
+          "texture": "#steel"
+        },
+        "west": {
+          "texture": "#steel"
+        },
+        "up": {
+          "texture": "#steel"
+        },
+        "down": {
+          "texture": "#steel"
+        }
+      }
+    },
+    {
+      "name": "Wartungsdeckel",
+      "from": [
+        4,
+        16,
+        4
+      ],
+      "to": [
+        12,
+        16.5,
+        12
+      ],
+      "faces": {
+        "north": {
+          "texture": "#panel"
+        },
+        "south": {
+          "texture": "#panel"
+        },
+        "east": {
+          "texture": "#panel"
+        },
+        "west": {
+          "texture": "#panel"
+        },
+        "up": {
+          "texture": "#panel"
+        },
+        "down": {
+          "texture": "#panel"
+        }
+      }
+    }
+  ],
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    }
   }
 }

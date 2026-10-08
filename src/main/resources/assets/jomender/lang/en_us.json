@@ -10,5 +10,9 @@
   "block.jomender.coal_generator": "Coal Generator",
   "block.jomender.electric_smelter": "Electric Smelter",
   "config.jade.plugin_jomender.generator_energy": "Generator Energy",
-  "config.jade.plugin_jomender.generator_energy": "Generatorenergie"
+  "config.jade.plugin_jomender.generator_energy": "Generatorenergie",
+    "block.jomender.budding_galaxis": "Budding Galaxis",
+  "block.jomender.galaxis_cluster": "Galaxis Cluster",
+    "item.jomender.galaxis_quarz": "Galaxis Quarz"
+
 }

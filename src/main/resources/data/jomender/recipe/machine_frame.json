@@ -1,0 +1,17 @@
+
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IGI",
+    "G G",
+    "IGI"
+  ],
+  "key": {
+    "I": "minecraft:iron_ingot",
+    "G": "jomender:germanium_ingot"
+  },
+  "result": {
+    "id": "jomender:machine_frame",
+    "count": 1
+  }
+}

@@ -46,6 +46,27 @@ public class ModItems {
     public static final DeferredItem<BlockItem> END_GERMANIUM_ORE =
             ITEMS.registerSimpleBlockItem("end_germanium_ore", ModBlocks.END_GERMANIUM_ORE);
 
+    public static final DeferredItem<BlockItem> SMALL_GALAXIS_BUD =
+            ITEMS.registerSimpleBlockItem("small_galaxis_bud", ModBlocks.SMALL_GALAXIS_BUD);
+
+    public static final DeferredItem<BlockItem> MEDIUM_GALAXIS_BUD =
+            ITEMS.registerSimpleBlockItem("medium_galaxis_bud", ModBlocks.MEDIUM_GALAXIS_BUD);
+
+    public static final DeferredItem<BlockItem> LARGE_GALAXIS_BUD =
+            ITEMS.registerSimpleBlockItem("large_galaxis_bud", ModBlocks.LARGE_GALAXIS_BUD);
+
+    public static final DeferredItem<BlockItem> GALAXIS_CLUSTER =
+            ITEMS.registerSimpleBlockItem("galaxis_cluster", ModBlocks.GALAXIS_CLUSTER);
+
+    public static final DeferredItem<Item> Galaxis_Quarz =
+            ITEMS.registerSimpleItem("galaxis_quarz");
+
+    public static final DeferredItem<BlockItem> BUDDING_GALAXIS =
+            ITEMS.registerSimpleBlockItem(
+                    "budding_galaxis",
+                    ModBlocks.BUDDING_GALAXIS
+            );
+
 
     public static final DeferredItem<BlockItem> COAL_GENERATOR =
             ITEMS.registerSimpleBlockItem(

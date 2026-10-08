@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "jomender:block/galaxis_cluster"
+    },
+    "facing=down": {
+      "model": "jomender:block/galaxis_cluster",
+      "x": 180
+    },
+    "facing=north": {
+      "model": "jomender:block/galaxis_cluster",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "jomender:block/galaxis_cluster",
+      "x": 90,
+      "y": 180
+    },
+    "facing=east": {
+      "model": "jomender:block/galaxis_cluster",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west": {
+      "model": "jomender:block/galaxis_cluster",
+      "x": 90,
+      "y": 270
+    }
+  }
+}
