@@ -45,6 +45,7 @@ public class ModCreativeTabs {
                                 output.accept(ModItems.Magnetic.get());
                                 output.accept(ModItems.COAL_GENERATOR.get());
                                 output.accept(ModItems.ELECTRIC_SMELTER.get());
+                                output.accept(ModItems.GERMANIUM_MINER.get());
                             })
                             .build()
             );

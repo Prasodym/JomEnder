@@ -80,6 +80,12 @@ public class ModItems {
                     ModBlocks.ELECTRIC_SMELTER
             );
 
+    public static final DeferredItem<BlockItem> GERMANIUM_MINER =
+            ITEMS.registerSimpleBlockItem(
+                    "germanium_miner",
+                    ModBlocks.GERMANIUM_MINER
+            );
+
 
     public static void register(IEventBus bus) {
         ITEMS.register(bus);

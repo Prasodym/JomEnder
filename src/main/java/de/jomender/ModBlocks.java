@@ -13,6 +13,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import de.jomender.block.CoalGeneratorBlock;
+import de.jomender.block.GermaniumMinerBlock;
+import de.jomender.block.GermaniumMinerPartBlock;
 
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS =
@@ -141,6 +143,30 @@ public class ModBlocks {
                     .sound(SoundType.AMETHYST)
                     .noOcclusion()
     );
+
+
+    public static final DeferredBlock<GermaniumMinerBlock>
+            GERMANIUM_MINER = BLOCKS.registerBlock(
+            "germanium_miner",
+            GermaniumMinerBlock::new,
+            properties -> properties
+                    .mapColor(MapColor.COLOR_GRAY)
+                    .strength(4.0f, 8.0f)
+                    .sound(SoundType.METAL)
+                    .requiresCorrectToolForDrops()
+    );
+
+    public static final DeferredBlock<GermaniumMinerPartBlock>
+            GERMANIUM_MINER_PART = BLOCKS.registerBlock(
+            "germanium_miner_part",
+            GermaniumMinerPartBlock::new,
+            properties -> properties
+                    .mapColor(MapColor.COLOR_GRAY)
+                    .strength(4.0f, 8.0f)
+                    .sound(SoundType.METAL)
+                    .noLootTable()
+    );
+
 
 
     public static void register(IEventBus bus) {

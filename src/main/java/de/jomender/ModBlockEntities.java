@@ -6,7 +6,7 @@ import de.jomender.blockentity.ElectricSmelterBlockEntity;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-
+import de.jomender.blockentity.GermaniumMinerBlockEntity;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -40,6 +40,18 @@ public class ModBlockEntities {
                     ModBlocks.ELECTRIC_SMELTER.get()
             )
     );
+
+
+    public static final Supplier<BlockEntityType<GermaniumMinerBlockEntity>>
+            GERMANIUM_MINER = BLOCK_ENTITIES.register(
+            "germanium_miner",
+            () -> new BlockEntityType<>(
+                    GermaniumMinerBlockEntity::new,
+                    false,
+                    ModBlocks.GERMANIUM_MINER.get()
+            )
+    );
+
 
 
     public static void register(IEventBus bus) {

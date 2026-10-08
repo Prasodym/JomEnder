@@ -3,9 +3,12 @@ package de.jomender;
 
 import de.jomender.menu.CoalGeneratorMenu;
 import de.jomender.menu.ElectricSmelterMenu;
+import de.jomender.menu.GermaniumMinerMenu;
+
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.inventory.MenuType;
+
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -28,7 +31,6 @@ public class ModMenuTypes {
             )
     );
 
-
     public static final Supplier<MenuType<ElectricSmelterMenu>>
             ELECTRIC_SMELTER = MENUS.register(
             "electric_smelter",
@@ -38,6 +40,14 @@ public class ModMenuTypes {
             )
     );
 
+    public static final Supplier<MenuType<GermaniumMinerMenu>>
+            GERMANIUM_MINER = MENUS.register(
+            "germanium_miner",
+            () -> new MenuType<>(
+                    GermaniumMinerMenu::new,
+                    FeatureFlags.DEFAULT_FLAGS
+            )
+    );
 
     public static void register(IEventBus bus) {
         MENUS.register(bus);

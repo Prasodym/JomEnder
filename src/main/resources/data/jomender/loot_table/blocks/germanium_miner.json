@@ -1,0 +1,25 @@
+
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "jomender:germanium_miner",
+          "functions": [
+            {
+              "function": "minecraft:copy_components",
+              "source": "block_entity",
+              "include": [
+                "minecraft:container",
+                "minecraft:custom_data"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
