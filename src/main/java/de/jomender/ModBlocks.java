@@ -1,0 +1,87 @@
+package de.jomender;
+
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.DropExperienceBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.world.level.material.MapColor;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import de.jomender.block.CoalGeneratorBlock;
+
+public class ModBlocks {
+    public static final DeferredRegister.Blocks BLOCKS =
+            DeferredRegister.createBlocks(Jomender.MOD_ID);
+
+
+    public static final DeferredBlock<DropExperienceBlock> GERMANIUM_ORE =
+            BLOCKS.registerBlock("germanium_ore",
+                    props -> new DropExperienceBlock(ConstantInt.of(3), props),
+                    props -> props
+                            .mapColor(MapColor.STONE)
+                            .strength(3.0f, 3.0f)
+                            .sound(SoundType.STONE)
+                            .requiresCorrectToolForDrops()
+            );
+
+    public static final DeferredBlock<DropExperienceBlock> DEEPSLATE_GERMANIUM_ORE =
+            BLOCKS.registerBlock("deepslate_germanium_ore",
+                    props -> new DropExperienceBlock(ConstantInt.of(4), props),
+                    props -> props
+                            .mapColor(MapColor.DEEPSLATE)
+                            .strength(0.5f, 3.0f)
+                            .sound(SoundType.DEEPSLATE)
+                            .requiresCorrectToolForDrops()
+            );
+
+    public static final DeferredBlock<DropExperienceBlock> NETHER_GERMANIUM_ORE =
+            BLOCKS.registerBlock("nether_germanium_ore",
+                    props -> new DropExperienceBlock(ConstantInt.of(5), props),
+                    props -> props
+                            .mapColor(MapColor.NETHER)
+                            .strength(3.0f, 3.0f)
+                            .sound(SoundType.NETHER_ORE)
+                            .requiresCorrectToolForDrops()
+            );
+
+    public static final DeferredBlock<DropExperienceBlock> END_GERMANIUM_ORE =
+            BLOCKS.registerBlock("end_germanium_ore",
+                    props -> new DropExperienceBlock(ConstantInt.of(5), props),
+                    props -> props
+                            .mapColor(MapColor.SAND)
+                            .strength(3.0f, 3.0f)
+                            .sound(SoundType.STONE)
+                            .requiresCorrectToolForDrops()
+            );
+
+
+    public static final DeferredBlock<Block> COAL_GENERATOR =
+            BLOCKS.registerBlock(
+                    "coal_generator",
+                    CoalGeneratorBlock::new,
+                    props -> props
+                            .mapColor(MapColor.COLOR_GRAY)
+                            .strength(3.5f, 6.0f)
+                            .sound(SoundType.METAL)
+                            .requiresCorrectToolForDrops()
+            );
+
+    public static final DeferredBlock<Block> ELECTRIC_SMELTER =
+            BLOCKS.registerBlock(
+                    "electric_smelter",
+                    Block::new,
+                    props -> props
+                            .mapColor(MapColor.COLOR_GRAY)
+                            .strength(3.5f, 6.0f)
+                            .sound(SoundType.METAL)
+                            .requiresCorrectToolForDrops()
+            );
+
+
+
+    public static void register(IEventBus bus) {
+        BLOCKS.register(bus);
+    }
+}

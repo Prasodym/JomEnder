@@ -1,0 +1,60 @@
+{
+  "stats": {
+    "minecraft:dropped": {
+      "jomender:germanium_ingot": 1
+    },
+    "minecraft:used": {
+      "minecraft:hopper": 1,
+      "jomender:coal_generator": 6,
+      "jomender:end_germanium_ore": 13,
+      "minecraft:anvil": 1,
+      "minecraft:deepslate": 41,
+      "minecraft:netherite_pickaxe": 13,
+      "jomender:nether_germanium_ore": 6,
+      "jomender:deepslate_germanium_ore": 14,
+      "jomender:germanium_ore": 3
+    },
+    "minecraft:mined": {
+      "jomender:end_germanium_ore": 1,
+      "jomender:nether_germanium_ore": 4,
+      "jomender:deepslate_germanium_ore": 4
+    },
+    "minecraft:custom": {
+      "minecraft:time_since_rest": 160582,
+      "minecraft:walk_one_cm": 18582,
+      "minecraft:leave_game": 31,
+      "minecraft:damage_taken": 360,
+      "minecraft:play_time": 99027,
+      "minecraft:jump": 9,
+      "minecraft:time_since_death": 80255,
+      "minecraft:drop": 1,
+      "minecraft:sprint_one_cm": 3488,
+      "minecraft:open_chest": 2,
+      "minecraft:inspect_hopper": 1,
+      "minecraft:fall_one_cm": 1300,
+      "minecraft:total_world_time": 109415,
+      "minecraft:fly_one_cm": 3102,
+      "minecraft:interact_with_anvil": 1,
+      "minecraft:crouch_one_cm": 38,
+      "minecraft:sneak_time": 65,
+      "minecraft:deaths": 1
+    },
+    "minecraft:picked_up": {
+      "minecraft:coal": 23,
+      "jomender:germanium_clumb": 33,
+      "minecraft:netherite_pickaxe": 1,
+      "jomender:end_germanium_ore": 1,
+      "minecraft:golden_pickaxe": 1,
+      "minecraft:deepslate": 1,
+      "jomender:deepslate_germanium_ore": 1,
+      "jomender:germanium_ore": 1,
+      "jomender:germanium_ingot": 66,
+      "jomender:nether_germanium_ore": 1,
+      "minecraft:rotten_flesh": 1
+    },
+    "minecraft:killed_by": {
+      "minecraft:zombie": 1
+    }
+  },
+  "DataVersion": 4790
+}

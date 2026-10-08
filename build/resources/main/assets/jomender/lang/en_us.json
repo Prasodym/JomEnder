@@ -1,0 +1,14 @@
+{
+  "itemGroup.jomender": "Example Mod Tab",
+  "block.jomender.germanium_ore": "Germanium Ore",
+  "block.jomender.deepslate_germanium_ore": "Deepslate Germanium Ore",
+  "block.jomender.nether_germanium_ore": "Nether Germanium Ore",
+  "block.jomender.end_germanium_ore": "End Germanium Ore",
+  "itemGroup.jomender": "Jomlua Ender",
+  "item.jomender.germanium_ingot": "Germanium Ingot",
+    "item.jomender.germanium_clumb": "Germanium Clumb",
+  "block.jomender.coal_generator": "Coal Generator",
+  "block.jomender.electric_smelter": "Electric Smelter",
+  "config.jade.plugin_jomender.generator_energy": "Generator Energy",
+  "config.jade.plugin_jomender.generator_energy": "Generatorenergie"
+}

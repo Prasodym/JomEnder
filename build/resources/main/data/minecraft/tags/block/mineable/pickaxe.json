@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "jomender:germanium_ore",
+    "jomender:deepslate_germanium_ore",
+    "jomender:nether_germanium_ore",
+    "jomender:end_germanium_ore",
+    "jomender:coal_generator",
+    "jomender:electric_smelter"
+  ]
+}
