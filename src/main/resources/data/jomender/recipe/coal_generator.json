@@ -9,12 +9,12 @@
   ],
   "key": {
     "I": "minecraft:iron_ingot",
-    "G": "jomender:galaxis_quarz",
+    "G": "minecraft:netherite_ingot",
     "S": "jomender:germanium_clumb",
     "H": "minecraft:ender_pearl"
   },
   "result": {
-    "id": "jomender:electric_smelter",
+    "id": "jomender:coal_generator",
     "count": 1
   }
 }
