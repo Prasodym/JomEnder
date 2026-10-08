@@ -1,0 +1,19 @@
+# Gradle
+.gradle/
+build/
+out/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Minecraft-Testumgebung
+run/
+run-data/
+
+# Betriebssystem
+.DS_Store
+Thumbs.db
+
+# Lokale Dateien
+*.log
