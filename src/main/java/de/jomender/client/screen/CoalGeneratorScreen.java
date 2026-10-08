@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import org.jspecify.annotations.NonNull;
 
 public class CoalGeneratorScreen
         extends AbstractContainerScreen<CoalGeneratorMenu> {
@@ -35,7 +36,7 @@ public class CoalGeneratorScreen
 
     @Override
     public void extractBackground(
-            GuiGraphicsExtractor graphics,
+            @NonNull GuiGraphicsExtractor graphics,
             int mouseX,
             int mouseY,
             float partialTick
@@ -184,7 +185,7 @@ public class CoalGeneratorScreen
 
     @Override
     public void extractRenderState(
-            GuiGraphicsExtractor graphics,
+            @NonNull GuiGraphicsExtractor graphics,
             int mouseX,
             int mouseY,
             float partialTick
