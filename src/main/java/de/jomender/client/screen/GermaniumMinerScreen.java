@@ -328,25 +328,27 @@ public class GermaniumMinerScreen
         int y = topPos;
 
         // Dunkles Metallgehäuse.
+        // Ruhiger, dunkelgrauer Maschinenhintergrund
         graphics.fill(
                 x, y,
                 x + GUI_WIDTH,
                 y + GUI_HEIGHT,
-                0xFF242D35
+                0xFF30363C
         );
 
+// Sehr dünner äußerer Rand
         graphics.fill(
-                x + 3, y + 3,
-                x + GUI_WIDTH - 3,
-                y + GUI_HEIGHT - 3,
-                0xFF35434D
+                x + 2, y + 2,
+                x + GUI_WIDTH - 2,
+                y + GUI_HEIGHT - 2,
+                0xFF41494F
         );
 
-        // Dunkler Steuerungsbereich.
+// Dezenter Steuerungsbereich
         graphics.fill(
                 x + 7, y + 18,
                 x + 224, y + 103,
-                0xFF18252B
+                0xFF252B30
         );
 
         drawEnergyBar(graphics, x, y);
@@ -463,16 +465,18 @@ public class GermaniumMinerScreen
             int x,
             int y
     ) {
+        // Dünne, unauffällige Umrandung
         graphics.fill(
                 x, y,
                 x + 18, y + 18,
-                0xFF718A91
+                0xFF58636A
         );
 
+        // Dunkler Slot-Hintergrund
         graphics.fill(
                 x + 1, y + 1,
                 x + 17, y + 17,
-                0xFF19252D
+                0xFF27272D
         );
     }
 
@@ -519,6 +523,41 @@ public class GermaniumMinerScreen
                 111,
                 61,
                 0xFFE6F2F5,
+                false
+        );
+        graphics.text(
+                font,
+                Component.literal(
+                        "Erze: " + menu.getFoundOres()
+                ),
+                72,
+                98,
+                0xFF56DED2,
+                false
+        );
+
+        graphics.text(
+                font,
+                Component.literal(
+                        "Abgebaut: " + menu.getMinedOres()
+                ),
+                126,
+                98,
+                0xFFFFD166,
+                false
+        );
+        graphics.text(
+                font,
+                Component.literal(
+                        menu.isCountScanComplete()
+                                ? (menu.hasUnloadedScanChunks()
+                                ? "Scan: Teilweise"
+                                : "Scan: Fertig")
+                                : "Scan: " + menu.getScanProgress() + "%"
+                ),
+                115,
+                19,
+                0xFF80F7D3,
                 false
         );
 

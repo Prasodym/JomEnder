@@ -1,0 +1,19 @@
+{
+  "textures": {
+    "0": "jomender:block/cauldron_inner",
+    "2": "jomender:block/smithing_table_top",
+    "3": "block/texture",
+    "4": "jomender:diamond_block",
+    "5": "block/texture",
+    "6": "jomender:cyan_terracotta",
+    "7": "block/texture",
+    "8": "block/texture",
+    "9": "block/texture",
+    "10": "block/texture",
+    "11": "block/texture",
+    "12": "block/texture",
+    "13": "block/texture",
+    "particle": "jomender:block/cauldron_inner"
+  },
+  "elements": []
+}

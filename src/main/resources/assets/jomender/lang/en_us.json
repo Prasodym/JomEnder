@@ -6,13 +6,27 @@
   "block.jomender.end_germanium_ore": "End Germanium Ore",
   "itemGroup.jomender": "Jomlua Ender",
   "item.jomender.germanium_ingot": "Germanium Ingot",
-    "item.jomender.germanium_clumb": "Germanium Clumb",
+  "item.jomender.germanium_clumb": "Germanium Clumb",
   "block.jomender.coal_generator": "Coal Generator",
   "block.jomender.electric_smelter": "Electric Smelter",
   "config.jade.plugin_jomender.generator_energy": "Generator Energy",
   "config.jade.plugin_jomender.generator_energy": "Generatorenergie",
-    "block.jomender.budding_galaxis": "Budding Galaxis",
+  "block.jomender.budding_galaxis": "Budding Galaxis",
   "block.jomender.galaxis_cluster": "Galaxis Cluster",
-    "item.jomender.galaxis_quarz": "Galaxis Quarz"
+  "item.jomender.galaxis_quarz": "Galaxis Quarz",
+  "block.jomender.endarium_ore": "Endarium Ore",
+  "block.jomender.germanium_raw_block": "Germanium Raw Block",
+  "block.jomender.germanium_of_block": "Germanium Block",
+  "block.jomender.small_galaxis_bud": "Small Galaxis Bud",
+  "block.jomender.medium_galaxis_bud": "Medium Galaxis Bud",
+  "block.jomender.large_galaxis_bud": "Large Galaxis Bud",
+  "item.jomender.case": "Case",
+  "item.jomender.machine_frame": "Machine Frame",
+  "item.jomender.machine_core": "Machine Core",
+  "item.jomender.machine_circuit": "Machine Circuit",
+  "item.jomender.machine_motor": "Machine Motor",
+  "item.jomender.magnetic": "Magnetic Coil",
+  "block.jomender.germanium_miner": "Germanium Miner"
+
 
 }

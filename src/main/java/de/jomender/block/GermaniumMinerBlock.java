@@ -19,6 +19,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import de.jomender.ModBlockEntities;
+import de.jomender.blockentity.GermaniumMinerBlockEntity;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -35,6 +42,18 @@ public class GermaniumMinerBlock extends Block implements EntityBlock {
     // Der Controller steht unten in der Mitte.
     // X und Z: -1 bis +1
     // Y: 0 bis +2
+
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+            Level level, BlockState state, BlockEntityType<T> type) {
+        if (level.isClientSide() || type != ModBlockEntities.GERMANIUM_MINER.get()) return null;
+        return (world, pos, blockState, entity) ->
+                GermaniumMinerBlockEntity.serverTick(world, pos, blockState,
+                        (GermaniumMinerBlockEntity) entity);
+    }
+
 
 
     @Override

@@ -1,0 +1,17 @@
+
+
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "III",
+    "III"
+  ],
+  "key": {
+    "I": "jomender:germanium_ingot"
+  },
+  "result": {
+    "id": "jomender:germanium_of_block",
+    "count": 1
+  }
+}

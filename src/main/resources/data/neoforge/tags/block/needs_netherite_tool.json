@@ -4,6 +4,9 @@
     "jomender:germanium_ore",
     "jomender:deepslate_germanium_ore",
     "jomender:nether_germanium_ore",
-    "jomender:end_germanium_ore"
+    "jomender:end_germanium_ore",
+    "jomender:germanium_raw_block",
+    "jomender:germanium_of_block",
+    "jomender:endarium_ore"
   ]
 }

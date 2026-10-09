@@ -61,6 +61,36 @@ public class ModBlocks {
                             .requiresCorrectToolForDrops()
             );
 
+    public static final DeferredBlock<DropExperienceBlock> Endarium_Ore =
+            BLOCKS.registerBlock("endarium_ore",
+                    props -> new DropExperienceBlock(ConstantInt.of(5), props),
+                    props -> props
+                            .mapColor(MapColor.SAND)
+                            .strength(3.0f, 3.0f)
+                            .sound(SoundType.STONE)
+                            .requiresCorrectToolForDrops()
+            );
+    public static final DeferredBlock<Block> Germanium_Raw_Block =
+            BLOCKS.registerBlock(
+                    "germanium_raw_block",
+                    Block::new,
+                    props -> props
+                            .mapColor(MapColor.COLOR_GRAY)
+                            .strength(5.0f, 6.0f)
+                            .sound(SoundType.METAL)
+                            .requiresCorrectToolForDrops()
+            );
+    public static final DeferredBlock<Block> Germanium_of_Block =
+            BLOCKS.registerBlock(
+                    "germanium_of_block",
+                    Block::new,
+                    props -> props
+                            .mapColor(MapColor.COLOR_GRAY)
+                            .strength(5.0f, 6.0f)
+                            .sound(SoundType.METAL)
+                            .requiresCorrectToolForDrops()
+            );
+
 
     public static final DeferredBlock<Block> COAL_GENERATOR =
             BLOCKS.registerBlock(

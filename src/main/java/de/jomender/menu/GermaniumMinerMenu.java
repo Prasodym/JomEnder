@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class GermaniumMinerMenu extends AbstractContainerMenu {
 
-    public static final int DATA_COUNT = 6;
+
 
     // =========================
     // BUTTON-IDs
@@ -37,8 +37,10 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
     private static final int WORLD_MAX = 320;
     private static final int HEIGHT_RANGE = 385;
     private static final int HEIGHT_BUTTON_BASE = 3000;
+    public static final int DATA_COUNT = 12;
 
     private final Container container;
+    private final SimpleContainer ghostContainer;
     private final ContainerData data;
     private final GermaniumMinerBlockEntity miner;
 
@@ -89,6 +91,28 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
     // GEMEINSAMER KONSTRUKTOR
     // =========================
 
+    public int getFoundOres() {
+        return (data.get(6) & 0xFFFF)
+                | ((data.get(7) & 0xFFFF) << 16);
+    }
+
+    public int getMinedOres() {
+        return (data.get(8) & 0xFFFF)
+                | ((data.get(9) & 0xFFFF) << 16);
+    }
+
+    public int getScanProgress() {
+        return data.get(10);
+    }
+
+    public boolean isCountScanComplete() {
+        return (data.get(11) & 1) != 0;
+    }
+
+    public boolean hasUnloadedScanChunks() {
+        return (data.get(11) & 2) != 0;
+    }
+
     private GermaniumMinerMenu(
             int id,
             Inventory inventory,
@@ -99,6 +123,7 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
         super(ModMenuTypes.GERMANIUM_MINER.get(), id);
 
         this.container = container;
+        this.ghostContainer = new SimpleContainer(GermaniumMinerBlockEntity.FILTER_SLOTS);
         this.data = data;
         this.miner = miner;
 
@@ -111,6 +136,11 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
 
         container.startOpen(inventory.player);
         addDataSlots(data);
+        if (miner != null) {
+            for (int i = 0; i < GermaniumMinerBlockEntity.FILTER_SLOTS; i++) {
+                ghostContainer.setItem(i, miner.getFilter(i).copy());
+            }
+        }
 
         // =========================
         // 27 LAGERPLÄTZE
@@ -169,6 +199,8 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
             });
         }
 
+
+
         // =========================
         // 6 GHOST-FILTER
         // =========================
@@ -186,8 +218,8 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
              i++) {
 
             addSlot(new Slot(
-                    container,
-                    GermaniumMinerBlockEntity.FILTER_START + i,
+                    ghostContainer,
+                    i,
                     23 + i * 22,
                     119
             ) {
@@ -276,7 +308,7 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
                 // ItemStack wird in setFilter() kopiert.
                 // Der Mauszeiger verliert kein Item.
                 miner.setFilter(filterIndex, getCarried());
-
+                ghostContainer.setItem(filterIndex, miner.getFilter(filterIndex).copy());
                 broadcastChanges();
             }
 

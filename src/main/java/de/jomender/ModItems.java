@@ -34,6 +34,15 @@ public class ModItems {
     public static final DeferredItem<Item> GermaniumClumb =
             ITEMS.registerSimpleItem("germanium_clumb");
 
+    public static final DeferredItem<BlockItem> Germanium_Raw_Block =
+            ITEMS.registerSimpleBlockItem("germanium_raw_block", ModBlocks.Germanium_Raw_Block);
+
+    public static final DeferredItem<BlockItem> Endarium_Ore =
+            ITEMS.registerSimpleBlockItem("endarium_ore", ModBlocks.Endarium_Ore);
+
+    public static final DeferredItem<BlockItem> Germanium_of_Block =
+            ITEMS.registerSimpleBlockItem("germanium_of_block", ModBlocks.Germanium_of_Block);
+
     public static final DeferredItem<BlockItem> GERMANIUM_ORE =
             ITEMS.registerSimpleBlockItem("germanium_ore", ModBlocks.GERMANIUM_ORE);
 

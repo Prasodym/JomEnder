@@ -23,14 +23,17 @@ public class ModCreativeTabs {
                     CreativeModeTab.builder()
                             .title(Component.translatable("itemGroup.jomender"))
                             .withTabsBefore(CreativeModeTabs.INGREDIENTS)
-                            .icon(() -> ModItems.Germanium.get().getDefaultInstance())
+                            .icon(() -> ModItems.Galaxis_Quarz.get().getDefaultInstance())
                             .displayItems((parameters, output) -> {
                                 output.accept(ModItems.Germanium.get());
                                 output.accept(ModItems.GermaniumClumb.get());
+                                output.accept(ModItems.Germanium_Raw_Block.get());
+                                output.accept(ModItems.Germanium_of_Block.get());
                                 output.accept(ModItems.GERMANIUM_ORE.get());
                                 output.accept(ModItems.DEEPSLATE_GERMANIUM_ORE.get());
                                 output.accept(ModItems.NETHER_GERMANIUM_ORE.get());
                                 output.accept(ModItems.END_GERMANIUM_ORE.get());
+                                output.accept(ModItems.Endarium_Ore.get());
                                 output.accept(ModItems.BUDDING_GALAXIS.get());
                                 output.accept(ModItems.SMALL_GALAXIS_BUD.get());
                                 output.accept(ModItems.MEDIUM_GALAXIS_BUD.get());
