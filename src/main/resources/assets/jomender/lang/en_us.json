@@ -26,7 +26,13 @@
   "item.jomender.machine_circuit": "Machine Circuit",
   "item.jomender.machine_motor": "Machine Motor",
   "item.jomender.magnetic": "Magnetic Coil",
-  "block.jomender.germanium_miner": "Germanium Miner"
-
+  "block.jomender.germanium_miner": "Germanium Miner",
+    "item.jomender.endarium_ingot": "Endarium Ingot",
+    "item.jomender.endarium_raw": "Endarium Raw",
+  "item.jomender.endarium_raw_block": "Endarium Raw Block",
+  "block.jomender.endarium_block": "Endarium Block",
+  "block.jomender.endarium_block.tooltip": "Ein mysteriöses Metall aus den Tiefen des Endes.",
+  "block.jomender.endarium_block.info": "Geladene Endarium-Energie durchströmt diesen Block.",
+  "tooltip.jomender.hold_shift": "Halte SHIFT für weitere Informationen"
 
 }

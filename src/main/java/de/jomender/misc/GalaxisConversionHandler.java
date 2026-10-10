@@ -28,7 +28,7 @@ public class GalaxisConversionHandler {
         ItemStack heldItem = event.getItemStack();
 
         // Nur mit Germanium Clumb
-        if (!heldItem.is(ModItems.GermaniumClumb.get())) {
+        if (!heldItem.is(ModItems.GermaniumClump.get())) {
             return;
         }
 

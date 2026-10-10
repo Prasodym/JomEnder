@@ -2,6 +2,8 @@ package de.jomender;
 
 import com.mojang.logging.LogUtils;
 import de.jomender.Events.ModOreEvents;
+import de.jomender.client.ClientScreens;
+import de.jomender.misc.GeneratorItemTooltip;
 import de.jomender.misc.ModCreativeTabs;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -47,11 +49,17 @@ public Jomender(IEventBus bus, ModContainer modContainer) {
         ModMenuTypes.register(bus);
         ModDataComponents.register(bus);
         bus.addListener(ModCapabilities::register);
-
+        ModParticles.PARTICLE_TYPES.register(bus);
+        bus.addListener(ClientScreens::register);
+        bus.addListener(ClientScreens::registerRenderers);
+    NeoForge.EVENT_BUS.register(GeneratorItemTooltip.class);
         NeoForge.EVENT_BUS.addListener(ModOreEvents::onBreak);
 
 
     }
+
+    //todo add  upgrades
+
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         // Some common setup code

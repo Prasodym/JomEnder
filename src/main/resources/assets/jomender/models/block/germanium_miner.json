@@ -1,19 +1,19 @@
 {
   "textures": {
-    "0": "jomender:block/cauldron_inner",
-    "2": "jomender:block/smithing_table_top",
-    "3": "block/texture",
-    "4": "jomender:diamond_block",
-    "5": "block/texture",
-    "6": "jomender:cyan_terracotta",
-    "7": "block/texture",
-    "8": "block/texture",
-    "9": "block/texture",
-    "10": "block/texture",
-    "11": "block/texture",
-    "12": "block/texture",
-    "13": "block/texture",
-    "particle": "jomender:block/cauldron_inner"
+    "0": "minecraft:block/cauldron_inner",
+    "2": "minecraft:block/smithing_table_top",
+    "3": "minecraft:block/polished_deepslate",
+    "4": "minecraft:block/diamond_block",
+    "5": "minecraft:block/deepslate_tiles",
+    "6": "minecraft:block/cyan_terracotta",
+    "7": "minecraft:block/polished_blackstone_bricks",
+    "8": "minecraft:block/netherite_block",
+    "9": "minecraft:block/gray_concrete",
+    "10": "minecraft:block/iron_block",
+    "11": "minecraft:block/cyan_concrete",
+    "12": "minecraft:block/emerald_block",
+    "13": "minecraft:block/redstone_block",
+    "particle": "minecraft:block/polished_deepslate"
   },
   "elements": [
     {
@@ -27,15 +27,6 @@
         16,
         2
       ],
-      "rotation": {
-        "angle": 0,
-        "axis": "y",
-        "origin": [
-          -1,
-          15,
-          0
-        ]
-      },
       "faces": {
         "north": {
           "uv": [
@@ -53,7 +44,7 @@
             2.0,
             2.0
           ],
-          "texture": "#missing"
+          "texture": "#6"
         },
         "south": {
           "uv": [
@@ -71,7 +62,7 @@
             2.0,
             2.0
           ],
-          "texture": "#missing"
+          "texture": "#6"
         },
         "up": {
           "uv": [
@@ -104,15 +95,6 @@
         16,
         14
       ],
-      "rotation": {
-        "angle": 0,
-        "axis": "y",
-        "origin": [
-          3,
-          15,
-          2
-        ]
-      },
       "faces": {
         "north": {
           "uv": [
@@ -181,15 +163,6 @@
         15,
         6
       ],
-      "rotation": {
-        "angle": 0,
-        "axis": "y",
-        "origin": [
-          3,
-          6,
-          2
-        ]
-      },
       "faces": {
         "north": {
           "uv": [
@@ -234,7 +207,7 @@
             10.0,
             4.0
           ],
-          "texture": "#missing"
+          "texture": "#2"
         },
         "down": {
           "uv": [
@@ -258,15 +231,6 @@
         15,
         14
       ],
-      "rotation": {
-        "angle": 0,
-        "axis": "y",
-        "origin": [
-          3,
-          6,
-          10
-        ]
-      },
       "faces": {
         "north": {
           "uv": [
@@ -311,7 +275,7 @@
             10.0,
             4.0
           ],
-          "texture": "#missing"
+          "texture": "#2"
         },
         "down": {
           "uv": [
@@ -335,15 +299,6 @@
         15,
         11
       ],
-      "rotation": {
-        "angle": 0,
-        "axis": "y",
-        "origin": [
-          3,
-          6,
-          6
-        ]
-      },
       "faces": {
         "north": {
           "uv": [
@@ -388,7 +343,7 @@
             7.0,
             5.0
           ],
-          "texture": "#missing"
+          "texture": "#5"
         },
         "down": {
           "uv": [
@@ -412,15 +367,6 @@
         10,
         10
       ],
-      "rotation": {
-        "angle": 0,
-        "axis": "y",
-        "origin": [
-          3,
-          1,
-          6
-        ]
-      },
       "faces": {
         "north": {
           "uv": [
@@ -465,7 +411,7 @@
             6.0,
             4.0
           ],
-          "texture": "#missing"
+          "texture": "#4"
         },
         "down": {
           "uv": [
@@ -489,15 +435,6 @@
         16,
         3
       ],
-      "rotation": {
-        "angle": 0,
-        "axis": "y",
-        "origin": [
-          5,
-          17,
-          1
-        ]
-      },
       "faces": {
         "north": {
           "uv": [
@@ -566,15 +503,6 @@
         16,
         16
       ],
-      "rotation": {
-        "angle": 0,
-        "axis": "y",
-        "origin": [
-          10,
-          17,
-          17
-        ]
-      },
       "faces": {
         "north": {
           "uv": [
@@ -643,15 +571,6 @@
         16,
         3
       ],
-      "rotation": {
-        "angle": 0,
-        "axis": "y",
-        "origin": [
-          11,
-          17,
-          1
-        ]
-      },
       "faces": {
         "north": {
           "uv": [
@@ -720,15 +639,6 @@
         16,
         16
       ],
-      "rotation": {
-        "angle": 0,
-        "axis": "y",
-        "origin": [
-          6,
-          17,
-          17
-        ]
-      },
       "faces": {
         "north": {
           "uv": [

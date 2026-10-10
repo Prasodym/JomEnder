@@ -7,6 +7,8 @@
     "jomender:end_germanium_ore",
     "jomender:germanium_raw_block",
     "jomender:germanium_of_block",
-    "jomender:endarium_ore"
+    "jomender:endarium_ore",
+    "jomender:endarium_raw_block",
+    "jomender:endarium_block"
   ]
 }

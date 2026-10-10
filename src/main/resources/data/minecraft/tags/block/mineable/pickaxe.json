@@ -9,6 +9,8 @@
     "jomender:germanium_of_block",
     "jomender:coal_generator",
     "jomender:electric_smelter",
-    "jomender:endarium_ore"
+    "jomender:endarium_ore",
+    "jomender:endarium_raw_block",
+    "jomender:endarium_block"
   ]
 }

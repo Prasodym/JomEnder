@@ -26,7 +26,9 @@ public class ModCreativeTabs {
                             .icon(() -> ModItems.Galaxis_Quarz.get().getDefaultInstance())
                             .displayItems((parameters, output) -> {
                                 output.accept(ModItems.Germanium.get());
-                                output.accept(ModItems.GermaniumClumb.get());
+                                output.accept(ModItems.Speed_upgrade.get());
+                                output.accept(ModItems.Efficient_upgrade.get());
+                                output.accept(ModItems.GermaniumClump.get());
                                 output.accept(ModItems.Germanium_Raw_Block.get());
                                 output.accept(ModItems.Germanium_of_Block.get());
                                 output.accept(ModItems.GERMANIUM_ORE.get());
@@ -34,6 +36,10 @@ public class ModCreativeTabs {
                                 output.accept(ModItems.NETHER_GERMANIUM_ORE.get());
                                 output.accept(ModItems.END_GERMANIUM_ORE.get());
                                 output.accept(ModItems.Endarium_Ore.get());
+                                output.accept(ModItems.Endarium_Raw_Block.get());
+                                output.accept(ModItems.Endarium_Raw.get());
+                                output.accept(ModItems.Endarium_Ingot.get());
+                                output.accept(ModItems.Endarium_Block.get());
                                 output.accept(ModItems.BUDDING_GALAXIS.get());
                                 output.accept(ModItems.SMALL_GALAXIS_BUD.get());
                                 output.accept(ModItems.MEDIUM_GALAXIS_BUD.get());

@@ -1,7 +1,6 @@
 package de.jomender;
 
-import de.jomender.block.BuddingGalaxisBlock;
-import de.jomender.block.ElectricSmelterBlock;
+import de.jomender.block.*;
 import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -12,9 +11,6 @@ import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import de.jomender.block.CoalGeneratorBlock;
-import de.jomender.block.GermaniumMinerBlock;
-import de.jomender.block.GermaniumMinerPartBlock;
 
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS =
@@ -70,6 +66,25 @@ public class ModBlocks {
                             .sound(SoundType.STONE)
                             .requiresCorrectToolForDrops()
             );
+    public static final DeferredBlock<DropExperienceBlock> Endarium_Raw_Block =
+            BLOCKS.registerBlock("endarium_raw_block",
+                    props -> new DropExperienceBlock(ConstantInt.of(5), props),
+                    props -> props
+                            .mapColor(MapColor.SAND)
+                            .strength(3.0f, 3.0f)
+                            .sound(SoundType.STONE)
+                            .requiresCorrectToolForDrops()
+            );
+    public static final DeferredBlock<Block> ENDARIUM_BLOCK =
+            BLOCKS.registerBlock(
+                    "endarium_block",
+                    EndariumBlock::new,
+                    props -> props
+                            .strength(5.0f, 6.0f)
+                            .sound(SoundType.METAL)
+                            .requiresCorrectToolForDrops()
+                            .lightLevel(state -> 8)
+            );
     public static final DeferredBlock<Block> Germanium_Raw_Block =
             BLOCKS.registerBlock(
                     "germanium_raw_block",
@@ -101,6 +116,7 @@ public class ModBlocks {
                             .strength(3.5f, 6.0f)
                             .sound(SoundType.METAL)
                             .requiresCorrectToolForDrops()
+                            .noOcclusion()
             );
 
     public static final DeferredBlock<Block> ELECTRIC_SMELTER =
@@ -112,6 +128,7 @@ public class ModBlocks {
                             .strength(3.5f, 6.0f)
                             .sound(SoundType.METAL)
                             .requiresCorrectToolForDrops()
+                            .noOcclusion()
             );
 
 
@@ -175,27 +192,29 @@ public class ModBlocks {
     );
 
 
-    public static final DeferredBlock<GermaniumMinerBlock>
-            GERMANIUM_MINER = BLOCKS.registerBlock(
-            "germanium_miner",
-            GermaniumMinerBlock::new,
-            properties -> properties
-                    .mapColor(MapColor.COLOR_GRAY)
-                    .strength(4.0f, 8.0f)
-                    .sound(SoundType.METAL)
-                    .requiresCorrectToolForDrops()
-    );
+    public static final DeferredBlock<Block> GERMANIUM_MINER =
+            BLOCKS.registerBlock(
+                    "germanium_miner",
+                    GermaniumMinerBlock::new,
+                    props -> props
+                            .mapColor(MapColor.COLOR_BLACK)
+                            .strength(4.0f, 6.0f)
+                            .sound(SoundType.METAL)
+                            .requiresCorrectToolForDrops()
+                            .noOcclusion()
+            );
 
-    public static final DeferredBlock<GermaniumMinerPartBlock>
-            GERMANIUM_MINER_PART = BLOCKS.registerBlock(
-            "germanium_miner_part",
-            GermaniumMinerPartBlock::new,
-            properties -> properties
-                    .mapColor(MapColor.COLOR_GRAY)
-                    .strength(4.0f, 8.0f)
-                    .sound(SoundType.METAL)
-                    .noLootTable()
-    );
+    public static final DeferredBlock<Block> GERMANIUM_MINER_PART =
+            BLOCKS.registerBlock(
+                    "germanium_miner_part",
+                    GermaniumMinerPartBlock::new,
+                    props -> props
+                            .mapColor(MapColor.COLOR_BLACK)
+                            .strength(4.0f, 6.0f)
+                            .sound(SoundType.METAL)
+                            .requiresCorrectToolForDrops()
+                            .noOcclusion()
+            );
 
 
 

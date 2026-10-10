@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=north": {
       "model": "jomender:block/coal_generator"
+    },
+    "facing=east": {
+      "model": "jomender:block/coal_generator",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "jomender:block/coal_generator",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "jomender:block/coal_generator",
+      "y": 270
     }
   }
 }

@@ -60,8 +60,7 @@ public class GermaniumMinerBlockEntity
     public static final int FILTER_START = 31;
     public static final int FILTER_SLOTS = 6;
 
-    public static final int TOTAL_SLOTS = 31;
-    private static final int LEGACY_SLOTS = 37;
+    public static final int TOTAL_SLOTS = 37;
 
     private static final int[] OUTPUT_SLOTS = createOutputSlots();
     private static final int[] NO_SLOTS = {};
@@ -92,13 +91,7 @@ public class GermaniumMinerBlockEntity
                                 | (silkTouch ? 2 : 0)
                                 | (autoPush ? 4 : 0);
                 case 5 -> radius;
-                case 6 -> foundOres & 0xFFFF;
-                case 7 -> (foundOres >>> 16) & 0xFFFF;
-                case 8 -> minedOres & 0xFFFF;
-                case 9 -> (minedOres >>> 16) & 0xFFFF;
-                case 10 -> countScanProgress;
-                case 11 -> (countScanComplete ? 1 : 0)
-                        | (countScanUnloaded ? 2 : 0);
+                case 6 -> previewEnabled ? 1 : 0;
                 default -> 0;
             };
         }
@@ -111,11 +104,9 @@ public class GermaniumMinerBlockEntity
 
         @Override
         public int getCount() {
-            return 12;
+            return 7;
         }
     };
-    private final NonNullList<ItemStack> filters =
-            NonNullList.withSize(FILTER_SLOTS, ItemStack.EMPTY);
 
     private static final TagKey<Block> ORE_TAG = TagKey.create(
             net.minecraft.core.registries.Registries.BLOCK,
@@ -124,19 +115,21 @@ public class GermaniumMinerBlockEntity
 
     public ItemStack getFilter(int filterIndex) {
         if (filterIndex < 0 || filterIndex >= FILTER_SLOTS) return ItemStack.EMPTY;
-        return filters.get(filterIndex);
+        return items.get(FILTER_START + filterIndex);
     }
 
     public void setFilter(int filterIndex, ItemStack template) {
         if (filterIndex < 0 || filterIndex >= FILTER_SLOTS) return;
         if (template.isEmpty()) {
-            filters.set(filterIndex, ItemStack.EMPTY);
+            items.set(FILTER_START + filterIndex, ItemStack.EMPTY);
+            resetCountScan();
             setChanged();
             return;
         }
         if (!(template.getItem() instanceof BlockItem blockItem)) return;
         if (!blockItem.getBlock().defaultBlockState().is(ORE_TAG)) return;
-        filters.set(filterIndex, template.copyWithCount(1));
+        items.set(FILTER_START + filterIndex, template.copyWithCount(1));
+        resetCountScan();
         setChanged();
     }
 
@@ -151,12 +144,12 @@ public class GermaniumMinerBlockEntity
 
     // Ghost-Muster werden bewusst ausschließlich als Item-IDs persistiert.
     private String filterId(int index) {
-        ItemStack filter = filters.get(index);
+        ItemStack filter = getFilter(index);
         return filter.isEmpty() ? "" : BuiltInRegistries.ITEM.getKey(filter.getItem()).toString();
     }
 
     private void restoreFilter(int index, String id) {
-        filters.set(index, ItemStack.EMPTY);
+        items.set(FILTER_START + index, ItemStack.EMPTY);
         if (id == null || id.isBlank()) return;
         try {
             var item = BuiltInRegistries.ITEM.getValue(Identifier.parse(id));
@@ -168,20 +161,6 @@ public class GermaniumMinerBlockEntity
             // Alte / ungültige Einträge nicht übernehmen.
         }
     }
-
-    private void restoreLegacyInventory(NonNullList<ItemStack> oldItems) {
-        for (int i = 0; i < TOTAL_SLOTS; i++) {
-            items.set(i, oldItems.get(i));
-        }
-        for (int i = 0; i < FILTER_SLOTS; i++) {
-            if (!oldItems.get(FILTER_START + i).isEmpty()) {
-                setFilter(i, oldItems.get(FILTER_START + i));
-            }
-        }
-    }
-
-
-
 
     @Override
     public Component getDisplayName() {
@@ -202,10 +181,19 @@ public class GermaniumMinerBlockEntity
         );
     }
 
+    private void resetCountScan() {
+        countScanCursor = 0;
+        foundOres = 0;
+        countScanProgress = 0;
+        countScanComplete = false;
+        countScanUnloaded = false;
+    }
+
     private void countOreTick(ServerLevel level) {
         boolean hasFilter = false;
 
-        for (ItemStack filter : filters) {
+        for (int filterIndex = 0; filterIndex < FILTER_SLOTS; filterIndex++) {
+            ItemStack filter = getFilter(filterIndex);
             if (!filter.isEmpty()) {
                 hasFilter = true;
                 break;
@@ -315,6 +303,7 @@ public class GermaniumMinerBlockEntity
     private int maxY = 64;
     private int radius = 32;
 
+    private boolean previewEnabled = false;
     private boolean running = false;
     private boolean silkTouch = false;
     private boolean autoPush = false;
@@ -367,6 +356,40 @@ public class GermaniumMinerBlockEntity
         return radius;
     }
 
+    public boolean isPreviewEnabled() {
+        return previewEnabled;
+    }
+
+    public void setPreviewEnabled(boolean enabled) {
+        if (previewEnabled == enabled) return;
+        previewEnabled = enabled;
+        setChanged();
+        syncPreview();
+    }
+
+    private void syncPreview() {
+        if (level != null && !level.isClientSide()) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+        }
+    }
+
+    @Override
+    public net.minecraft.network.protocol.Packet<net.minecraft.network.protocol.game.ClientGamePacketListener> getUpdatePacket() {
+        return net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public net.minecraft.nbt.CompoundTag getUpdateTag(net.minecraft.core.HolderLookup.Provider registries) {
+        return saveCustomOnly(registries);
+    }
+
+    public net.minecraft.world.phys.AABB getPreviewBounds() {
+        int r = Math.clamp(radius, 1, 32);
+        return new net.minecraft.world.phys.AABB(
+                worldPosition.getX() - r, minY, worldPosition.getZ() - r,
+                worldPosition.getX() + r + 1, maxY + 1, worldPosition.getZ() + r + 1);
+    }
+
     public boolean isRunning() {
         return running;
     }
@@ -386,7 +409,10 @@ public class GermaniumMinerBlockEntity
 
         minY = Math.clamp(minimum, -64, 320);
         maxY = Math.clamp(maximum, minY, 320);
+        scanCursor = 0;
+        resetCountScan();
         setChanged();
+        syncPreview();
     }
 
     public void setRunning(boolean value) {
@@ -427,7 +453,8 @@ public class GermaniumMinerBlockEntity
         miningTicks = 0;
 
         boolean anyFilter = false;
-        for (ItemStack filter : filters) {
+        for (int filterIndex = 0; filterIndex < FILTER_SLOTS; filterIndex++) {
+            ItemStack filter = getFilter(filterIndex);
             if (!filter.isEmpty()) { anyFilter = true; break; }
         }
         if (!anyFilter) return;
@@ -453,7 +480,7 @@ public class GermaniumMinerBlockEntity
 
             // Das Maschinengehäuse nie anfassen.
             if (Math.abs(x) <= 1 && Math.abs(z) <= 1
-                    && Math.abs(y - worldPosition.getY()) <= 2) continue;
+                    && y >= worldPosition.getY() && y <= worldPosition.getY() + 2) continue;
 
             // Keine Chunks nur wegen des Miners nachladen.
             if (!level.getChunkSource().hasChunk(target.getX() >> 4, target.getZ() >> 4)) continue;
@@ -672,6 +699,7 @@ public class GermaniumMinerBlockEntity
         output.putInt("radius", radius);
         output.putInt("scanCursor", scanCursor);
 
+        output.putBoolean("previewEnabled", previewEnabled);
         output.putBoolean("running", running);
         output.putBoolean("silkTouch", silkTouch);
         output.putBoolean("autoPush", autoPush);
@@ -706,19 +734,17 @@ public class GermaniumMinerBlockEntity
         );
         scanCursor = Math.max(0, input.getIntOr("scanCursor", 0));
 
+        previewEnabled = input.getBooleanOr("previewEnabled", false);
         running = input.getBooleanOr("running", false);
         silkTouch = input.getBooleanOr("silkTouch", false);
         autoPush = input.getBooleanOr("autoPush", false);
         minedOres = Math.max(0, input.getIntOr("minedOres", 0));
 
         // Migration: ältere Versionen hatten Filter als echte Slots 31–36.
-        NonNullList<ItemStack> oldItems =
-                NonNullList.withSize(LEGACY_SLOTS, ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(input, oldItems);
-        restoreLegacyInventory(oldItems);
+        ContainerHelper.loadAllItems(input, items);
         for (int i = 0; i < FILTER_SLOTS; i++) {
             String id = input.getStringOr("ghost_filter_" + i, "");
-            if (!id.isEmpty()) restoreFilter(i, id);
+            if (!id.isEmpty() && getFilter(i).isEmpty()) restoreFilter(i, id);
         }
     }
 
@@ -747,6 +773,7 @@ public class GermaniumMinerBlockEntity
         data.putInt("radius", radius);
         data.putInt("scanCursor", scanCursor);
 
+        data.putBoolean("previewEnabled", previewEnabled);
         data.putBoolean("running", running);
         data.putBoolean("silkTouch", silkTouch);
         data.putBoolean("autoPush", autoPush);
@@ -771,10 +798,7 @@ public class GermaniumMinerBlockEntity
                 components.get(DataComponents.CONTAINER);
 
         if (contents != null) {
-            NonNullList<ItemStack> oldItems =
-                    NonNullList.withSize(LEGACY_SLOTS, ItemStack.EMPTY);
-            contents.copyInto(oldItems);
-            restoreLegacyInventory(oldItems);
+            contents.copyInto(items);
         }
 
         CustomData custom =
@@ -802,13 +826,14 @@ public class GermaniumMinerBlockEntity
             );
             scanCursor = Math.max(0, data.getIntOr("scanCursor", 0));
 
+            previewEnabled = data.getBooleanOr("previewEnabled", false);
             running = data.getBooleanOr("running", false);
             silkTouch = data.getBooleanOr("silkTouch", false);
             autoPush = data.getBooleanOr("autoPush", false);
             minedOres = Math.max(0, data.getIntOr("minedOres", 0));
             for (int i = 0; i < FILTER_SLOTS; i++) {
                 String id = data.getStringOr("ghost_filter_" + i, "");
-                if (!id.isEmpty()) restoreFilter(i, id);
+                if (!id.isEmpty() && getFilter(i).isEmpty()) restoreFilter(i, id);
             }
         }
 

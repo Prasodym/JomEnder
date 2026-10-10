@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=north": {
       "model": "jomender:block/electric_smelter"
+    },
+    "facing=east": {
+      "model": "jomender:block/electric_smelter",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "jomender:block/electric_smelter",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "jomender:block/electric_smelter",
+      "y": 270
     }
   }
 }

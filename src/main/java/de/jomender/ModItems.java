@@ -13,6 +13,12 @@ public class ModItems {
     public static final DeferredItem<Item> Germanium =
             ITEMS.registerSimpleItem("germanium_ingot");
 
+    public static final DeferredItem<Item> Efficient_upgrade =
+            ITEMS.registerSimpleItem("efficient_upgrade");
+
+    public static final DeferredItem<Item> Speed_upgrade =
+            ITEMS.registerSimpleItem("speed_upgrade");
+
     public static final DeferredItem<Item> Case =
             ITEMS.registerSimpleItem("case");
 
@@ -31,14 +37,31 @@ public class ModItems {
     public static final DeferredItem<Item> Magnetic =
             ITEMS.registerSimpleItem("magnetic");
 
-    public static final DeferredItem<Item> GermaniumClumb =
+    public static final DeferredItem<Item> GermaniumClump =
             ITEMS.registerSimpleItem("germanium_clumb");
 
     public static final DeferredItem<BlockItem> Germanium_Raw_Block =
             ITEMS.registerSimpleBlockItem("germanium_raw_block", ModBlocks.Germanium_Raw_Block);
 
+    // Endarium Ore
+
     public static final DeferredItem<BlockItem> Endarium_Ore =
             ITEMS.registerSimpleBlockItem("endarium_ore", ModBlocks.Endarium_Ore);
+
+    public static final DeferredItem<BlockItem> Endarium_Raw_Block =
+            ITEMS.registerSimpleBlockItem("endarium_raw_block", ModBlocks.Endarium_Raw_Block);
+
+    public static final DeferredItem<Item> Endarium_Raw =
+            ITEMS.registerSimpleItem("endarium_raw");
+
+    public static final DeferredItem<Item> Endarium_Ingot =
+            ITEMS.registerSimpleItem("endarium_ingot");
+
+    public static final DeferredItem<BlockItem> Endarium_Block =
+            ITEMS.registerSimpleBlockItem("endarium_block", ModBlocks.ENDARIUM_BLOCK);
+
+
+    // Germanium Ore
 
     public static final DeferredItem<BlockItem> Germanium_of_Block =
             ITEMS.registerSimpleBlockItem("germanium_of_block", ModBlocks.Germanium_of_Block);
@@ -94,6 +117,7 @@ public class ModItems {
                     "germanium_miner",
                     ModBlocks.GERMANIUM_MINER
             );
+
 
 
     public static void register(IEventBus bus) {

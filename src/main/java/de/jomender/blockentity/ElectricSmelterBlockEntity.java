@@ -39,16 +39,16 @@ public class ElectricSmelterBlockEntity
 
     // Inventar:
     // 0-2:  Input
-    // 3-8:  Output
-    // 9-12: Upgrades
+    // 3-10: Output
+    // 11-14: Upgrades
     public static final int INPUT_COUNT = 3;
     public static final int OUTPUT_START = 3;
-    public static final int OUTPUT_END = 9;
-    public static final int UPGRADE_START = 9;
-    public static final int TOTAL_SLOTS = 13;
+    public static final int OUTPUT_END = 11;
+    public static final int UPGRADE_START = 11;
+    public static final int TOTAL_SLOTS = 15;
 
     private static final int[] TOP_SLOTS = {0, 1, 2};
-    private static final int[] BOTTOM_SLOTS = {3, 4, 5, 6, 7, 8};
+    private static final int[] BOTTOM_SLOTS = {3, 4, 5, 6, 7, 8, 9, 10};
     private static final int[] NO_SLOTS = {};
 
     // FE aufnehmen, nicht abgeben.
@@ -220,7 +220,7 @@ public class ElectricSmelterBlockEntity
         }
 
         // Exklusives Rezept: kein Vanilla-Ofen!
-        if (input.is(ModItems.GermaniumClumb.get())) {
+        if (input.is(ModItems.GermaniumClump.get())) {
             return new ItemStack(ModItems.Germanium.get());
         }
 
@@ -529,6 +529,7 @@ public class ElectricSmelterBlockEntity
         output.putInt("activeInput", activeInput);
         output.putInt("nextInput", nextInput);
 
+        output.putInt("inventoryVersion", 2);
         ContainerHelper.saveAllItems(output, items);
     }
 
@@ -562,6 +563,15 @@ public class ElectricSmelterBlockEntity
                 INPUT_COUNT - 1
         );
 
-        ContainerHelper.loadAllItems(input, items);
+        // Existing worlds saved 13 slots: outputs 3..8 and upgrades 9..12.
+        // New layout stores 15 slots: outputs 3..10 and upgrades 11..14.
+        if (input.getIntOr("inventoryVersion", 1) < 2) {
+            NonNullList<ItemStack> old = NonNullList.withSize(13, ItemStack.EMPTY);
+            ContainerHelper.loadAllItems(input, old);
+            for (int i = 0; i < 9; i++) items.set(i, old.get(i));
+            for (int i = 0; i < 4; i++) items.set(UPGRADE_START + i, old.get(9 + i));
+        } else {
+            ContainerHelper.loadAllItems(input, items);
+        }
     }
 }

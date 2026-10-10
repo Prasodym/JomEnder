@@ -3,6 +3,7 @@ package de.jomender.menu;
 
 import de.jomender.ModMenuTypes;
 import de.jomender.blockentity.ElectricSmelterBlockEntity;
+import de.jomender.client.gui.JomEnderGuiLayout;
 
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -18,6 +19,9 @@ public class ElectricSmelterMenu extends AbstractContainerMenu {
 
     private final Container inventory;
     private final ContainerData data;
+    private boolean upgradePopupOpen;
+    private int popupSlotX = JomEnderGuiLayout.UPGRADE_X;
+    private int popupSlotY = JomEnderGuiLayout.UPGRADE_Y;
 
     // Client-Konstruktor
     public ElectricSmelterMenu(int id, Inventory playerInventory) {
@@ -49,57 +53,73 @@ public class ElectricSmelterMenu extends AbstractContainerMenu {
         checkContainerDataCount(data, 3);
         addDataSlots(data);
 
-        // 3 Input-Slots: 0-2
-        for (int i = 0; i < 3; i++) {
-            addSlot(new Slot(
-                    inventory, i, 25 + i * 22, 37
-            ));
+        // 3 input slots, IDs 0-2.
+        for (int i = 0; i < ElectricSmelterBlockEntity.INPUT_COUNT; i++) {
+            addSlot(new Slot(inventory, i,
+                    JomEnderGuiLayout.INPUT_X + i * JomEnderGuiLayout.INPUT_GAP,
+                    JomEnderGuiLayout.INPUT_Y));
         }
 
-        // 6 Output-Slots: 3-8
-        for (int i = 0; i < 6; i++) {
-            int x = 129 + (i % 3) * 22;
-            int y = 28 + (i / 3) * 22;
-
-            addSlot(new Slot(inventory, i + 3, x, y) {
-                @Override
-                public boolean mayPlace(ItemStack stack) {
-                    return false;
-                }
+        // 8 output slots, IDs 3-10, four columns and two rows.
+        for (int i = 0; i < 8; i++) {
+            addSlot(new Slot(inventory, ElectricSmelterBlockEntity.OUTPUT_START + i,
+                    JomEnderGuiLayout.OUTPUT_X + (i % 4) * JomEnderGuiLayout.OUTPUT_GAP,
+                    JomEnderGuiLayout.OUTPUT_Y + (i / 4) * JomEnderGuiLayout.OUTPUT_GAP) {
+                @Override public boolean mayPlace(ItemStack stack) { return false; }
             });
         }
 
-        // 4 Upgrade-Slots: 9-12
+        // Existing upgrade slots, now IDs 11-14.
         for (int i = 0; i < 4; i++) {
-            addSlot(new Slot(
-                    inventory, i + 9, 77 + i * 22, 86
-            ) {
-                @Override
-                public boolean mayPlace(ItemStack stack) {
-                    return false;
-                }
+            addSlot(new Slot(inventory, ElectricSmelterBlockEntity.UPGRADE_START + i,
+                    JomEnderGuiLayout.UPGRADE_X + i * JomEnderGuiLayout.UPGRADE_GAP,
+                    JomEnderGuiLayout.UPGRADE_Y) {
+                // Upgrade handling will be added in the next phase.
+                @Override public boolean mayPlace(ItemStack stack) { return false; }
+                @Override public boolean isActive() { return upgradePopupOpen; }
             });
         }
 
-        // Spielerinventar
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++) {
-                addSlot(new Slot(
-                        playerInventory,
-                        col + row * 9 + 9,
-                        35 + col * 18,
-                        117 + row * 18
-                ));
+                addSlot(new Slot(playerInventory, col + row * 9 + 9,
+                        JomEnderGuiLayout.PLAYER_X + col * 18,
+                        JomEnderGuiLayout.PLAYER_Y + row * 18));
             }
         }
-
-        // Hotbar
         for (int col = 0; col < 9; col++) {
-            addSlot(new Slot(
-                    playerInventory, col,
-                    35 + col * 18, 175
-            ));
+            addSlot(new Slot(playerInventory, col,
+                    JomEnderGuiLayout.PLAYER_X + col * 18,
+                    JomEnderGuiLayout.HOTBAR_Y));
         }
+    }
+
+    /**
+     * Repositions the four client-side GUI slots to follow the draggable popup.
+     * Slot x/y fields are final in Minecraft 26.1, so we replace only the client
+     * presentation Slot objects; slot indices and underlying inventory stay unchanged.
+     * Do not call this from server game logic.
+     */
+    public void moveUpgradeSlots(int x, int y) {
+        if (popupSlotX == x && popupSlotY == y) return;
+        popupSlotX = x;
+        popupSlotY = y;
+        for (int i = 0; i < 4; i++) {
+            int menuIndex = ElectricSmelterBlockEntity.UPGRADE_START + i;
+            int inventoryIndex = menuIndex;
+            Slot moved = new Slot(inventory, inventoryIndex,
+                    x + i * JomEnderGuiLayout.UPGRADE_GAP, y) {
+                @Override public boolean mayPlace(ItemStack stack) { return false; }
+                @Override public boolean isActive() { return upgradePopupOpen; }
+            };
+            moved.index = menuIndex;
+            slots.set(menuIndex, moved);
+        }
+    }
+
+    /** Client-side visibility; does not change server-side inventory permissions. */
+    public void setUpgradePopupOpen(boolean open) {
+        this.upgradePopupOpen = open;
     }
 
     @Override

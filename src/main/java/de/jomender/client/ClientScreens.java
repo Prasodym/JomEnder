@@ -3,6 +3,9 @@ package de.jomender.client;
 
 import de.jomender.Jomender;
 import de.jomender.ModMenuTypes;
+import de.jomender.ModBlockEntities;
+import de.jomender.client.render.GermaniumMinerRangeRenderer;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import de.jomender.client.screen.CoalGeneratorScreen;
 import de.jomender.client.screen.ElectricSmelterScreen;
 import de.jomender.client.screen.GermaniumMinerScreen;
@@ -19,9 +22,22 @@ public class ClientScreens {
 
     public ClientScreens(IEventBus modBus) {
         modBus.addListener(ClientScreens::register);
+        modBus.addListener(ClientScreens::registerRenderers);
 
         NeoForge.EVENT_BUS.register(GeneratorItemTooltip.class);
+
     }
+    public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(
+                ModBlockEntities.GERMANIUM_MINER.get(),
+                GermaniumMinerRangeRenderer::new
+        );
+    }
+
+//    public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+//        event.registerBlockEntityRenderer(ModBlockEntities.GERMANIUM_MINER.get(),
+//                GermaniumMinerRangeRenderer::new);
+//    }
 
     public static void register(RegisterMenuScreensEvent event) {
 

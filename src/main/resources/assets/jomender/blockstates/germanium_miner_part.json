@@ -1,0 +1,82 @@
+{
+  "variants": {
+    "offset_x=0,offset_y=0,offset_z=0": {
+      "model": "jomender:block/germanium_miner_part_x0_y0_z0"
+    },
+    "offset_x=0,offset_y=0,offset_z=1": {
+      "model": "jomender:block/germanium_miner_part_x0_y0_z1"
+    },
+    "offset_x=0,offset_y=0,offset_z=2": {
+      "model": "jomender:block/germanium_miner_part_x0_y0_z2"
+    },
+    "offset_x=0,offset_y=1,offset_z=0": {
+      "model": "jomender:block/germanium_miner_part_x0_y1_z0"
+    },
+    "offset_x=0,offset_y=1,offset_z=1": {
+      "model": "jomender:block/germanium_miner_part_x0_y1_z1"
+    },
+    "offset_x=0,offset_y=1,offset_z=2": {
+      "model": "jomender:block/germanium_miner_part_x0_y1_z2"
+    },
+    "offset_x=0,offset_y=2,offset_z=0": {
+      "model": "jomender:block/germanium_miner_part_x0_y2_z0"
+    },
+    "offset_x=0,offset_y=2,offset_z=1": {
+      "model": "jomender:block/germanium_miner_part_x0_y2_z1"
+    },
+    "offset_x=0,offset_y=2,offset_z=2": {
+      "model": "jomender:block/germanium_miner_part_x0_y2_z2"
+    },
+    "offset_x=1,offset_y=0,offset_z=0": {
+      "model": "jomender:block/germanium_miner_part_x1_y0_z0"
+    },
+    "offset_x=1,offset_y=0,offset_z=2": {
+      "model": "jomender:block/germanium_miner_part_x1_y0_z2"
+    },
+    "offset_x=1,offset_y=1,offset_z=0": {
+      "model": "jomender:block/germanium_miner_part_x1_y1_z0"
+    },
+    "offset_x=1,offset_y=1,offset_z=1": {
+      "model": "jomender:block/germanium_miner_part_x1_y1_z1"
+    },
+    "offset_x=1,offset_y=1,offset_z=2": {
+      "model": "jomender:block/germanium_miner_part_x1_y1_z2"
+    },
+    "offset_x=1,offset_y=2,offset_z=0": {
+      "model": "jomender:block/germanium_miner_part_x1_y2_z0"
+    },
+    "offset_x=1,offset_y=2,offset_z=1": {
+      "model": "jomender:block/germanium_miner_part_x1_y2_z1"
+    },
+    "offset_x=1,offset_y=2,offset_z=2": {
+      "model": "jomender:block/germanium_miner_part_x1_y2_z2"
+    },
+    "offset_x=2,offset_y=0,offset_z=0": {
+      "model": "jomender:block/germanium_miner_part_x2_y0_z0"
+    },
+    "offset_x=2,offset_y=0,offset_z=1": {
+      "model": "jomender:block/germanium_miner_part_x2_y0_z1"
+    },
+    "offset_x=2,offset_y=0,offset_z=2": {
+      "model": "jomender:block/germanium_miner_part_x2_y0_z2"
+    },
+    "offset_x=2,offset_y=1,offset_z=0": {
+      "model": "jomender:block/germanium_miner_part_x2_y1_z0"
+    },
+    "offset_x=2,offset_y=1,offset_z=1": {
+      "model": "jomender:block/germanium_miner_part_x2_y1_z1"
+    },
+    "offset_x=2,offset_y=1,offset_z=2": {
+      "model": "jomender:block/germanium_miner_part_x2_y1_z2"
+    },
+    "offset_x=2,offset_y=2,offset_z=0": {
+      "model": "jomender:block/germanium_miner_part_x2_y2_z0"
+    },
+    "offset_x=2,offset_y=2,offset_z=1": {
+      "model": "jomender:block/germanium_miner_part_x2_y2_z1"
+    },
+    "offset_x=2,offset_y=2,offset_z=2": {
+      "model": "jomender:block/germanium_miner_part_x2_y2_z2"
+    }
+  }
+}

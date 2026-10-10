@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class GermaniumMinerMenu extends AbstractContainerMenu {
 
-
+    public static final int DATA_COUNT = 7;
 
     // =========================
     // BUTTON-IDs
@@ -27,6 +27,7 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
     public static final int BUTTON_SILK = 1;
     public static final int BUTTON_PUSH = 2;
     public static final int BUTTON_FILTER_PAGE = 7;
+    public static final int BUTTON_PREVIEW = 8;
 
     // Falls dein Screen diese Konstanten noch
     // verwendet, bleiben sie vorhanden.
@@ -37,18 +38,36 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
     private static final int WORLD_MAX = 320;
     private static final int HEIGHT_RANGE = 385;
     private static final int HEIGHT_BUTTON_BASE = 3000;
-    public static final int DATA_COUNT = 12;
 
     private final Container container;
-    private final SimpleContainer ghostContainer;
     private final ContainerData data;
     private final GermaniumMinerBlockEntity miner;
 
     private boolean filterPage = false;
+    private boolean upgradePopupOpen = false;
 
     // =========================
     // SEITEN
     // =========================
+
+    /** Only client-side slot screens move; original item indices stay intact. */
+    public void moveUpgradeSlots(int popupX, int popupY) {
+        for (int i = 0; i < 4; i++) {
+            final int index = 27 + i;
+            final int slotIndex = index;
+            Slot moved = new Slot(container, index, popupX + 18 + i * 22, popupY + 27) {
+                @Override public boolean mayPlace(ItemStack stack) { return false; }
+                @Override public boolean mayPickup(Player player) { return false; }
+                @Override public boolean isActive() { return upgradePopupOpen; }
+            };
+            moved.index = slotIndex;
+            slots.set(slotIndex, moved);
+        }
+    }
+
+    public void setUpgradePopupOpen(boolean open) {
+        upgradePopupOpen = open;
+    }
 
     public boolean isFilterPage() {
         return filterPage;
@@ -91,28 +110,6 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
     // GEMEINSAMER KONSTRUKTOR
     // =========================
 
-    public int getFoundOres() {
-        return (data.get(6) & 0xFFFF)
-                | ((data.get(7) & 0xFFFF) << 16);
-    }
-
-    public int getMinedOres() {
-        return (data.get(8) & 0xFFFF)
-                | ((data.get(9) & 0xFFFF) << 16);
-    }
-
-    public int getScanProgress() {
-        return data.get(10);
-    }
-
-    public boolean isCountScanComplete() {
-        return (data.get(11) & 1) != 0;
-    }
-
-    public boolean hasUnloadedScanChunks() {
-        return (data.get(11) & 2) != 0;
-    }
-
     private GermaniumMinerMenu(
             int id,
             Inventory inventory,
@@ -123,7 +120,6 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
         super(ModMenuTypes.GERMANIUM_MINER.get(), id);
 
         this.container = container;
-        this.ghostContainer = new SimpleContainer(GermaniumMinerBlockEntity.FILTER_SLOTS);
         this.data = data;
         this.miner = miner;
 
@@ -136,11 +132,6 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
 
         container.startOpen(inventory.player);
         addDataSlots(data);
-        if (miner != null) {
-            for (int i = 0; i < GermaniumMinerBlockEntity.FILTER_SLOTS; i++) {
-                ghostContainer.setItem(i, miner.getFilter(i).copy());
-            }
-        }
 
         // =========================
         // 27 LAGERPLÄTZE
@@ -154,8 +145,8 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
                 addSlot(new Slot(
                         container,
                         index,
-                        23 + col * 18,
-                        108 + row * 18
+                        20 + col * 18,
+                        129 + row * 18
                 ) {
                     @Override
                     public boolean mayPlace(ItemStack stack) {
@@ -179,8 +170,8 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
             addSlot(new Slot(
                     container,
                     27 + i,
-                    207,
-                    108 + i * 18
+                    55 + i * 22,
+                    162
             ) {
                 @Override
                 public boolean mayPlace(ItemStack stack) {
@@ -194,12 +185,10 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
 
                 @Override
                 public boolean isActive() {
-                    return !filterPage;
+                    return upgradePopupOpen;
                 }
             });
         }
-
-
 
         // =========================
         // 6 GHOST-FILTER
@@ -218,10 +207,10 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
              i++) {
 
             addSlot(new Slot(
-                    ghostContainer,
-                    i,
-                    23 + i * 22,
-                    119
+                    container,
+                    GermaniumMinerBlockEntity.FILTER_START + i,
+                    20 + i * 18,
+                    129
             ) {
                 @Override
                 public boolean mayPlace(ItemStack stack) {
@@ -250,8 +239,8 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
                 addSlot(new Slot(
                         inventory,
                         col + row * 9 + 9,
-                        23 + col * 18,
-                        181 + row * 18
+                        20 + col * 18,
+                        195 + row * 18
                 ));
             }
         }
@@ -265,8 +254,8 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
             addSlot(new Slot(
                     inventory,
                     col,
-                    23 + col * 18,
-                    241
+                    20 + col * 18,
+                    253
             ));
         }
     }
@@ -308,7 +297,7 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
                 // ItemStack wird in setFilter() kopiert.
                 // Der Mauszeiger verliert kein Item.
                 miner.setFilter(filterIndex, getCarried());
-                ghostContainer.setItem(filterIndex, miner.getFilter(filterIndex).copy());
+
                 broadcastChanges();
             }
 
@@ -351,6 +340,8 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
     public boolean isAutoPush() {
         return (data.get(4) & 4) != 0;
     }
+
+    public boolean isPreviewEnabled() { return data.get(6) != 0; }
 
     public int getRadius() {
         return data.get(5);
@@ -402,6 +393,9 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
 
             case BUTTON_FILTER_PAGE ->
                     filterPage = !filterPage;
+
+            case BUTTON_PREVIEW ->
+                    miner.setPreviewEnabled(!miner.isPreviewEnabled());
 
             case BUTTON_START ->
                     miner.setRunning(!miner.isRunning());

@@ -19,6 +19,7 @@ public class ModOreEvents {
                         state.is(ModBlocks.NETHER_GERMANIUM_ORE.get()) ||
                         state.is(ModBlocks.END_GERMANIUM_ORE.get());
 
+
         if (!germaniumOre) return;
 
         // Kreativmodus ausnehmen
