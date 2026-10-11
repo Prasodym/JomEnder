@@ -14,6 +14,7 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.ArrayDeque;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentGetter;
@@ -65,7 +66,11 @@ public class GermaniumMinerBlockEntity
     private static final int[] OUTPUT_SLOTS = createOutputSlots();
     private static final int[] NO_SLOTS = {};
 
-    private static final int COUNT_SCAN_PER_TICK = 256;
+    // Einmalige Suche: mehr Positionen pro Tick, ohne die gesamte Welt in einem Tick zu blockieren.
+    private static final int COUNT_SCAN_PER_TICK = 8192;
+
+    // Die Trefferliste ist ein Laufzeit-Cache und wird nach dem Laden neu aufgebaut.
+    private final ArrayDeque<BlockPos> miningTargets = new ArrayDeque<>();
 
     private int countScanCursor = 0;
     private int foundOres = 0;
@@ -92,6 +97,10 @@ public class GermaniumMinerBlockEntity
                                 | (autoPush ? 4 : 0);
                 case 5 -> radius;
                 case 6 -> previewEnabled ? 1 : 0;
+                case 7 -> foundOres & 0xFFFF;
+                case 8 -> (foundOres >>> 16) & 0xFFFF;
+                case 9 -> (countScanComplete ? 1 : 0) | (countScanUnloaded ? 2 : 0);
+                case 10 -> countScanProgress;
                 default -> 0;
             };
         }
@@ -104,7 +113,7 @@ public class GermaniumMinerBlockEntity
 
         @Override
         public int getCount() {
-            return 7;
+            return 11;
         }
     };
 
@@ -182,6 +191,7 @@ public class GermaniumMinerBlockEntity
     }
 
     private void resetCountScan() {
+        miningTargets.clear();
         countScanCursor = 0;
         foundOres = 0;
         countScanProgress = 0;
@@ -189,33 +199,21 @@ public class GermaniumMinerBlockEntity
         countScanUnloaded = false;
     }
 
-    private void countOreTick(ServerLevel level) {
-        boolean hasFilter = false;
+    /** Ein gemeinsamer Suchlauf für die Restzahl und die Abbauziele. Nur auf dem Serverthread! */
+    private void scanTargetsTick(ServerLevel level) {
+        if (!running || countScanComplete) return;
 
-        for (int filterIndex = 0; filterIndex < FILTER_SLOTS; filterIndex++) {
-            ItemStack filter = getFilter(filterIndex);
-            if (!filter.isEmpty()) {
+        boolean hasFilter = false;
+        for (int i = 0; i < FILTER_SLOTS; i++) {
+            if (!getFilter(i).isEmpty()) {
                 hasFilter = true;
                 break;
             }
         }
-
-        if (!hasFilter) {
-            countScanCursor = 0;
-            foundOres = 0;
-            countScanProgress = 0;
-            countScanComplete = false;
-            countScanUnloaded = false;
-            return;
-        }
-
-        if (countScanComplete) {
-            return;
-        }
+        if (!hasFilter) return;
 
         int bottom = Math.max(minY, level.getMinY());
         int top = Math.min(maxY, level.getMaxY() - 1);
-
         if (bottom > top) {
             countScanProgress = 100;
             countScanComplete = true;
@@ -223,59 +221,46 @@ public class GermaniumMinerBlockEntity
         }
 
         int diameter = radius * 2 + 1;
-        int height = top - bottom + 1;
-        int total = diameter * diameter * height;
+        int area = diameter * diameter;
+        int total = area * (top - bottom + 1);
 
-        for (int i = 0;
-             i < COUNT_SCAN_PER_TICK && countScanCursor < total;
-             i++) {
-
+        for (int i = 0; i < COUNT_SCAN_PER_TICK && countScanCursor < total; i++) {
             int cursor = countScanCursor++;
-
             int x = cursor % diameter - radius;
             int z = (cursor / diameter) % diameter - radius;
-            int y = cursor / (diameter * diameter) + bottom;
+            // Von oben nach unten, damit die Zielreihenfolge sinnvoll ist.
+            int y = top - cursor / area;
 
-            if (Math.abs(x) <= 1
-                    && Math.abs(z) <= 1
-                    && y >= worldPosition.getY()
-                    && y <= worldPosition.getY() + 2) {
-                continue;
-            }
+            // Das 3x3x3-Gehäuse ist tabu.
+            if (Math.abs(x) <= 1 && Math.abs(z) <= 1
+                    && y >= worldPosition.getY() && y <= worldPosition.getY() + 2) continue;
 
-            BlockPos target = worldPosition.offset(
-                    x,
-                    y - worldPosition.getY(),
-                    z
-            );
-
-            if (!level.getChunkSource().hasChunk(
-                    target.getX() >> 4,
-                    target.getZ() >> 4
-            )) {
+            BlockPos target = worldPosition.offset(x, y - worldPosition.getY(), z);
+            if (!level.getChunkSource().hasChunk(target.getX() >> 4, target.getZ() >> 4)) {
                 countScanUnloaded = true;
                 continue;
             }
 
             BlockState found = level.getBlockState(target);
-
-            if (found.is(ORE_TAG)
-                    && !found.hasBlockEntity()
-                    && matchesAnyFilter(
-                    new ItemStack(found.getBlock())
-            )) {
+            if (isMineableTarget(level, target, found)) {
+                miningTargets.addLast(target.immutable());
                 foundOres++;
             }
         }
 
-        countScanProgress = (int) (
-                countScanCursor * 100L / total
-        );
-
+        countScanProgress = (int) (countScanCursor * 100L / total);
         if (countScanCursor >= total) {
             countScanProgress = 100;
             countScanComplete = true;
+            setChanged();
         }
+    }
+
+    private boolean isMineableTarget(ServerLevel level, BlockPos pos, BlockState state) {
+        return state.is(ORE_TAG)
+                && !state.hasBlockEntity()
+                && state.getDestroySpeed(level, pos) >= 0
+                && matchesAnyFilter(new ItemStack(state.getBlock()));
     }
 
 
@@ -308,10 +293,8 @@ public class GermaniumMinerBlockEntity
     private boolean silkTouch = false;
     private boolean autoPush = false;
 
-    // Maximal ein Erz je 10 Ticks; 256 Positionen pro Suchlauf.
+    // Maximal ein Erz je 10 Ticks aus der vorbereiteten Trefferliste.
     private static final int MINING_COST = 1_000;
-    private static final int SCAN_PER_STEP = 256;
-    private int scanCursor = 0;
     private int miningTicks = 0;
 
     public GermaniumMinerBlockEntity(BlockPos pos, BlockState state) {
@@ -409,14 +392,28 @@ public class GermaniumMinerBlockEntity
 
         minY = Math.clamp(minimum, -64, 320);
         maxY = Math.clamp(maximum, minY, 320);
-        scanCursor = 0;
+        resetCountScan();
+        setChanged();
+        syncPreview();
+    }
+
+    public void setRadius(int newRadius) {
+        int clamped = Math.clamp(newRadius, 1, 32);
+        if (radius == clamped) return;
+        radius = clamped;
         resetCountScan();
         setChanged();
         syncPreview();
     }
 
     public void setRunning(boolean value) {
+        if (running == value) return;
         running = value;
+        if (value) {
+            // Bei Start frisch zählen, damit "To Mine" vom aktuellen Bereich stammt.
+            resetCountScan();
+            miningTicks = 0;
+        }
         setChanged();
     }
 
@@ -442,96 +439,78 @@ public class GermaniumMinerBlockEntity
             GermaniumMinerBlockEntity miner
     ) {
         if (level instanceof ServerLevel serverLevel) {
-            miner.countOreTick(serverLevel);
+            miner.scanTargetsTick(serverLevel);
             miner.mineTick(serverLevel);
         }
     }
 
+    private void discardTarget() {
+        miningTargets.removeFirst();
+        foundOres = Math.max(0, foundOres - 1);
+        setChanged();
+    }
+
     private void mineTick(ServerLevel level) {
-        if (!running || getEnergy() < MINING_COST) return;
+        // Bei neuem Start erst die Trefferliste fertigstellen.
+        if (!running || !countScanComplete || getEnergy() < MINING_COST) return;
         if (++miningTicks < 10) return;
         miningTicks = 0;
 
-        boolean anyFilter = false;
-        for (int filterIndex = 0; filterIndex < FILTER_SLOTS; filterIndex++) {
-            ItemStack filter = getFilter(filterIndex);
-            if (!filter.isEmpty()) { anyFilter = true; break; }
-        }
-        if (!anyFilter) return;
+        // Maximal 64 Ziele pro Abbauintervall prüfen (Tick-Budget).
+        // Entladene Ziele hinten einreihen, damit sie andere Erze nicht blockieren.
+        int checks = Math.min(64, miningTargets.size());
+        while (checks-- > 0 && !miningTargets.isEmpty()) {
+            BlockPos target = miningTargets.peekFirst();
 
-        int bottom = Math.max(minY, level.getMinY());
-        int top = Math.min(maxY, level.getMaxY() - 1);
-        if (bottom > top) return;
-
-        int diameter = radius * 2 + 1;
-        int height = top - bottom + 1;
-        int total = diameter * diameter * height;
-        if (total <= 0) return;
-        scanCursor = Math.floorMod(scanCursor, total);
-
-        for (int attempt = 0; attempt < SCAN_PER_STEP; attempt++) {
-            int cursor = scanCursor;
-            scanCursor = (scanCursor + 1) % total;
-
-            int x = cursor % diameter - radius;
-            int z = (cursor / diameter) % diameter - radius;
-            int y = cursor / (diameter * diameter) + bottom;
-            BlockPos target = worldPosition.offset(x, y - worldPosition.getY(), z);
-
-            // Das Maschinengehäuse nie anfassen.
-            if (Math.abs(x) <= 1 && Math.abs(z) <= 1
-                    && y >= worldPosition.getY() && y <= worldPosition.getY() + 2) continue;
-
-            // Keine Chunks nur wegen des Miners nachladen.
-            if (!level.getChunkSource().hasChunk(target.getX() >> 4, target.getZ() >> 4)) continue;
+            // Chunk nicht extra laden und Erz nicht vergessen: Ziel hinten einreihen.
+            if (!level.getChunkSource().hasChunk(target.getX() >> 4, target.getZ() >> 4)) {
+                miningTargets.addLast(miningTargets.removeFirst());
+                continue;
+            }
 
             BlockState found = level.getBlockState(target);
-            if (!found.is(ORE_TAG) || found.hasBlockEntity()) continue;
-            if (!matchesAnyFilter(new ItemStack(found.getBlock()))) continue;
-            if (found.getDestroySpeed(level, target) < 0) continue;
+            if (!isMineableTarget(level, target, found)) {
+                discardTarget();
+                continue;
+            }
 
             ItemStack tool = new ItemStack(Items.NETHERITE_PICKAXE);
             if (silkTouch) {
                 tool.enchant(level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT)
                         .getOrThrow(Enchantments.SILK_TOUCH), 1);
+                System.out.println(
+                        "[JomEnder Miner] Silk Touch serverseitig: " + silkTouch
+                                + " | Werkzeug: " + tool
+                );
             }
 
             List<ItemStack> drops = found.getDrops(new LootParams.Builder(level)
                     .withParameter(LootContextParams.ORIGIN, target.getCenter())
                     .withParameter(LootContextParams.BLOCK_STATE, found)
                     .withParameter(LootContextParams.TOOL, tool));
-            if (drops.isEmpty()) continue;
+            if (drops.isEmpty()) {
+                // Ohne Drops kein sinnvoller Abbau; anderes Ziel versuchen.
+                discardTarget();
+                continue;
+            }
 
-            // Probeeinlagerung in einer Kopie: nichts zerstören, wenn es nicht passt.
+            // Probeeinlagerung: bei vollem Lager bleibt das Erz erhalten.
             List<ItemStack> planned = new ArrayList<>(STORAGE_SLOTS);
             for (int slot = 0; slot < STORAGE_SLOTS; slot++) planned.add(items.get(slot).copy());
             boolean fits = true;
             for (ItemStack drop : drops) {
                 if (!insertInto(planned, drop.copy())) { fits = false; break; }
             }
-            if (!fits) {
-                // Scanner an diesem Erz anhalten, statt es zu überspringen.
-                scanCursor = cursor;
-                return;
-            }
+            if (!fits) return;
             if (getEnergy() < MINING_COST) return;
 
-            // Erst nach erfolgreichem Blockaustausch werden Drops + FE übernommen.
             if (!level.setBlock(target, Blocks.DIRT.defaultBlockState(), 3)) return;
             for (int slot = 0; slot < STORAGE_SLOTS; slot++) items.set(slot, planned.get(slot));
             energyStorage.set(getEnergy() - MINING_COST);
-
             minedOres++;
-
-            // Ein bereits gezähltes Erz aus dem Zähler entfernen.
-            if (countScanComplete && foundOres > 0) {
-                foundOres--;
-            }
-
-            setChanged();
+            discardTarget();
             return;
         }
-        setChanged(); // Suchfortschritt für Welt-Speicherung
     }
 
     private static boolean insertInto(List<ItemStack> storage, ItemStack incoming) {
@@ -697,7 +676,6 @@ public class GermaniumMinerBlockEntity
         output.putInt("minY", minY);
         output.putInt("maxY", maxY);
         output.putInt("radius", radius);
-        output.putInt("scanCursor", scanCursor);
 
         output.putBoolean("previewEnabled", previewEnabled);
         output.putBoolean("running", running);
@@ -732,7 +710,6 @@ public class GermaniumMinerBlockEntity
         radius = Math.clamp(
                 input.getIntOr("radius", 32), 1, 32
         );
-        scanCursor = Math.max(0, input.getIntOr("scanCursor", 0));
 
         previewEnabled = input.getBooleanOr("previewEnabled", false);
         running = input.getBooleanOr("running", false);
@@ -746,6 +723,8 @@ public class GermaniumMinerBlockEntity
             String id = input.getStringOr("ghost_filter_" + i, "");
             if (!id.isEmpty() && getFilter(i).isEmpty()) restoreFilter(i, id);
         }
+        // Trefferliste ist nicht gespeichert; nach Chunk-Load frisch ermitteln.
+        resetCountScan();
     }
 
     // =========================
@@ -771,7 +750,6 @@ public class GermaniumMinerBlockEntity
         data.putInt("minY", minY);
         data.putInt("maxY", maxY);
         data.putInt("radius", radius);
-        data.putInt("scanCursor", scanCursor);
 
         data.putBoolean("previewEnabled", previewEnabled);
         data.putBoolean("running", running);
@@ -824,7 +802,6 @@ public class GermaniumMinerBlockEntity
             radius = Math.clamp(
                     data.getIntOr("radius", 32), 1, 32
             );
-            scanCursor = Math.max(0, data.getIntOr("scanCursor", 0));
 
             previewEnabled = data.getBooleanOr("previewEnabled", false);
             running = data.getBooleanOr("running", false);
@@ -835,6 +812,7 @@ public class GermaniumMinerBlockEntity
                 String id = data.getStringOr("ghost_filter_" + i, "");
                 if (!id.isEmpty() && getFilter(i).isEmpty()) restoreFilter(i, id);
             }
+            resetCountScan();
         }
 
         setChanged();

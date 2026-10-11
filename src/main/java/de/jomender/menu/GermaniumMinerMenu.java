@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class GermaniumMinerMenu extends AbstractContainerMenu {
 
-    public static final int DATA_COUNT = 7;
+    public static final int DATA_COUNT = 11;
 
     // =========================
     // BUTTON-IDs
@@ -28,6 +28,7 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
     public static final int BUTTON_PUSH = 2;
     public static final int BUTTON_FILTER_PAGE = 7;
     public static final int BUTTON_PREVIEW = 8;
+    public static final int BUTTON_RADIUS_BASE = 200000;
 
     // Falls dein Screen diese Konstanten noch
     // verwendet, bleiben sie vorhanden.
@@ -343,6 +344,14 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
 
     public boolean isPreviewEnabled() { return data.get(6) != 0; }
 
+    public int getToMine() {
+        return (data.get(7) & 0xFFFF) | ((data.get(8) & 0xFFFF) << 16);
+    }
+
+    public boolean isCountingComplete() { return (data.get(9) & 1) != 0; }
+    public boolean hasUnloadedChunks() { return (data.get(9) & 2) != 0; }
+    public int getCountProgress() { return data.get(10); }
+
     public int getRadius() {
         return data.get(5);
     }
@@ -358,6 +367,12 @@ public class GermaniumMinerMenu extends AbstractContainerMenu {
     ) {
         if (miner == null || !miner.stillValid(player)) {
             return false;
+        }
+
+        // Radius wird einzeln auf dem Server validiert.
+        if (buttonId >= BUTTON_RADIUS_BASE + 1 && buttonId <= BUTTON_RADIUS_BASE + 32) {
+            miner.setRadius(buttonId - BUTTON_RADIUS_BASE);
+            return true;
         }
 
         // Min Y und Max Y gemeinsam übertragen.

@@ -5,8 +5,34 @@
       "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "jomender:germanium_clumb"
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "jomender:deepslate_germanium_ore",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "predicates": {
+                      "minecraft:enchantments": [
+                        {
+                          "enchantments": "minecraft:silk_touch",
+                          "levels": {
+                            "min": 1
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "jomender:germanium_clumb"
+            }
+          ]
         }
       ]
     }
