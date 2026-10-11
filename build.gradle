@@ -105,6 +105,9 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
 
+    // JEI-API zum Kompilieren des JEI-Plugins (die Mod selbst liegt in run/mods und wird zur Laufzeit geladen)
+    compileOnly files("run/mods/jei-26.1.2-neoforge-29.43.0.107.jar")
+
     // Example mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
