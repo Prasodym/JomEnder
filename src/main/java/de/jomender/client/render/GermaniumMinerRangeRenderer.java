@@ -12,13 +12,13 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.jspecify.annotations.Nullable;
 
 /** Clientseitige Darstellung des aktivierten Mining-Bereichs als 12 grüne Kanten. */
 public class GermaniumMinerRangeRenderer
         implements BlockEntityRenderer<GermaniumMinerBlockEntity, GermaniumMinerRangeRenderer.State> {
 
     private static final int LINE_COLOR = 0xD936F08C; // ARGB
+    private static final int FACE_COLOR = 0x2336F08C; // dezente grüne Flächen (~14 % Deckkraft)
 
     public static class State extends BlockEntityRenderState {
         boolean preview;
@@ -26,6 +26,12 @@ public class GermaniumMinerRangeRenderer
     }
 
     public GermaniumMinerRangeRenderer(BlockEntityRendererProvider.Context context) {
+    }
+
+    // Render view distance is set to 128 blocks, so the preview will be visible from a distance.
+    @Override
+    public int getViewDistance() {
+        return 128;
     }
 
     @Override
@@ -63,6 +69,26 @@ public class GermaniumMinerRangeRenderer
         }
 
         AABB box = state.relativeBounds;
+
+        // Eine kleine, konstante Anzahl von Quads - keine Block-für-Block-Geometrie.
+        // RenderTypes.debugFilledBox verwendet Positions- und Farbvertices.
+        collector.submitCustomGeometry(pose, RenderTypes.debugFilledBox(), (entry, vertices) -> {
+            float x0 = (float) box.minX;
+            float y0 = (float) box.minY;
+            float z0 = (float) box.minZ;
+            float x1 = (float) box.maxX;
+            float y1 = (float) box.maxY;
+            float z1 = (float) box.maxZ;
+
+            // Zwei gegenüberliegende Flächen pro Achse.
+            quad(entry, vertices, x0,y0,z0, x0,y0,z1, x0,y1,z1, x0,y1,z0);
+            quad(entry, vertices, x1,y0,z1, x1,y0,z0, x1,y1,z0, x1,y1,z1);
+            quad(entry, vertices, x0,y0,z1, x1,y0,z1, x1,y1,z1, x0,y1,z1);
+            quad(entry, vertices, x1,y0,z0, x0,y0,z0, x0,y1,z0, x1,y1,z0);
+            quad(entry, vertices, x0,y1,z0, x0,y1,z1, x1,y1,z1, x1,y1,z0);
+            quad(entry, vertices, x0,y0,z1, x0,y0,z0, x1,y0,z0, x1,y0,z1);
+        });
+
         collector.submitCustomGeometry(pose, RenderTypes.lines(), (entry, vertices) -> {
             float x0 = (float) box.minX;
             float y0 = (float) box.minY;
@@ -89,6 +115,25 @@ public class GermaniumMinerRangeRenderer
             line(entry, vertices, x1, y0, z1, x1, y1, z1, 0, 1, 0);
             line(entry, vertices, x0, y0, z1, x0, y1, z1, 0, 1, 0);
         });
+    }
+
+    private static void quad(
+            PoseStack.Pose pose, VertexConsumer vertices,
+            float ax, float ay, float az,
+            float bx, float by, float bz,
+            float cx, float cy, float cz,
+            float dx, float dy, float dz
+    ) {
+        //rückseite rendern
+        vertices.addVertex(pose, ax, ay, az).setColor(FACE_COLOR);
+        vertices.addVertex(pose, bx, by, bz).setColor(FACE_COLOR);
+        vertices.addVertex(pose, cx, cy, cz).setColor(FACE_COLOR);
+        vertices.addVertex(pose, dx, dy, dz).setColor(FACE_COLOR);
+        //vorderseite rendern
+        vertices.addVertex(pose, dx, dy, dz).setColor(FACE_COLOR);
+        vertices.addVertex(pose, cx, cy, cz).setColor(FACE_COLOR);
+        vertices.addVertex(pose, bx, by, bz).setColor(FACE_COLOR);
+        vertices.addVertex(pose, ax, ay, az).setColor(FACE_COLOR);
     }
 
     private static void line(
