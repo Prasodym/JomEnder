@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "jomender:block/arc_fusion_chamber"
+    },
+    "facing=east": {
+      "model": "jomender:block/arc_fusion_chamber",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "jomender:block/arc_fusion_chamber",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "jomender:block/arc_fusion_chamber",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,19 @@
+
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ISI",
+    "GHG",
+    "ISI"
+  ],
+  "key": {
+    "I": "minecraft:redstone",
+    "G": "jomender:galaxis_quarz",
+    "S": "jomender:germanium_ingot",
+    "H": "minecraft:ender_pearl"
+  },
+  "result": {
+    "id": "jomender:machine_circuit",
+    "count": 1
+  }
+}

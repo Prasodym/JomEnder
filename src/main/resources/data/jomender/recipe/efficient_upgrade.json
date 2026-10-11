@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LCL",
+    "GQG",
+    "LGL"
+  ],
+  "key": {
+    "L": "minecraft:lapis_lazuli",
+    "C": "jomender:machine_circuit",
+    "G": "jomender:germanium_ingot",
+    "Q": "jomender:galaxis_quarz"
+  },
+  "result": {
+    "id": "jomender:efficient_upgrade",
+    "count": 1
+  }
+}

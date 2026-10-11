@@ -1,0 +1,11 @@
+{
+  "type": "jomender:arc_fusion",
+  "input_a": "jomender:endarium_raw",
+  "input_b": "jomender:galaxis_quarz",
+  "result": {
+    "id": "jomender:endarium_ingot",
+    "count": 1
+  },
+  "energy": 10000,
+  "time": 200
+}

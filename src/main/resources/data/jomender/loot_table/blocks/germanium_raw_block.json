@@ -6,15 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "jomender:germanium_raw_block",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1
-              }
-            }
-          ]
+          "name": "jomender:germanium_raw_block"
         }
       ],
       "conditions": [

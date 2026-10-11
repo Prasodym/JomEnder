@@ -1,6 +1,7 @@
 
 package de.jomender;
 
+import de.jomender.blockentity.ArcFusionChamberBlockEntity;
 import de.jomender.blockentity.CoalGeneratorBlockEntity;
 import de.jomender.blockentity.ElectricSmelterBlockEntity;
 
@@ -30,6 +31,16 @@ public class ModBlockEntities {
             )
     );
 
+
+    public static final Supplier<BlockEntityType<ArcFusionChamberBlockEntity>>
+            ARC_FUSION_CHAMBER = BLOCK_ENTITIES.register(
+            "arc_fusion_chamber",
+            () -> new BlockEntityType<>(
+                    ArcFusionChamberBlockEntity::new,
+                    false,
+                    ModBlocks.ARC_FUSION_CHAMBER.get()
+            )
+    );
 
     public static final Supplier<BlockEntityType<ElectricSmelterBlockEntity>>
             ELECTRIC_SMELTER = BLOCK_ENTITIES.register(

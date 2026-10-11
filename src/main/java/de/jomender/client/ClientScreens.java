@@ -4,8 +4,11 @@ package de.jomender.client;
 import de.jomender.Jomender;
 import de.jomender.ModMenuTypes;
 import de.jomender.ModBlockEntities;
+import de.jomender.client.render.ArcFusionChamberRenderer;
+import de.jomender.client.render.ElectricSmelterCoreRenderer;
 import de.jomender.client.render.GermaniumMinerRangeRenderer;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import de.jomender.client.screen.ArcFusionChamberScreen;
 import de.jomender.client.screen.CoalGeneratorScreen;
 import de.jomender.client.screen.ElectricSmelterScreen;
 import de.jomender.client.screen.GermaniumMinerScreen;
@@ -25,12 +28,22 @@ public class ClientScreens {
         modBus.addListener(ClientScreens::registerRenderers);
 
         NeoForge.EVENT_BUS.register(GeneratorItemTooltip.class);
+        // Shift-Infos aus ItemStyles
+        NeoForge.EVENT_BUS.addListener(ItemStyleTooltips::onTooltip);
 
     }
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(
                 ModBlockEntities.GERMANIUM_MINER.get(),
                 GermaniumMinerRangeRenderer::new
+        );
+        event.registerBlockEntityRenderer(
+                ModBlockEntities.ELECTRIC_SMELTER.get(),
+                ElectricSmelterCoreRenderer::new
+        );
+        event.registerBlockEntityRenderer(
+                ModBlockEntities.ARC_FUSION_CHAMBER.get(),
+                ArcFusionChamberRenderer::new
         );
     }
 
@@ -54,6 +67,11 @@ public class ClientScreens {
         event.register(
                 ModMenuTypes.GERMANIUM_MINER.get(),
                 GermaniumMinerScreen::new
+        );
+
+        event.register(
+                ModMenuTypes.ARC_FUSION_CHAMBER.get(),
+                ArcFusionChamberScreen::new
         );
     }
 }

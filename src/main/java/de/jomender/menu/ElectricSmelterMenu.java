@@ -4,6 +4,11 @@ package de.jomender.menu;
 import de.jomender.ModMenuTypes;
 import de.jomender.blockentity.ElectricSmelterBlockEntity;
 import de.jomender.client.gui.JomEnderGuiLayout;
+import de.jomender.sideconfig.SideConfigMenu;
+import de.jomender.upgrade.Upgrades;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -15,23 +20,25 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-public class ElectricSmelterMenu extends AbstractContainerMenu {
+public class ElectricSmelterMenu extends AbstractContainerMenu implements SideConfigMenu {
 
     private final Container inventory;
     private final ContainerData data;
+    private final BlockPos machinePos;
     private boolean upgradePopupOpen;
     private int popupSlotX = JomEnderGuiLayout.UPGRADE_X;
     private int popupSlotY = JomEnderGuiLayout.UPGRADE_Y;
 
-    // Client-Konstruktor
-    public ElectricSmelterMenu(int id, Inventory playerInventory) {
+    // Client-Konstruktor: die Blockposition kommt vom Server mit (siehe openMenu im Block).
+    public ElectricSmelterMenu(int id, Inventory playerInventory, RegistryFriendlyByteBuf extraData) {
         this(
                 id,
                 playerInventory,
                 new SimpleContainer(
                         ElectricSmelterBlockEntity.TOTAL_SLOTS
                 ),
-                new SimpleContainerData(3)
+                new SimpleContainerData(ElectricSmelterBlockEntity.DATA_COUNT),
+                extraData.readBlockPos()
         );
     }
 
@@ -40,17 +47,19 @@ public class ElectricSmelterMenu extends AbstractContainerMenu {
             int id,
             Inventory playerInventory,
             Container inventory,
-            ContainerData data
+            ContainerData data,
+            BlockPos machinePos
     ) {
         super(ModMenuTypes.ELECTRIC_SMELTER.get(), id);
 
         this.inventory = inventory;
         this.data = data;
+        this.machinePos = machinePos;
 
         checkContainerSize(
                 inventory, ElectricSmelterBlockEntity.TOTAL_SLOTS
         );
-        checkContainerDataCount(data, 3);
+        checkContainerDataCount(data, ElectricSmelterBlockEntity.DATA_COUNT);
         addDataSlots(data);
 
         // 3 input slots, IDs 0-2.
@@ -71,13 +80,9 @@ public class ElectricSmelterMenu extends AbstractContainerMenu {
 
         // Existing upgrade slots, now IDs 11-14.
         for (int i = 0; i < 4; i++) {
-            addSlot(new Slot(inventory, ElectricSmelterBlockEntity.UPGRADE_START + i,
+            addSlot(upgradeSlot(ElectricSmelterBlockEntity.UPGRADE_START + i,
                     JomEnderGuiLayout.UPGRADE_X + i * JomEnderGuiLayout.UPGRADE_GAP,
-                    JomEnderGuiLayout.UPGRADE_Y) {
-                // Upgrade handling will be added in the next phase.
-                @Override public boolean mayPlace(ItemStack stack) { return false; }
-                @Override public boolean isActive() { return upgradePopupOpen; }
-            });
+                    JomEnderGuiLayout.UPGRADE_Y));
         }
 
         for (int row = 0; row < 3; row++) {
@@ -106,20 +111,39 @@ public class ElectricSmelterMenu extends AbstractContainerMenu {
         popupSlotY = y;
         for (int i = 0; i < 4; i++) {
             int menuIndex = ElectricSmelterBlockEntity.UPGRADE_START + i;
-            int inventoryIndex = menuIndex;
-            Slot moved = new Slot(inventory, inventoryIndex,
-                    x + i * JomEnderGuiLayout.UPGRADE_GAP, y) {
-                @Override public boolean mayPlace(ItemStack stack) { return false; }
-                @Override public boolean isActive() { return upgradePopupOpen; }
-            };
+            Slot moved = upgradeSlot(menuIndex, x + i * JomEnderGuiLayout.UPGRADE_GAP, y);
             moved.index = menuIndex;
             slots.set(menuIndex, moved);
         }
     }
 
+    /** Upgrade-Slot: nur Speed/Efficient, max. 8, jede Sorte nur einmal. */
+    private Slot upgradeSlot(int index, int x, int y) {
+        return Upgrades.slot(inventory, index, x, y,
+                ElectricSmelterBlockEntity.UPGRADE_START, 4, () -> upgradePopupOpen);
+    }
+
     /** Client-side visibility; does not change server-side inventory permissions. */
     public void setUpgradePopupOpen(boolean open) {
         this.upgradePopupOpen = open;
+    }
+
+    // =========================
+    // SEITENKONFIGURATION
+    // =========================
+
+    @Override
+    public BlockPos getMachinePos() { return machinePos; }
+
+    @Override
+    public ContainerData getSideData() { return data; }
+
+    @Override
+    public int getSideDataIndex() { return ElectricSmelterBlockEntity.DATA_SIDE_CONFIG; }
+
+    @Override
+    public boolean clickMenuButton(Player player, int buttonId) {
+        return handleSideButton(buttonId);
     }
 
     @Override

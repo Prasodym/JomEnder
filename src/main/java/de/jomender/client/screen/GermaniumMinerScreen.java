@@ -3,6 +3,8 @@ package de.jomender.client.screen;
 import de.jomender.blockentity.GermaniumMinerBlockEntity;
 import de.jomender.client.gui.JomEnderGuiTheme;
 import de.jomender.menu.GermaniumMinerMenu;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.resources.Identifier;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -27,8 +29,14 @@ public class GermaniumMinerScreen extends JomEnderMachineScreen<GermaniumMinerMe
     private EditBox radiusInput;
     private Button applyRangeButton;
     private Button closeRangeButton;
-    private static final int SILK_X = 67, PUSH_X = 41, TOGGLE_Y = 80;
-    private static final int TOGGLE_W = 20, TOGGLE_H = 10;
+    // Referenzlayout: Push links, Silk Touch rechts. Originaltextur 64x32 => 32x16 GUI-Pixel.
+    private static final int PUSH_X = 29, SILK_X = 73, TOGGLE_Y = 79;
+    private static final int TOGGLE_W = 32, TOGGLE_H = 16;
+    private static final int TOGGLE_ICON_Y = 100, TOGGLE_ICON_SIZE = 15;
+    private static final Identifier TOGGLE_ON = Identifier.fromNamespaceAndPath("jomender", "textures/gui/button_on.png");
+    private static final Identifier TOGGLE_OFF = Identifier.fromNamespaceAndPath("jomender", "textures/gui/button_off.png");
+    private static final Identifier ICON_PUSH = Identifier.fromNamespaceAndPath("jomender", "textures/gui/push_enabled.png");
+    private static final Identifier ICON_SILK = Identifier.fromNamespaceAndPath("jomender", "textures/gui/silk_enable.png");
     private static final int ENERGY_X = 170, ENERGY_Y = 25, ENERGY_W = 10, ENERGY_H = 99;
 
     private EditBox minYInput;
@@ -170,11 +178,13 @@ public class GermaniumMinerScreen extends JomEnderMachineScreen<GermaniumMinerMe
                 sendMenuButton(GermaniumMinerMenu.BUTTON_PREVIEW);
                 return true;
             }
-            if (hovering(event.x(), event.y(), SILK_X, TOGGLE_Y, TOGGLE_W, TOGGLE_H)) {
+            if (hovering(event.x(), event.y(), SILK_X, TOGGLE_Y, TOGGLE_W, TOGGLE_H)
+                    || hovering(event.x(), event.y(), SILK_X, TOGGLE_ICON_Y, TOGGLE_W, TOGGLE_ICON_SIZE)) {
                 sendMenuButton(GermaniumMinerMenu.BUTTON_SILK);
                 return true;
             }
-            if (hovering(event.x(), event.y(), PUSH_X, TOGGLE_Y, TOGGLE_W, TOGGLE_H)) {
+            if (hovering(event.x(), event.y(), PUSH_X, TOGGLE_Y, TOGGLE_W, TOGGLE_H)
+                    || hovering(event.x(), event.y(), PUSH_X, TOGGLE_ICON_Y, TOGGLE_W, TOGGLE_ICON_SIZE)) {
                 sendMenuButton(GermaniumMinerMenu.BUTTON_PUSH);
                 return true;
             }
@@ -222,8 +232,8 @@ public class GermaniumMinerScreen extends JomEnderMachineScreen<GermaniumMinerMe
                 menu.isPreviewEnabled() ? "Preview ON" : "Preview OFF",
                 menu.isPreviewEnabled(),
                 hovering(mouseX, mouseY, PREVIEW_X, PREVIEW_Y, ACTION_W, ACTION_H));
-        drawToggle(g, SILK_X, TOGGLE_Y, menu.isSilkTouch(), "S");
-        drawToggle(g, PUSH_X, TOGGLE_Y, menu.isAutoPush(), "P");
+        drawToggle(g, PUSH_X, TOGGLE_Y, menu.isAutoPush(), ICON_PUSH);
+        drawToggle(g, SILK_X, TOGGLE_Y, menu.isSilkTouch(), ICON_SILK);
 
         JomEnderGuiTheme.verticalEnergy(g, x + ENERGY_X, y + ENERGY_Y,
                 ENERGY_W, ENERGY_H, menu.getEnergy(), GermaniumMinerBlockEntity.MAX_ENERGY);
@@ -258,12 +268,16 @@ public class GermaniumMinerScreen extends JomEnderMachineScreen<GermaniumMinerMe
                 topPos + y + 4, 0xFFE5E6E8, true);
     }
 
-    private void drawToggle(GuiGraphicsExtractor g, int x, int y, boolean enabled, String text) {
-        JomEnderGuiTheme.drawMachineButton(g, leftPos + x, topPos + y,
-                TOGGLE_W, TOGGLE_H, enabled,
-                hovering(lastMouseX, lastMouseY, x, y, TOGGLE_W, TOGGLE_H));
-        g.text(font, Component.literal(text), leftPos + x + 6, topPos + y + 1,
-                enabled ? 0xFF4FF2A0 : 0xFFE6E6E8, false);
+    private void drawToggle(GuiGraphicsExtractor g, int x, int y, boolean enabled, Identifier icon) {
+        // Die Button-Texturen werden auf die halbe Auflösung skaliert.
+        g.blit(RenderPipelines.GUI_TEXTURED, enabled ? TOGGLE_ON : TOGGLE_OFF,
+                leftPos + x, topPos + y, 0, 0, TOGGLE_W, TOGGLE_H, 64, 32, 64, 32);
+
+        // Kleine 5x5-Pixel-Symbole auf 15x15 GUI-Pixel vergrößern.
+        int iconX = leftPos + x + (TOGGLE_W - TOGGLE_ICON_SIZE) / 2;
+        g.blit(RenderPipelines.GUI_TEXTURED, icon,
+                iconX, topPos + TOGGLE_ICON_Y, 0, 0,
+                TOGGLE_ICON_SIZE, TOGGLE_ICON_SIZE, 5, 5, 5, 5);
     }
 
     private int lastMouseX, lastMouseY;
@@ -278,9 +292,9 @@ public class GermaniumMinerScreen extends JomEnderMachineScreen<GermaniumMinerMe
                 JomEnderGuiTheme.TEXT_COLOR, false);
         g.text(font, Component.literal(menu.isRunning() ? "Running" : "Idle"),
                 26, 32, menu.isRunning() ? 0xFF31DC88 : 0xFFE55757, false);
-        String countText = !menu.isCountingComplete()
-                ? "Scanning " + menu.getCountProgress() + "%"
-                : menu.hasUnloadedChunks() ? "Chunks missing" : "To Mine: " + menu.getToMine();
+        // Keine Teilergebnisse als exakte Anzahl ausgeben.
+        String countText = menu.isCountingComplete() && !menu.hasUnloadedChunks()
+                ? "To Mine: " + menu.getToMine() : "To Mine: --";
         g.text(font, Component.literal(countText), 26, 43, 0xFFB7B7C0, false);
         if (menu.isFilterPage()) {
             g.text(font, Component.literal("Filter: Item auf die sechs Slots klicken"),
@@ -302,6 +316,13 @@ public class GermaniumMinerScreen extends JomEnderMachineScreen<GermaniumMinerMe
     public void extractRenderState(@NonNull GuiGraphicsExtractor g,
                                    int mouseX, int mouseY, float partialTick) {
         super.extractRenderState(g, mouseX, mouseY, partialTick);
+        if (hovering(mouseX, mouseY, PUSH_X, TOGGLE_Y, TOGGLE_W, TOGGLE_H)
+                || hovering(mouseX, mouseY, PUSH_X, TOGGLE_ICON_Y, TOGGLE_W, TOGGLE_ICON_SIZE)) {
+            g.setTooltipForNextFrame(Component.literal("Auto Push: " + (menu.isAutoPush() ? "ON" : "OFF")), mouseX, mouseY);
+        } else if (hovering(mouseX, mouseY, SILK_X, TOGGLE_Y, TOGGLE_W, TOGGLE_H)
+                || hovering(mouseX, mouseY, SILK_X, TOGGLE_ICON_Y, TOGGLE_W, TOGGLE_ICON_SIZE)) {
+            g.setTooltipForNextFrame(Component.literal("Silk Touch: " + (menu.isSilkTouch() ? "ON" : "OFF")), mouseX, mouseY);
+        }
         if (hovering(mouseX, mouseY, ENERGY_X, ENERGY_Y, ENERGY_W, ENERGY_H)) {
             g.setTooltipForNextFrame(Component.literal(menu.getEnergy() + " / "
                     + GermaniumMinerBlockEntity.MAX_ENERGY + " FE"), mouseX, mouseY);

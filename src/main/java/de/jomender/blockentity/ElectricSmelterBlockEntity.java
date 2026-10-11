@@ -4,6 +4,10 @@ package de.jomender.blockentity;
 import de.jomender.ModBlockEntities;
 import de.jomender.ModItems;
 import de.jomender.menu.ElectricSmelterMenu;
+import de.jomender.sideconfig.SideConfig;
+import de.jomender.sideconfig.SideMode;
+import de.jomender.upgrade.MachineEnergyHandler;
+import de.jomender.upgrade.Upgrades;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -25,10 +29,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public class ElectricSmelterBlockEntity
         extends BlockEntity implements WorldlyContainer, MenuProvider {
@@ -36,6 +42,9 @@ public class ElectricSmelterBlockEntity
     public static final int MAX_ENERGY = 20000;
     public static final int ENERGY_PER_TICK = 20;
     public static final int MAX_PROGRESS = 200;
+
+    /** Alle wie viele Ticks fertige Items an Nachbarn geschoben werden. */
+    private static final int PUSH_INTERVAL = 4;
 
     // Inventar:
     // 0-2:  Input
@@ -47,37 +56,55 @@ public class ElectricSmelterBlockEntity
     public static final int UPGRADE_START = 11;
     public static final int TOTAL_SLOTS = 15;
 
-    private static final int[] TOP_SLOTS = {0, 1, 2};
-    private static final int[] BOTTOM_SLOTS = {3, 4, 5, 6, 7, 8, 9, 10};
+    private static final int[] INPUT_SLOTS = {0, 1, 2};
+    private static final int[] OUTPUT_SLOTS = {3, 4, 5, 6, 7, 8, 9, 10};
+    private static final int[] IO_SLOTS = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     private static final int[] NO_SLOTS = {};
 
-    // FE aufnehmen, nicht abgeben.
-    private final SimpleEnergyHandler energyStorage =
-            new SimpleEnergyHandler(
-                    MAX_ENERGY,
-                    1000,
-                    0
-            ) {
-                @Override
-                protected void onEnergyChanged(int previousAmount) {
-                    ElectricSmelterBlockEntity.this.setChanged();
-                }
-            };
+    /** Index des Datenslots mit der gepackten Seitenkonfiguration. */
+    public static final int DATA_SIDE_CONFIG = 3;
+    public static final int DATA_COUNT = 4;
+
+    // FE aufnehmen, nicht abgeben. Die Annahme wächst mit Speed-Upgrades mit.
+    private static final int BASE_MAX_RECEIVE = 1000;
+    private final MachineEnergyHandler energyStorage =
+            new MachineEnergyHandler(MAX_ENERGY, BASE_MAX_RECEIVE, 0, this::setChanged);
 
     private int progress = 0;
+    // Aktuelle Dauer und FE/t mit Upgrades (ohne Upgrades: 200 Ticks, 20 FE/t).
+    private int maxProgress = MAX_PROGRESS;
+    private int energyPerTick = ENERGY_PER_TICK;
     private int activeInput = -1;
     private int nextInput = 0;
 
     private final NonNullList<ItemStack> items =
             NonNullList.withSize(TOTAL_SLOTS, ItemStack.EMPTY);
 
-    // Beide Wrapper greifen auf dasselbe Inventar zu,
-    // respektieren aber unterschiedliche Blockseiten.
-    private final ResourceHandler<ItemResource> inputHandler =
-            new WorldlyContainerWrapper(this, Direction.UP);
+    // Seitenkonfiguration. Standard wie bisher: oben Input, unten Output, Rest aus.
+    private final SideConfig sideConfig = new SideConfig(defaultSides(), this::onSideConfigChanged);
 
-    private final ResourceHandler<ItemResource> outputHandler =
-            new WorldlyContainerWrapper(this, Direction.DOWN);
+    // Ein Wrapper pro Weltrichtung; welche Slots er sieht, entscheidet getSlotsForFace.
+    @SuppressWarnings("unchecked")
+    private final ResourceHandler<ItemResource>[] sideHandlers = new ResourceHandler[6];
+
+    private static SideMode[] defaultSides() {
+        SideMode[] d = SideConfig.defaults(SideMode.NONE);
+        d[Direction.UP.get3DDataValue()] = SideMode.INPUT;
+        d[Direction.DOWN.get3DDataValue()] = SideMode.OUTPUT;
+        return d;
+    }
+
+    private void onSideConfigChanged() {
+        setChanged();
+        // Rohre/Kabel müssen ihre zwischengespeicherten Capabilities neu abfragen.
+        if (level != null) {
+            level.invalidateCapabilities(worldPosition);
+        }
+    }
+
+    public SideConfig getSideConfig() {
+        return sideConfig;
+    }
 
     public final ContainerData data = new ContainerData() {
         @Override
@@ -85,7 +112,8 @@ public class ElectricSmelterBlockEntity
             return switch (index) {
                 case 0 -> getEnergy();
                 case 1 -> progress;
-                case 2 -> MAX_PROGRESS;
+                case 2 -> maxProgress;
+                case DATA_SIDE_CONFIG -> sideConfig.pack();
                 default -> 0;
             };
         }
@@ -96,15 +124,15 @@ public class ElectricSmelterBlockEntity
                 case 0 -> energyStorage.set(
                         Math.clamp(value, 0, MAX_ENERGY)
                 );
-                case 1 -> progress = Math.clamp(
-                        value, 0, MAX_PROGRESS
-                );
+                case 1 -> progress = Math.max(0, value);
+                case 2 -> maxProgress = Math.max(1, value);
+                case DATA_SIDE_CONFIG -> sideConfig.unpack(value);
             }
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return DATA_COUNT;
         }
     };
 
@@ -119,7 +147,7 @@ public class ElectricSmelterBlockEntity
     // FE-SCHNITTSTELLE
     // =========================
 
-    public SimpleEnergyHandler getEnergyStorage() {
+    public MachineEnergyHandler getEnergyStorage() {
         return energyStorage;
     }
 
@@ -155,17 +183,16 @@ public class ElectricSmelterBlockEntity
     public ResourceHandler<ItemResource> getItemHandler(
             Direction side
     ) {
-        if (side == Direction.UP) {
-            return inputHandler;
+        // Unbekannte Richtung oder Seite aus: kein automatisierter Item-Zugriff.
+        if (side == null || sideConfig.get(side) == SideMode.NONE) {
+            return null;
         }
 
-        if (side == Direction.DOWN) {
-            return outputHandler;
+        int i = side.get3DDataValue();
+        if (sideHandlers[i] == null) {
+            sideHandlers[i] = new WorldlyContainerWrapper(this, side);
         }
-
-        // Seiten und unbekannte Richtung:
-        // kein automatisierter Item-Zugriff.
-        return null;
+        return sideHandlers[i];
     }
 
     // =========================
@@ -174,15 +201,12 @@ public class ElectricSmelterBlockEntity
 
     @Override
     public int[] getSlotsForFace(Direction side) {
-        if (side == Direction.UP) {
-            return TOP_SLOTS;
-        }
-
-        if (side == Direction.DOWN) {
-            return BOTTOM_SLOTS;
-        }
-
-        return NO_SLOTS;
+        return switch (sideConfig.get(side)) {
+            case INPUT -> INPUT_SLOTS;
+            case OUTPUT -> OUTPUT_SLOTS;
+            case BOTH -> IO_SLOTS;
+            case NONE -> NO_SLOTS;
+        };
     }
 
     @Override
@@ -191,7 +215,8 @@ public class ElectricSmelterBlockEntity
             ItemStack stack,
             Direction side
     ) {
-        return side == Direction.UP
+        return side != null
+                && sideConfig.get(side).canInput()
                 && slot >= 0
                 && slot < INPUT_COUNT;
     }
@@ -202,7 +227,8 @@ public class ElectricSmelterBlockEntity
             ItemStack stack,
             Direction side
     ) {
-        return side == Direction.DOWN
+        return side != null
+                && sideConfig.get(side).canOutput()
                 && slot >= OUTPUT_START
                 && slot < OUTPUT_END;
     }
@@ -322,6 +348,14 @@ public class ElectricSmelterBlockEntity
             BlockState state,
             ElectricSmelterBlockEntity smelter
     ) {
+        // Fertige Items an Nachbarn auf Output-Seiten abgeben
+        // (z.B. zurück in einen AE2 Pattern Provider).
+        if (level.getGameTime() % PUSH_INTERVAL == 0) {
+            smelter.pushOutputs(level);
+        }
+
+        smelter.applyUpgrades();
+
         int slot = smelter.activeInput;
 
         if (slot < 0
@@ -350,7 +384,7 @@ public class ElectricSmelterBlockEntity
             return;
         }
 
-        if (smelter.getEnergy() < ENERGY_PER_TICK) {
+        if (smelter.getEnergy() < smelter.energyPerTick) {
             return;
         }
 
@@ -362,12 +396,12 @@ public class ElectricSmelterBlockEntity
         }
 
         smelter.energyStorage.set(
-                smelter.getEnergy() - ENERGY_PER_TICK
+                smelter.getEnergy() - smelter.energyPerTick
         );
 
         smelter.progress++;
 
-        if (smelter.progress >= MAX_PROGRESS) {
+        if (smelter.progress >= smelter.maxProgress) {
             smelter.items.get(slot).shrink(1);
             smelter.insertOutput(result);
 
@@ -377,6 +411,76 @@ public class ElectricSmelterBlockEntity
         }
 
         smelter.setChanged();
+    }
+
+    // =========================
+    // UPGRADES
+    // =========================
+
+    /** Dauer und FE/t aus den Upgrade-Slots neu berechnen. */
+    private void applyUpgrades() {
+        int speed = Upgrades.speedLevel(this, UPGRADE_START, 4);
+        int efficiency = Upgrades.efficiencyLevel(this, UPGRADE_START, 4);
+        Upgrades.Process process = Upgrades.process(
+                MAX_PROGRESS, MAX_PROGRESS * ENERGY_PER_TICK, speed, efficiency, MAX_ENERGY);
+        maxProgress = process.time();
+        energyPerTick = process.energyPerTick();
+        // Doppelte FE/t annehmen können, damit der Speicher nicht leerläuft.
+        energyStorage.setMaxInsert(Math.max(BASE_MAX_RECEIVE, energyPerTick * 2));
+    }
+
+    public int getEnergyPerTick() {
+        return energyPerTick;
+    }
+
+    // =========================
+    // AUTO-OUTPUT
+    // =========================
+
+    /**
+     * Schiebt den Inhalt der Output-Slots in benachbarte Inventare,
+     * aber nur über Seiten mit Modus Output oder In & Out.
+     */
+    private void pushOutputs(ServerLevel level) {
+        boolean changed = false;
+
+        for (Direction dir : Direction.values()) {
+            if (!sideConfig.get(dir).canOutput()) {
+                continue;
+            }
+
+            BlockPos targetPos = worldPosition.relative(dir);
+            if (!level.isLoaded(targetPos)) {
+                continue;
+            }
+
+            ResourceHandler<ItemResource> target = level.getCapability(
+                    Capabilities.Item.BLOCK, targetPos, dir.getOpposite());
+            if (target == null) {
+                continue;
+            }
+
+            for (int slot = OUTPUT_START; slot < OUTPUT_END; slot++) {
+                ItemStack stack = items.get(slot);
+                if (stack.isEmpty()) {
+                    continue;
+                }
+
+                try (Transaction transaction = Transaction.openRoot()) {
+                    int inserted = target.insert(
+                            ItemResource.of(stack), stack.getCount(), transaction);
+                    if (inserted > 0) {
+                        transaction.commit();
+                        stack.shrink(inserted);
+                        changed = true;
+                    }
+                }
+            }
+        }
+
+        if (changed) {
+            setChanged();
+        }
     }
 
     // =========================
@@ -512,7 +616,8 @@ public class ElectricSmelterBlockEntity
                 id,
                 playerInventory,
                 this,
-                data
+                data,
+                worldPosition
         );
     }
 
@@ -528,6 +633,7 @@ public class ElectricSmelterBlockEntity
         output.putInt("progress", progress);
         output.putInt("activeInput", activeInput);
         output.putInt("nextInput", nextInput);
+        sideConfig.save(output, "sideConfig");
 
         output.putInt("inventoryVersion", 2);
         ContainerHelper.saveAllItems(output, items);
@@ -562,6 +668,8 @@ public class ElectricSmelterBlockEntity
                 0,
                 INPUT_COUNT - 1
         );
+
+        sideConfig.load(input, "sideConfig");
 
         // Existing worlds saved 13 slots: outputs 3..8 and upgrades 9..12.
         // New layout stores 15 slots: outputs 3..10 and upgrades 11..14.

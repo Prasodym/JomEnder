@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 17
+        },
+        {
+          "type": "minecraft:item",
+          "name": "jomender:endarium_upgrade_smithing_template",
+          "weight": 3
+        }
+      ]
+    }
+  ],
+  "random_sequence": "jomender:chests/end_city_endarium_template"
+}

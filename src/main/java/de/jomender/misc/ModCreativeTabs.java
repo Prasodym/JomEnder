@@ -25,35 +25,61 @@ public class ModCreativeTabs {
                             .withTabsBefore(CreativeModeTabs.INGREDIENTS)
                             .icon(() -> ModItems.Galaxis_Quarz.get().getDefaultInstance())
                             .displayItems((parameters, output) -> {
+                                // Ingots Materials
                                 output.accept(ModItems.Germanium.get());
-                                output.accept(ModItems.Speed_upgrade.get());
-                                output.accept(ModItems.Efficient_upgrade.get());
+                                output.accept(ModItems.Endarium_Ingot.get());
+
+                                // Clumps Materials
                                 output.accept(ModItems.GermaniumClump.get());
+                                output.accept(ModItems.Endarium_Raw.get());
+
+                                //Raw Blocks Materials
                                 output.accept(ModItems.Germanium_Raw_Block.get());
+                                output.accept(ModItems.Endarium_Raw_Block.get());
+
+                                // Blocks Materials
                                 output.accept(ModItems.Germanium_of_Block.get());
+                                output.accept(ModItems.Endarium_Block.get());
+                                output.accept(ModItems.ENDARIUM_UPGRADE_SMITHING_TEMPLATE.get());
+                                output.accept(ModItems.ENDARIUM_PICKAXE.get());
+
+                                // Ores Materials
                                 output.accept(ModItems.GERMANIUM_ORE.get());
                                 output.accept(ModItems.DEEPSLATE_GERMANIUM_ORE.get());
+                                output.accept(ModItems.DEEPSLATE_URANIUM_ORE.get());
+                                output.accept(ModItems.Raw_Uranium.get());
+                                output.accept(ModItems.RAW_URANIUM_BLOCK.get());
+                                output.accept(ModItems.Uranium_Dust.get());
+                                output.accept(ModItems.Uranium_Ingot.get());
+                                output.accept(ModItems.URANIUM_BLOCK.get());
                                 output.accept(ModItems.NETHER_GERMANIUM_ORE.get());
                                 output.accept(ModItems.END_GERMANIUM_ORE.get());
                                 output.accept(ModItems.Endarium_Ore.get());
-                                output.accept(ModItems.Endarium_Raw_Block.get());
-                                output.accept(ModItems.Endarium_Raw.get());
-                                output.accept(ModItems.Endarium_Ingot.get());
-                                output.accept(ModItems.Endarium_Block.get());
+
+                                // Misc Materials
                                 output.accept(ModItems.BUDDING_GALAXIS.get());
                                 output.accept(ModItems.SMALL_GALAXIS_BUD.get());
                                 output.accept(ModItems.MEDIUM_GALAXIS_BUD.get());
                                 output.accept(ModItems.LARGE_GALAXIS_BUD.get());
                                 output.accept(ModItems.GALAXIS_CLUSTER.get());
                                 output.accept(ModItems.Galaxis_Quarz.get());
+
+                                // Upgrades
+                                output.accept(ModItems.Speed_upgrade.get());
+                                output.accept(ModItems.Efficient_upgrade.get());
+
+                                // Machine Parts
                                 output.accept(ModItems.Case.get());
                                 output.accept(ModItems.MachineFrame.get());
                                 output.accept(ModItems.MachineCore.get());
                                 output.accept(ModItems.MachineCircuit.get());
                                 output.accept(ModItems.MachineMotor.get());
                                 output.accept(ModItems.Magnetic.get());
+
+                                // Machines
                                 output.accept(ModItems.COAL_GENERATOR.get());
                                 output.accept(ModItems.ELECTRIC_SMELTER.get());
+                                output.accept(ModItems.ARC_FUSION_CHAMBER.get());
                                 output.accept(ModItems.GERMANIUM_MINER.get());
                             })
                             .build()

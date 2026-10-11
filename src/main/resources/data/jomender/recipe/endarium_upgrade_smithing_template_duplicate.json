@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "Q": "jomender:galaxis_quarz",
+    "E": "minecraft:end_stone",
+    "S": "jomender:endarium_upgrade_smithing_template"
+  },
+  "pattern": [
+    "QSQ",
+    "QEQ",
+    "QQQ"
+  ],
+  "result": {
+    "count": 2,
+    "id": "jomender:endarium_upgrade_smithing_template"
+  }
+}

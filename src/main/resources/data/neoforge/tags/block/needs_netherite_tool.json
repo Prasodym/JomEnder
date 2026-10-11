@@ -9,6 +9,8 @@
     "jomender:germanium_of_block",
     "jomender:endarium_ore",
     "jomender:endarium_raw_block",
-    "jomender:endarium_block"
+    "jomender:endarium_block",
+    "jomender:arc_fusion_chamber",
+    "jomender:deepslate_uranium_ore"
   ]
 }

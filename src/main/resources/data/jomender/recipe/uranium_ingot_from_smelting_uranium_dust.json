@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "group": "uranium_ingot",
+  "ingredient": "jomender:uranium_dust",
+  "result": {
+    "id": "jomender:uranium_ingot"
+  }
+}

@@ -1,0 +1,20 @@
+
+
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SGI",
+    "GHG",
+    "IGS"
+  ],
+  "key": {
+    "I": "minecraft:netherite_block",
+    "G": "jomender:galaxis_quarz",
+    "S": "jomender:germanium_of_block",
+    "H": "jomender:machine_core"
+  },
+  "result": {
+    "id": "jomender:arc_fusion_chamber",
+    "count": 1
+  }
+}

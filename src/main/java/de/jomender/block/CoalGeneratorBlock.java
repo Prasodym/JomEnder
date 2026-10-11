@@ -104,7 +104,7 @@ public class CoalGeneratorBlock extends Block implements EntityBlock {
 
             if (level.getBlockEntity(pos)
                     instanceof CoalGeneratorBlockEntity generator) {
-                serverPlayer.openMenu(generator);
+                serverPlayer.openMenu(generator, buf -> buf.writeBlockPos(pos));
             }
         }
 
@@ -124,7 +124,7 @@ public class CoalGeneratorBlock extends Block implements EntityBlock {
 
             if (level.getBlockEntity(pos)
                     instanceof CoalGeneratorBlockEntity generator) {
-                serverPlayer.openMenu(generator);
+                serverPlayer.openMenu(generator, buf -> buf.writeBlockPos(pos));
             }
         }
 

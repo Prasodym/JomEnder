@@ -29,8 +29,37 @@ public final class JomEnderGuiTheme {
     public static void drawMachineButton(GuiGraphicsExtractor g, int x, int y,
                                          int width, int height, boolean pressed, boolean hovered) {
         Identifier texture = pressed ? BUTTON_PRESSED : hovered ? BUTTON_HOVER : BUTTON_NORMAL;
-        g.blit(RenderPipelines.GUI_TEXTURED, texture,
-                x, y, 0, 0, width, height, 200, 20);
+        drawNineSlice(g, texture, x, y, width, height, BUTTON_TEX_W, BUTTON_TEX_H, BUTTON_BORDER);
+    }
+
+    private static final int BUTTON_TEX_W = 200, BUTTON_TEX_H = 20, BUTTON_BORDER = 2;
+
+    /**
+     * Zeichnet eine Textur als 9-Slice: Ecken bleiben unverzerrt,
+     * Ränder und Mitte werden auf die Zielgröße gestreckt.
+     */
+    public static void drawNineSlice(GuiGraphicsExtractor g, Identifier tex, int x, int y,
+                                     int w, int h, int texW, int texH, int b) {
+        int midW = w - 2 * b, midH = h - 2 * b;
+        int srcMidW = texW - 2 * b, srcMidH = texH - 2 * b;
+        // Ecken
+        part(g, tex, x,         y,         b, b, 0,        0,        b, b, texW, texH);
+        part(g, tex, x + w - b, y,         b, b, texW - b, 0,        b, b, texW, texH);
+        part(g, tex, x,         y + h - b, b, b, 0,        texH - b, b, b, texW, texH);
+        part(g, tex, x + w - b, y + h - b, b, b, texW - b, texH - b, b, b, texW, texH);
+        // Ränder
+        part(g, tex, x + b,     y,         midW, b, b,        0,        srcMidW, b, texW, texH);
+        part(g, tex, x + b,     y + h - b, midW, b, b,        texH - b, srcMidW, b, texW, texH);
+        part(g, tex, x,         y + b,     b, midH, 0,        b,        b, srcMidH, texW, texH);
+        part(g, tex, x + w - b, y + b,     b, midH, texW - b, b,        b, srcMidH, texW, texH);
+        // Mitte
+        part(g, tex, x + b,     y + b,     midW, midH, b,     b,        srcMidW, srcMidH, texW, texH);
+    }
+
+    private static void part(GuiGraphicsExtractor g, Identifier tex, int x, int y, int w, int h,
+                             int u, int v, int srcW, int srcH, int texW, int texH) {
+        if (w <= 0 || h <= 0) return;
+        g.blit(RenderPipelines.GUI_TEXTURED, tex, x, y, u, v, w, h, srcW, srcH, texW, texH);
     }
 
     /** Render 25x25 gui_base.png as a true 9-slice. Source corners are never stretched. */

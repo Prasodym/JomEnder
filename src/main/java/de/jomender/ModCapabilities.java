@@ -18,7 +18,33 @@ public class ModCapabilities {
         event.registerBlockEntity(
                 Capabilities.Energy.BLOCK,
                 ModBlockEntities.COAL_GENERATOR.get(),
-                (generator, side) -> generator.getEnergyStorage()
+                (generator, side) -> generator.getEnergyHandler(side)
+        );
+
+        // =========================
+        // COAL GENERATOR: KOHLE PER ROHR
+        // =========================
+
+        event.registerBlockEntity(
+                Capabilities.Item.BLOCK,
+                ModBlockEntities.COAL_GENERATOR.get(),
+                (generator, side) -> generator.getItemHandler(side)
+        );
+
+        // =========================
+        // ARC FUSION CHAMBER: FE NUR VON UNTEN, ITEMS NUR OBEN
+        // =========================
+
+        event.registerBlockEntity(
+                Capabilities.Energy.BLOCK,
+                ModBlockEntities.ARC_FUSION_CHAMBER.get(),
+                (chamber, side) -> chamber.getEnergyHandler(side)
+        );
+
+        event.registerBlockEntity(
+                Capabilities.Item.BLOCK,
+                ModBlockEntities.ARC_FUSION_CHAMBER.get(),
+                (chamber, side) -> chamber.getItemHandler(side)
         );
 
         // =========================

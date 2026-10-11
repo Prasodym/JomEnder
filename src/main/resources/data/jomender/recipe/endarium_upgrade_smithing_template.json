@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:never"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": "jomender:endarium_ingot",
+    "Q": "jomender:galaxis_quarz",
+    "E": "minecraft:end_stone",
+    "N": "minecraft:netherite_upgrade_smithing_template"
+  },
+  "pattern": [
+    "IQI",
+    "ENE",
+    "IQI"
+  ],
+  "result": {
+    "id": "jomender:endarium_upgrade_smithing_template"
+  }
+}

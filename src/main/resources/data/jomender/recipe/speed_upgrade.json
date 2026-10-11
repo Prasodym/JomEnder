@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RCR",
+    "GMG",
+    "RGR"
+  ],
+  "key": {
+    "R": "minecraft:redstone",
+    "C": "jomender:machine_circuit",
+    "G": "jomender:endarium_ingot",
+    "M": "jomender:machine_motor"
+  },
+  "result": {
+    "id": "jomender:speed_upgrade",
+    "count": 1
+  }
+}

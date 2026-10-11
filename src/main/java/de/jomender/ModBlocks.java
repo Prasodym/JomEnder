@@ -37,6 +37,35 @@ public class ModBlocks {
                             .requiresCorrectToolForDrops()
             );
 
+    // Uran: nur in der Deepslate-Schicht, so hart wie Vanilla-Deepslate-Erze
+    public static final DeferredBlock<DropExperienceBlock> DEEPSLATE_URANIUM_ORE =
+            BLOCKS.registerBlock("deepslate_uranium_ore",
+                    props -> new DropExperienceBlock(ConstantInt.of(4), props),
+                    props -> props
+                            .mapColor(MapColor.DEEPSLATE)
+                            .strength(4.5f, 3.0f)
+                            .sound(SoundType.DEEPSLATE)
+                            .requiresCorrectToolForDrops()
+            );
+
+    public static final DeferredBlock<Block> URANIUM_BLOCK =
+            BLOCKS.registerSimpleBlock("uranium_block",
+                    props -> props
+                            .mapColor(MapColor.COLOR_LIGHT_GREEN)
+                            .strength(5.0f, 6.0f)
+                            .sound(SoundType.METAL)
+                            .requiresCorrectToolForDrops()
+            );
+
+    public static final DeferredBlock<Block> RAW_URANIUM_BLOCK =
+            BLOCKS.registerSimpleBlock("raw_uranium_block",
+                    props -> props
+                            .mapColor(MapColor.COLOR_GREEN)
+                            .strength(5.0f, 6.0f)
+                            .sound(SoundType.STONE)
+                            .requiresCorrectToolForDrops()
+            );
+
     public static final DeferredBlock<DropExperienceBlock> NETHER_GERMANIUM_ORE =
             BLOCKS.registerBlock("nether_germanium_ore",
                     props -> new DropExperienceBlock(ConstantInt.of(5), props),
@@ -111,6 +140,18 @@ public class ModBlocks {
             BLOCKS.registerBlock(
                     "coal_generator",
                     CoalGeneratorBlock::new,
+                    props -> props
+                            .mapColor(MapColor.COLOR_GRAY)
+                            .strength(3.5f, 6.0f)
+                            .sound(SoundType.METAL)
+                            .requiresCorrectToolForDrops()
+                            .noOcclusion()
+            );
+
+    public static final DeferredBlock<Block> ARC_FUSION_CHAMBER =
+            BLOCKS.registerBlock(
+                    "arc_fusion_chamber",
+                    ArcFusionChamberBlock::new,
                     props -> props
                             .mapColor(MapColor.COLOR_GRAY)
                             .strength(3.5f, 6.0f)

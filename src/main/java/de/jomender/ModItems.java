@@ -1,7 +1,12 @@
 package de.jomender;
 
+import de.jomender.item.EndariumTools;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.util.Unit;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.SmithingTemplateItem;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -36,6 +41,41 @@ public class ModItems {
 
     public static final DeferredItem<Item> Magnetic =
             ITEMS.registerSimpleItem("magnetic");
+
+    // =========================
+    // ENDARIUM-WERKZEUG
+    // =========================
+
+    /** Über Netherite, unzerstörbar, feuerfest. Nur per Schmiedetisch aus der Netherite-Spitzhacke. */
+    public static final DeferredItem<Item> ENDARIUM_PICKAXE =
+            ITEMS.registerItem("endarium_pickaxe", Item::new, props -> props
+                    .pickaxe(EndariumTools.ENDARIUM, 1.0F, -2.8F)
+                    .fireResistant()
+                    .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
+                    .rarity(Rarity.EPIC));
+
+    public static final DeferredItem<SmithingTemplateItem> ENDARIUM_UPGRADE_SMITHING_TEMPLATE =
+            ITEMS.registerItem("endarium_upgrade_smithing_template",
+                    EndariumTools::createUpgradeTemplate,
+                    props -> props.rarity(Rarity.EPIC));
+
+    public static final DeferredItem<Item> Raw_Uranium =
+            ITEMS.registerSimpleItem("raw_uranium");
+
+    public static final DeferredItem<Item> Uranium_Ingot =
+            ITEMS.registerSimpleItem("uranium_ingot");
+
+    public static final DeferredItem<Item> Uranium_Dust =
+            ITEMS.registerSimpleItem("uranium_dust");
+
+    public static final DeferredItem<BlockItem> URANIUM_BLOCK =
+            ITEMS.registerSimpleBlockItem("uranium_block", ModBlocks.URANIUM_BLOCK);
+
+    public static final DeferredItem<BlockItem> RAW_URANIUM_BLOCK =
+            ITEMS.registerSimpleBlockItem("raw_uranium_block", ModBlocks.RAW_URANIUM_BLOCK);
+
+    public static final DeferredItem<BlockItem> DEEPSLATE_URANIUM_ORE =
+            ITEMS.registerSimpleBlockItem("deepslate_uranium_ore", ModBlocks.DEEPSLATE_URANIUM_ORE);
 
     public static final DeferredItem<Item> GermaniumClump =
             ITEMS.registerSimpleItem("germanium_clumb");
@@ -104,6 +144,12 @@ public class ModItems {
             ITEMS.registerSimpleBlockItem(
                     "coal_generator",
                     ModBlocks.COAL_GENERATOR
+            );
+
+    public static final DeferredItem<BlockItem> ARC_FUSION_CHAMBER =
+            ITEMS.registerSimpleBlockItem(
+                    "arc_fusion_chamber",
+                    ModBlocks.ARC_FUSION_CHAMBER
             );
 
     public static final DeferredItem<BlockItem> ELECTRIC_SMELTER =

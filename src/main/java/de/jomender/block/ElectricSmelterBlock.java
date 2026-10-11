@@ -123,7 +123,7 @@ public class ElectricSmelterBlock extends Block implements EntityBlock {
                 instanceof ElectricSmelterBlockEntity smelter) {
 
             if (player instanceof ServerPlayer serverPlayer) {
-                serverPlayer.openMenu(smelter);
+                serverPlayer.openMenu(smelter, buf -> buf.writeBlockPos(pos));
             }
 
             return InteractionResult.SUCCESS;

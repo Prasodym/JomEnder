@@ -1,271 +1,129 @@
-
 package de.jomender.client.screen;
 
-import de.jomender.menu.CoalGeneratorMenu;
 import de.jomender.blockentity.CoalGeneratorBlockEntity;
-
+import de.jomender.client.gui.CoalGeneratorLayout;
+import de.jomender.client.gui.JomEnderGuiTheme;
+import de.jomender.menu.CoalGeneratorMenu;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import org.jspecify.annotations.NonNull;
 
-public class CoalGeneratorScreen
-        extends AbstractContainerScreen<CoalGeneratorMenu> {
+public class CoalGeneratorScreen extends JomEnderMachineScreen<CoalGeneratorMenu> {
 
-    private static final int GUI_WIDTH = 176;
-    private static final int GUI_HEIGHT = 166;
+    private static final int FLAME_BG = 0xFF171722;
+    private static final int FLAME_FRAME = 0xFF6D6974;
+    private static final int FLAME_HOT = 0xFFFFB13B;
+    private static final int FLAME_CORE = 0xFFE5532D;
 
-    private static final int BAR_X = 49;
-    private static final int BAR_Y = 43;
-    private static final int BAR_WIDTH = 60;
-    private static final int BAR_HEIGHT = 10;
-
-    public CoalGeneratorScreen(
-            CoalGeneratorMenu menu,
-            Inventory inventory,
-            Component title
-    ) {
-        super(menu, inventory, title, GUI_WIDTH, GUI_HEIGHT);
-
-        this.titleLabelX = 9;
-        this.titleLabelY = 7;
-        this.inventoryLabelX = 8;
-        this.inventoryLabelY = 72;
+    public CoalGeneratorScreen(CoalGeneratorMenu menu, Inventory inventory, Component title) {
+        super(menu, inventory, title, CoalGeneratorLayout.WIDTH, CoalGeneratorLayout.HEIGHT);
+        enableUpgrades(true);
+        enableDirectionConfig(true);
+        titleLabelX = 10;
+        titleLabelY = 7;
+        inventoryLabelX = 9;
+        inventoryLabelY = CoalGeneratorLayout.INVENTORY_LABEL_Y;
     }
 
     @Override
-    public void extractBackground(
-            @NonNull GuiGraphicsExtractor graphics,
-            int mouseX,
-            int mouseY,
-            float partialTick
-    ) {
+    public void extractBackground(@NonNull GuiGraphicsExtractor graphics,
+                                  int mouseX, int mouseY, float partialTick) {
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
+        JomEnderGuiTheme.drawPanel(graphics, leftPos, topPos,
+                CoalGeneratorLayout.PANEL_WIDTH, CoalGeneratorLayout.HEIGHT);
 
-        int x = this.leftPos;
-        int y = this.topPos;
+        // Brennstoff
+        JomEnderGuiTheme.drawSlot(graphics,
+                leftPos + CoalGeneratorLayout.FUEL_X - 1,
+                topPos + CoalGeneratorLayout.FUEL_Y - 1);
+        drawFlame(graphics,
+                leftPos + CoalGeneratorLayout.FLAME_X,
+                topPos + CoalGeneratorLayout.FLAME_Y);
 
-        // =========================
-        // MASCHINENGEHÄUSE
-        // =========================
-
-        graphics.fill(
-                x, y,
-                x + GUI_WIDTH, y + GUI_HEIGHT,
-                0xFF242D35
-        );
-
-        graphics.fill(
-                x + 3, y + 3,
-                x + 173, y + 163,
-                0xFF35434D
-        );
-
-        // Oberer Maschinenbereich
-        graphics.fill(
-                x + 7, y + 17,
-                x + 169, y + 69,
-                0xFF18252B
-        );
-
-        // =========================
-        // BRENNSTOFF-SLOT
-        // =========================
-
-        drawSlot(graphics, x + 22, y + 34);
-
-        // =========================
-        // VIER UPGRADE-SLOTS
-        // =========================
-
-        for (int i = 0; i < 4; i++) {
-            int slotX = x + 118 + (i % 2) * 22;
-            int slotY = y + 24 + (i / 2) * 22;
-
-            drawSlot(graphics, slotX, slotY);
-        }
-
-        // =========================
-        // LIVE-ENERGIEBALKEN
-        // =========================
-
-        drawEnergyBar(graphics, x, y);
-
-        // =========================
-        // SPIELERINVENTAR
-        // =========================
-
+        // Spielerinventar
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++) {
-
-                drawSlot(
-                        graphics,
-                        x + 7 + col * 18,
-                        y + 83 + row * 18
-                );
+                JomEnderGuiTheme.drawSlot(graphics,
+                        leftPos + CoalGeneratorLayout.PLAYER_X + col * 18 - 1,
+                        topPos + CoalGeneratorLayout.PLAYER_Y + row * 18 - 1);
             }
         }
-
-        // Hotbar
         for (int col = 0; col < 9; col++) {
-            drawSlot(
-                    graphics,
-                    x + 7 + col * 18,
-                    y + 141
-            );
+            JomEnderGuiTheme.drawSlot(graphics,
+                    leftPos + CoalGeneratorLayout.PLAYER_X + col * 18 - 1,
+                    topPos + CoalGeneratorLayout.HOTBAR_Y - 1);
         }
+
+        JomEnderGuiTheme.verticalEnergy(graphics,
+                leftPos + CoalGeneratorLayout.ENERGY_X,
+                topPos + CoalGeneratorLayout.ENERGY_Y,
+                CoalGeneratorLayout.ENERGY_W, CoalGeneratorLayout.ENERGY_H,
+                menu.getEnergy(), CoalGeneratorBlockEntity.MAX_ENERGY);
+
+        drawJomEnderPopups(graphics);
     }
 
-    // =========================
-    // ROTER ENERGIEBALKEN
-    // =========================
+    /** Flamme wie beim Ofen: füllt sich von unten, solange Brennstoff brennt. */
+    private void drawFlame(GuiGraphicsExtractor g, int x, int y) {
+        int s = CoalGeneratorLayout.FLAME_SIZE;
+        g.fill(x, y, x + s, y + s, FLAME_FRAME);
+        g.fill(x + 1, y + 1, x + s - 1, y + s - 1, FLAME_BG);
+
+        int burn = menu.getBurnTime();
+        int max = menu.getMaxBurnTime();
+        if (burn <= 0 || max <= 0) return;
+
+        int inner = s - 4;
+        int h = Math.max(1, (int) ((long) Math.min(burn, max) * inner / max));
+        int bottom = y + s - 2;
+        g.fill(x + 2, bottom - h, x + s - 2, bottom, FLAME_HOT);
+        // Glut-Kern in der Mitte
+        int coreH = Math.max(1, h / 2);
+        g.fill(x + 4, bottom - coreH, x + s - 4, bottom, FLAME_CORE);
+    }
 
     @Override
-    protected void extractLabels(
-            GuiGraphicsExtractor graphics,
-            int mouseX,
-            int mouseY
-    ) {
-        // Electric Smelter – Türkis
-        graphics.text(
-                this.font,
-                this.title,
-                this.titleLabelX,
-                this.titleLabelY,
-                0xFF4CA5AA,
-                false
-        );
+    protected void extractLabels(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+        graphics.text(font, title, titleLabelX, titleLabelY, JomEnderGuiTheme.TITLE_COLOR, false);
+        graphics.text(font, playerInventoryTitle, inventoryLabelX, inventoryLabelY,
+                JomEnderGuiTheme.TEXT_COLOR, false);
 
-        // Inventory – Eisblau
-        graphics.text(
-                this.font,
-                this.playerInventoryTitle,
-                this.inventoryLabelX,
-                this.inventoryLabelY,
-                0xFFE6F2F5,
-                false
-        );
-    }
-
-
-    private void drawEnergyBar(
-            GuiGraphicsExtractor graphics,
-            int x,
-            int y
-    ) {
-        int barX = x + BAR_X;
-        int barY = y + BAR_Y;
-
-        int energy = menu.getEnergy();
-        int maxEnergy = CoalGeneratorBlockEntity.MAX_ENERGY;
-
-        int innerWidth = BAR_WIDTH - 4;
-
-        int filled = Math.clamp(
-                (int) ((energy / (float) maxEnergy) * innerWidth),
-                0,
-                innerWidth
-        );
-
-        // Silberner Außenrahmen
-        graphics.fill(
-                barX - 1,
-                barY - 1,
-                barX + BAR_WIDTH + 1,
-                barY + BAR_HEIGHT + 1,
-                0xFFBFCED6
-        );
-
-        // Dunkler Innenrahmen
-        graphics.fill(
-                barX,
-                barY,
-                barX + BAR_WIDTH,
-                barY + BAR_HEIGHT,
-                0xFF11171C
-        );
-
-        // Dunkelroter Hintergrund
-        graphics.fill(
-                barX + 2,
-                barY + 2,
-                barX + BAR_WIDTH - 2,
-                barY + BAR_HEIGHT - 2,
-                0xFF300C10
-        );
-
-        // Rote Energie-Füllung
-        if (filled > 0) {
-            graphics.fill(
-                    barX + 2,
-                    barY + 2,
-                    barX + 2 + filled,
-                    barY + BAR_HEIGHT - 2,
-                    0xFFE53935
-            );
+        boolean burning = menu.getBurnTime() > 0;
+        int x = CoalGeneratorLayout.STATUS_X;
+        int y = CoalGeneratorLayout.STATUS_Y;
+        graphics.text(font, Component.literal(burning ? "Burning" : "Idle"), x, y,
+                burning ? JomEnderGuiTheme.TITLE_COLOR : JomEnderGuiTheme.TEXT_COLOR, false);
+        graphics.text(font, Component.literal(
+                        (burning ? menu.getGenerationPerTick() : 0) + " FE/t"),
+                x, y + 12, JomEnderGuiTheme.TEXT_COLOR, false);
+        if (burning) {
+            graphics.text(font, Component.literal((menu.getBurnTime() + 19) / 20 + "s"),
+                    x, y + 24, JomEnderGuiTheme.TEXT_COLOR, false);
         }
     }
-
-    // =========================
-    // ENERGIE-TOOLTIP
-    // =========================
 
     @Override
-    public void extractRenderState(
-            @NonNull GuiGraphicsExtractor graphics,
-            int mouseX,
-            int mouseY,
-            float partialTick
-    ) {
-        super.extractRenderState(
-                graphics, mouseX, mouseY, partialTick
-        );
-
-        int barX = leftPos + BAR_X;
-        int barY = topPos + BAR_Y;
-
-        boolean hovering =
-                mouseX >= barX - 1 &&
-                        mouseX < barX + BAR_WIDTH + 1 &&
-                        mouseY >= barY - 1 &&
-                        mouseY < barY + BAR_HEIGHT + 1;
-
-        if (hovering) {
-            graphics.setTooltipForNextFrame(
-                    Component.literal(
-                            menu.getEnergy()
-                                    + " / "
-                                    + CoalGeneratorBlockEntity.MAX_ENERGY
-                                    + " FE"
-                    ),
-                    mouseX,
-                    mouseY
-            );
-        }
+    protected void onUpgradePopupChanged(boolean open) {
+        menu.setUpgradePopupOpen(open);
     }
 
-    // =========================
-    // SLOT-DESIGN
-    // =========================
+    @Override
+    protected void onUpgradePopupMoved(int x, int y) {
+        menu.moveUpgradeSlots(x + 18, y + 27);
+    }
 
-    private void drawSlot(
-            GuiGraphicsExtractor graphics,
-            int x,
-            int y
-    ) {
-        // Heller Außenrahmen
-        graphics.fill(
-                x, y,
-                x + 18, y + 18,
-                0xFF718A91
-        );
-
-        // Dunkler Hintergrund
-        graphics.fill(
-                x + 1, y + 1,
-                x + 17, y + 17,
-                0xFF19252D
-        );
+    @Override
+    public void extractRenderState(@NonNull GuiGraphicsExtractor graphics,
+                                   int mouseX, int mouseY, float partialTick) {
+        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+        int x = leftPos + CoalGeneratorLayout.ENERGY_X;
+        int y = topPos + CoalGeneratorLayout.ENERGY_Y;
+        if (mouseX >= x && mouseX < x + CoalGeneratorLayout.ENERGY_W
+                && mouseY >= y && mouseY < y + CoalGeneratorLayout.ENERGY_H) {
+            graphics.setTooltipForNextFrame(Component.literal(
+                    menu.getEnergy() + " / " + CoalGeneratorBlockEntity.MAX_ENERGY + " FE"),
+                    mouseX, mouseY);
+        }
     }
 }

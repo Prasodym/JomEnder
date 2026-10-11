@@ -3,6 +3,8 @@ package de.jomender;
 import com.mojang.logging.LogUtils;
 import de.jomender.Events.ModOreEvents;
 
+import de.jomender.misc.ItemStyles;
+import de.jomender.misc.RadiationHandler;
 import de.jomender.misc.ModCreativeTabs;
 import net.minecraft.core.registries.BuiltInRegistries;
 
@@ -37,6 +39,8 @@ public Jomender(IEventBus bus, ModContainer modContainer) {
 
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.register(GalaxisConversionHandler.class);
+        // Easter Egg: Uran in der Hand macht radioaktiv
+        NeoForge.EVENT_BUS.addListener(RadiationHandler::onPlayerTick);
 
         ModCreativeTabs.register(bus);
 
@@ -46,8 +50,12 @@ public Jomender(IEventBus bus, ModContainer modContainer) {
         ModBlockEntities.register(bus);
 
         ModMenuTypes.register(bus);
+        ModRecipes.register(bus);
+        ModEffects.register(bus);
         ModDataComponents.register(bus);
         bus.addListener(ModCapabilities::register);
+        // Namen und Farben aus ItemStyles setzen
+        bus.addListener(ItemStyles::onModifyComponents);
         ModParticles.PARTICLE_TYPES.register(bus);
 
 

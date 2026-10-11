@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CIC",
+    "MGM",
+    "CRC"
+  ],
+  "key": {
+    "C": "minecraft:copper_ingot",
+    "I": "minecraft:iron_ingot",
+    "M": "jomender:magnetic",
+    "G": "jomender:germanium_ingot",
+    "R": "minecraft:redstone"
+  },
+  "result": {
+    "id": "jomender:machine_motor",
+    "count": 1
+  }
+}

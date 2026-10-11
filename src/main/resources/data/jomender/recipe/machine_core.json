@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IMI",
+    "HSH",
+    "IGI"
+  ],
+  "key": {
+    "I": "jomender:magnetic",
+    "G": "jomender:germanium_ingot",
+    "S": "jomender:case",
+    "H": "jomender:machine_circuit",
+    "M": "jomender:machine_motor"
+  },
+  "result": {
+    "id": "jomender:machine_core",
+    "count": 1
+  }
+}

@@ -11,6 +11,10 @@
     "jomender:electric_smelter",
     "jomender:endarium_ore",
     "jomender:endarium_raw_block",
-    "jomender:endarium_block"
+    "jomender:endarium_block",
+    "jomender:arc_fusion_chamber",
+    "jomender:uranium_block",
+    "jomender:raw_uranium_block",
+    "jomender:deepslate_uranium_ore"
   ]
 }
