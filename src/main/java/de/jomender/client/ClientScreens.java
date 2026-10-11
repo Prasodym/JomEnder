@@ -15,6 +15,7 @@ import de.jomender.client.screen.GermaniumMinerScreen;
 import de.jomender.misc.GeneratorItemTooltip;
 
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
@@ -30,6 +31,8 @@ public class ClientScreens {
         NeoForge.EVENT_BUS.register(GeneratorItemTooltip.class);
         // Shift-Infos aus ItemStyles
         NeoForge.EVENT_BUS.addListener(ItemStyleTooltips::onTooltip);
+        // Rezepte für JEI merken - vor JEI selbst (HIGHEST)
+        NeoForge.EVENT_BUS.addListener(EventPriority.HIGHEST, ClientRecipeCache::onRecipesReceived);
 
     }
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {

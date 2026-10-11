@@ -3,6 +3,7 @@ package de.jomender;
 import com.mojang.logging.LogUtils;
 import de.jomender.Events.ModOreEvents;
 
+import de.jomender.compat.RecipeSync;
 import de.jomender.misc.ItemStyles;
 import de.jomender.misc.RadiationHandler;
 import de.jomender.misc.ModCreativeTabs;
@@ -41,6 +42,8 @@ public Jomender(IEventBus bus, ModContainer modContainer) {
         NeoForge.EVENT_BUS.register(GalaxisConversionHandler.class);
         // Easter Egg: Uran in der Hand macht radioaktiv
         NeoForge.EVENT_BUS.addListener(RadiationHandler::onPlayerTick);
+        // Arc-Fusion-Rezepte an Clients schicken (für JEI)
+        NeoForge.EVENT_BUS.addListener(RecipeSync::onDatapackSync);
 
         ModCreativeTabs.register(bus);
 
