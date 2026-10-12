@@ -82,7 +82,7 @@
     "gui.jomender.reactor.fuel": "Fuel: %s%% of an ingot",
     "jei.jomender.reactor_info.1": "Reactor: build a hollow box from 3x3x3 up to 7x7x7. Every side can have its own size.",
     "jei.jomender.reactor_info.2": "Edges and corners: Reactor Casing. Walls: Casing, Reactor Glass, Reactor Ports and exactly one Reactor Controller. The inside must stay empty. Through Reactor Glass you can watch the cooling water fill up.",
-    "jei.jomender.reactor_info.3": "Bigger inside = more power: 100 FE/t per inside block (3x3x3 = 100 FE/t, 7x7x7 = 12,500 FE/t). One Uranium Ingot gives 200,000 FE.",
+    "jei.jomender.reactor_info.3": "Bigger inside = more power: 100 FE/t per inside block (3x3x3 = 100 FE/t, 7x7x7 = 12,500 FE/t). One Uranium Ingot gives 200,000 FE and has a 10% chance to leave Nuclear Waste behind.",
     "jei.jomender.reactor_info.4": "It gets hot! Pipe water into a port in Input mode. Without water it shuts down at 1000 °C. Right-click a port to switch between Input, Energy and Waste.",
     "item.jomender.endarium_helmet": "Endarium Helmet",
     "item.jomender.endarium_chestplate": "Endarium Chestplate",

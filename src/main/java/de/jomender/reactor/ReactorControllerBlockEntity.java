@@ -64,6 +64,8 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Contain
 
     /** Brennstoff-Einheiten pro Uranbarren. */
     public static final int FUEL_PER_INGOT = 2000;
+    /** Chance, dass pro verbranntem Uranbarren 1 Atommüll entsteht (0.10 = 10 %). */
+    public static final float WASTE_CHANCE = 0.10F;
     /** Verbrauchte Brennstoff-Einheiten pro Tick und Innenraum-Block. */
     public static final int FUEL_PER_TICK_PER_BLOCK = 1;
     /** FE pro verbrannter Brennstoff-Einheit (ein Barren = 200.000 FE). */
@@ -174,7 +176,9 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Contain
                     wasteProgress += burn;
                     while (wasteProgress >= FUEL_PER_INGOT) {
                         wasteProgress -= FUEL_PER_INGOT;
-                        addWaste();
+                        if (level.getRandom().nextFloat() < WASTE_CHANCE) {
+                            addWaste();
+                        }
                     }
                     energy.set(energy.getAmountAsInt() + fePerTick);
                     heat += burn * HEAT_PER_FUEL;
