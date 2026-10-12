@@ -89,8 +89,8 @@ Once formed, the whole structure merges into one seamless machine – and throug
 Requirements: **JDK 25**
 
 ```bash
-git clone https://github.com/Jomlua/Jomlua-Ender.git
-cd Jomlua-Ender
+git clone https://github.com/Prasodym/JomEnder.git
+cd JomEnder
 ./gradlew build        # the mod jar ends up in build/libs/
 ./gradlew runClient    # start a test client
 ```
