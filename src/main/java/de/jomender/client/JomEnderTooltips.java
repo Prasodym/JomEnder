@@ -52,6 +52,11 @@ public final class JomEnderTooltips {
                     ChatFormatting.LIGHT_PURPLE
             );
         }
+        if(stack.is(ModItems.Endarium_Shword_Shard.asItem())) {
+            return new TooltipInfo(
+              "tooltip.jomender.endarium_shword_shard",ChatFormatting.LIGHT_PURPLE
+            );
+        }
 
         // Später weitere Blöcke hier ergänzen.
 

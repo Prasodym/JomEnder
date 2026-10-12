@@ -7,11 +7,13 @@ import de.jomender.ModBlockEntities;
 import de.jomender.client.render.ArcFusionChamberRenderer;
 import de.jomender.client.render.ElectricSmelterCoreRenderer;
 import de.jomender.client.render.GermaniumMinerRangeRenderer;
+import de.jomender.client.render.ReactorWaterRenderer;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import de.jomender.client.screen.ArcFusionChamberScreen;
 import de.jomender.client.screen.CoalGeneratorScreen;
 import de.jomender.client.screen.ElectricSmelterScreen;
 import de.jomender.client.screen.GermaniumMinerScreen;
+import de.jomender.client.screen.ReactorScreen;
 import de.jomender.misc.GeneratorItemTooltip;
 
 import net.neoforged.api.distmarker.Dist;
@@ -31,6 +33,8 @@ public class ClientScreens {
         NeoForge.EVENT_BUS.register(GeneratorItemTooltip.class);
         // Shift-Infos aus ItemStyles
         NeoForge.EVENT_BUS.addListener(ItemStyleTooltips::onTooltip);
+        // Upgrades der Endarium-Rüstung im Tooltip
+        NeoForge.EVENT_BUS.addListener(ArmorUpgradeTooltip::onTooltip);
         // Rezepte für JEI merken - vor JEI selbst (HIGHEST)
         NeoForge.EVENT_BUS.addListener(EventPriority.HIGHEST, ClientRecipeCache::onRecipesReceived);
 
@@ -47,6 +51,11 @@ public class ClientScreens {
         event.registerBlockEntityRenderer(
                 ModBlockEntities.ARC_FUSION_CHAMBER.get(),
                 ArcFusionChamberRenderer::new
+        );
+        // Kühlwasser im Reaktor (sichtbar durchs Reaktor-Glas)
+        event.registerBlockEntityRenderer(
+                ModBlockEntities.REACTOR_CONTROLLER.get(),
+                ReactorWaterRenderer::new
         );
     }
 
@@ -76,5 +85,7 @@ public class ClientScreens {
                 ModMenuTypes.ARC_FUSION_CHAMBER.get(),
                 ArcFusionChamberScreen::new
         );
+
+        event.register(ModMenuTypes.REACTOR_CONTROLLER.get(), ReactorScreen::new);
     }
 }

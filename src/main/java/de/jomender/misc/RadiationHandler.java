@@ -48,6 +48,9 @@ public final class RadiationHandler {
     }
 
     private static boolean isUranium(ItemStack stack, boolean block) {
-        return block ? stack.is(ModItems.URANIUM_BLOCK.get()) : stack.is(ModItems.Uranium_Ingot.get());
+        // Atommüll strahlt so stark wie ein Uranblock
+        return block
+                ? stack.is(ModItems.URANIUM_BLOCK.get()) || stack.is(ModItems.NUCLEAR_WASTE.get())
+                : stack.is(ModItems.Uranium_Ingot.get());
     }
 }

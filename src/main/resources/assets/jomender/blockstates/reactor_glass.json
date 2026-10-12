@@ -1,0 +1,165 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "jomender:block/reactor_glass_formed"
+      }
+    },
+    {
+      "when": {
+        "north": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_border_north"
+      }
+    },
+    {
+      "when": {
+        "south": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_border_south"
+      }
+    },
+    {
+      "when": {
+        "east": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_border_east"
+      }
+    },
+    {
+      "when": {
+        "west": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_border_west"
+      }
+    },
+    {
+      "when": {
+        "up": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_border_up"
+      }
+    },
+    {
+      "when": {
+        "down": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_border_down"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "east": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_glass_corner_north_east"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_glass_corner_north_west"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "up": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_glass_corner_north_up"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "down": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_glass_corner_north_down"
+      }
+    },
+    {
+      "when": {
+        "south": "false",
+        "east": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_glass_corner_south_east"
+      }
+    },
+    {
+      "when": {
+        "south": "false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_glass_corner_south_west"
+      }
+    },
+    {
+      "when": {
+        "south": "false",
+        "up": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_glass_corner_south_up"
+      }
+    },
+    {
+      "when": {
+        "south": "false",
+        "down": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_glass_corner_south_down"
+      }
+    },
+    {
+      "when": {
+        "east": "false",
+        "up": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_glass_corner_east_up"
+      }
+    },
+    {
+      "when": {
+        "east": "false",
+        "down": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_glass_corner_east_down"
+      }
+    },
+    {
+      "when": {
+        "west": "false",
+        "up": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_glass_corner_west_up"
+      }
+    },
+    {
+      "when": {
+        "west": "false",
+        "down": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_glass_corner_west_down"
+      }
+    }
+  ]
+}

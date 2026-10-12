@@ -294,7 +294,7 @@ public class GermaniumMinerScreen extends JomEnderMachineScreen<GermaniumMinerMe
                 26, 32, menu.isRunning() ? 0xFF31DC88 : 0xFFE55757, false);
         // Keine Teilergebnisse als exakte Anzahl ausgeben.
         String countText = menu.isCountingComplete() && !menu.hasUnloadedChunks()
-                ? "To Mine: " + menu.getToMine() : "To Mine: --";
+                ? "To Mine: " + menu.getToMine() : "To Mine: 0";
         g.text(font, Component.literal(countText), 26, 43, 0xFFB7B7C0, false);
         if (menu.isFilterPage()) {
             g.text(font, Component.literal("Filter: Item auf die sechs Slots klicken"),

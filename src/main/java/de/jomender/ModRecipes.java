@@ -1,6 +1,7 @@
 package de.jomender;
 
 import de.jomender.recipe.ArcFusionRecipe;
+import de.jomender.recipe.ArmorUpgradeRecipe;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -26,6 +27,10 @@ public final class ModRecipes {
 
     public static final Supplier<RecipeSerializer<ArcFusionRecipe>> ARC_FUSION_SERIALIZER =
             RECIPE_SERIALIZERS.register("arc_fusion", () -> ArcFusionRecipe.SERIALIZER);
+
+    /** "type": "jomender:armor_upgrade" - Rüstungs-Upgrades am Schmiedetisch (Typ ist der normale Smithing-Typ). */
+    public static final Supplier<RecipeSerializer<ArmorUpgradeRecipe>> ARMOR_UPGRADE_SERIALIZER =
+            RECIPE_SERIALIZERS.register("armor_upgrade", () -> ArmorUpgradeRecipe.SERIALIZER);
 
     public static void register(IEventBus bus) {
         RECIPE_TYPES.register(bus);

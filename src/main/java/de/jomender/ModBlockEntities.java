@@ -11,6 +11,10 @@ import de.jomender.blockentity.GermaniumMinerBlockEntity;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import de.jomender.blockentity.InfiniteWaterBlockEntity;
+import de.jomender.reactor.ReactorControllerBlockEntity;
+import de.jomender.reactor.ReactorPortBlockEntity;
+
 import java.util.function.Supplier;
 
 public class ModBlockEntities {
@@ -64,6 +68,18 @@ public class ModBlockEntities {
     );
 
 
+
+    public static final Supplier<BlockEntityType<ReactorControllerBlockEntity>>
+            REACTOR_CONTROLLER = BLOCK_ENTITIES.register("reactor_controller",
+            () -> new BlockEntityType<>(ReactorControllerBlockEntity::new, false, ModBlocks.REACTOR_CONTROLLER.get()));
+
+    public static final Supplier<BlockEntityType<ReactorPortBlockEntity>>
+            REACTOR_PORT = BLOCK_ENTITIES.register("reactor_port",
+            () -> new BlockEntityType<>(ReactorPortBlockEntity::new, false, ModBlocks.REACTOR_PORT.get()));
+
+    public static final Supplier<BlockEntityType<InfiniteWaterBlockEntity>>
+            INFINITE_WATER = BLOCK_ENTITIES.register("infinite_water",
+            () -> new BlockEntityType<>(InfiniteWaterBlockEntity::new, false, ModBlocks.INFINITE_WATER.get()));
 
     public static void register(IEventBus bus) {
         BLOCK_ENTITIES.register(bus);

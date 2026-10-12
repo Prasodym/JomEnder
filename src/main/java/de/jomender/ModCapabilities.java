@@ -144,6 +144,24 @@ public class ModCapabilities {
         );
 
 
+    
+        // =========================
+        // REAKTOR-ANSCHLUSS: je nach Modus Items, Wasser oder Strom
+        // =========================
+
+        event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.REACTOR_PORT.get(),
+                (port, side) -> port.getItemHandler(side));
+        event.registerBlockEntity(Capabilities.Fluid.BLOCK, ModBlockEntities.REACTOR_PORT.get(),
+                (port, side) -> port.getFluidHandler(side));
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.REACTOR_PORT.get(),
+                (port, side) -> port.getEnergyHandler(side));
+
+        // =========================
+        // UNENDLICHES WASSER: alle Seiten, kein Limit
+        // =========================
+
+        event.registerBlockEntity(Capabilities.Fluid.BLOCK, ModBlockEntities.INFINITE_WATER.get(),
+                (source, side) -> source.getFluidHandler());
     }
 
 }

@@ -14,6 +14,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
@@ -44,9 +45,11 @@ public class ArcFusionCategory extends AbstractRecipeCategory<ArcFusionRecipe> {
                 .add(recipe.resultStack());
     }
 
+    @Deprecated
     @Override
-    public void createRecipeExtras(IRecipeExtrasBuilder builder, ArcFusionRecipe recipe, IFocusGroup focuses) {
-        builder.addDrawable(guiHelper.createAnimatedRecipeArrow(recipe.time()), 49, 4);
+    public void createRecipeExtras(@NonNull IRecipeExtrasBuilder builder, ArcFusionRecipe recipe, IFocusGroup focuses) {
+        builder.addAnimatedRecipeArrowWidget(recipe.time()).setPosition(49, 4);
+
     }
 
     @Override
@@ -57,6 +60,8 @@ public class ArcFusionCategory extends AbstractRecipeCategory<ArcFusionRecipe> {
     }
 
     /** Ingredient mit Stückzahl als Item-Liste (JEI zeigt dann z.B. "2x"). */
+    // Ingredient.items() ist von Mojang nur als "nicht in Hot-Paths nutzen" markiert – für die JEI-Anzeige genau richtig.
+    @SuppressWarnings("deprecation")
     private static List<ItemStack> stacks(Ingredient ingredient, int count) {
         return ingredient.items().map(item -> new ItemStack(item, count)).toList();
     }

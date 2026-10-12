@@ -35,7 +35,7 @@ public class SmelterExclusiveCategory extends AbstractRecipeCategory<SmelterExcl
         );
     }
 
-    private final IGuiHelper guiHelper;
+    public final IGuiHelper guiHelper;
 
     public SmelterExclusiveCategory(IGuiHelper guiHelper) {
         super(TYPE, Component.translatable("block.jomender.electric_smelter"),
@@ -51,7 +51,7 @@ public class SmelterExclusiveCategory extends AbstractRecipeCategory<SmelterExcl
 
     @Override
     public void createRecipeExtras(IRecipeExtrasBuilder builder, Entry recipe, IFocusGroup focuses) {
-        builder.addDrawable(guiHelper.createAnimatedRecipeArrow(ElectricSmelterBlockEntity.MAX_PROGRESS), 27, 4);
+        builder.addAnimatedRecipeArrowWidget(ElectricSmelterBlockEntity.MAX_PROGRESS).setPosition(27, 4);
     }
 
     @Override

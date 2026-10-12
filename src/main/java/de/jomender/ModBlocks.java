@@ -1,6 +1,10 @@
 package de.jomender;
 
 import de.jomender.block.*;
+import de.jomender.reactor.ReactorCasingBlock;
+import de.jomender.reactor.ReactorControllerBlock;
+import de.jomender.reactor.ReactorGlassBlock;
+import de.jomender.reactor.ReactorPortBlock;
 import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -258,6 +262,52 @@ public class ModBlocks {
             );
 
 
+
+    // =========================
+    // REAKTOR (Multiblock 3x3x3 bis 7x7x7, siehe reactor/ReactorStructure)
+    // =========================
+
+    public static final DeferredBlock<ReactorCasingBlock> REACTOR_CASING =
+            BLOCKS.registerBlock("reactor_casing", ReactorCasingBlock::new,
+                    props -> props
+                            .mapColor(MapColor.COLOR_GRAY)
+                            .strength(5.0f, 12.0f)
+                            .sound(SoundType.METAL));
+
+    public static final DeferredBlock<ReactorControllerBlock> REACTOR_CONTROLLER =
+            BLOCKS.registerBlock("reactor_controller", ReactorControllerBlock::new,
+                    props -> props
+                            .mapColor(MapColor.COLOR_GRAY)
+                            .strength(5.0f, 12.0f)
+                            .sound(SoundType.METAL));
+
+    public static final DeferredBlock<ReactorPortBlock> REACTOR_PORT =
+            BLOCKS.registerBlock("reactor_port", ReactorPortBlock::new,
+                    props -> props
+                            .mapColor(MapColor.COLOR_GRAY)
+                            .strength(5.0f, 12.0f)
+                            .sound(SoundType.METAL));
+
+    /** Nur in Wandflächen erlaubt. Durchsichtig - man sieht das Kühlwasser. */
+    public static final DeferredBlock<ReactorGlassBlock> REACTOR_GLASS =
+            BLOCKS.registerBlock("reactor_glass", ReactorGlassBlock::new,
+                    props -> props
+                            .mapColor(MapColor.COLOR_GRAY)
+                            .strength(5.0f, 12.0f)
+                            .sound(SoundType.GLASS)
+                            .noOcclusion()
+                            .isValidSpawn((state, level, pos, entity) -> false)
+                            .isRedstoneConductor((state, level, pos) -> false)
+                            .isSuffocating((state, level, pos) -> false)
+                            .isViewBlocking((state, level, pos) -> false));
+
+    /** Unendliche Wasserquelle für Pipes aller Mods (kein Transfer-Limit). */
+    public static final DeferredBlock<InfiniteWaterBlock> INFINITE_WATER =
+            BLOCKS.registerBlock("infinite_water", InfiniteWaterBlock::new,
+                    props -> props
+                            .mapColor(MapColor.WATER)
+                            .strength(3.5f, 6.0f)
+                            .sound(SoundType.METAL));
 
     public static void register(IEventBus bus) {
         BLOCKS.register(bus);

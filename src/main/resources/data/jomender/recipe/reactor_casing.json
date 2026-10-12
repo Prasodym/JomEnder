@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IGI",
+    "GFG",
+    "IGI"
+  ],
+  "key": {
+    "I": "minecraft:iron_ingot",
+    "G": "jomender:germanium_ingot",
+    "F": "jomender:machine_frame"
+  },
+  "result": {
+    "id": "jomender:reactor_casing",
+    "count": 4
+  }
+}

@@ -15,6 +15,11 @@
     "jomender:arc_fusion_chamber",
     "jomender:uranium_block",
     "jomender:raw_uranium_block",
-    "jomender:deepslate_uranium_ore"
+    "jomender:deepslate_uranium_ore",
+    "jomender:reactor_casing",
+    "jomender:reactor_controller",
+    "jomender:reactor_port",
+    "jomender:reactor_glass",
+    "jomender:infinite_water"
   ]
 }

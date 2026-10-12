@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    "GCG",
+    " G "
+  ],
+  "key": {
+    "G": "minecraft:glass",
+    "C": "jomender:reactor_casing"
+  },
+  "result": {
+    "id": "jomender:reactor_glass",
+    "count": 4
+  }
+}

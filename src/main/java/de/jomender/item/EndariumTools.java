@@ -31,14 +31,23 @@ public final class EndariumTools {
     public static final ToolMaterial ENDARIUM = new ToolMaterial(
             INCORRECT_FOR_ENDARIUM_TOOL, 4062, 13.0F, 5.0F, 20, ENDARIUM_TOOL_MATERIALS);
 
-    /** Schmiedevorlage: Netherite-Spitzhacke + Endarium-Block -> Endarium-Spitzhacke. */
+    /** Schmiedevorlage: Netherite-Werkzeug + Endarium-Block -> Endarium-Werkzeug; Netherite-Schwert + Schwert-Splitter -> Endarium-Schwert. */
     public static SmithingTemplateItem createUpgradeTemplate(Item.Properties properties) {
         return new SmithingTemplateItem(
                 text("applies_to"),
                 text("ingredients"),
                 text("base_slot_description"),
                 text("additions_slot_description"),
-                List.of(Identifier.withDefaultNamespace("container/slot/pickaxe")),
+                List.of(
+                        Identifier.withDefaultNamespace("container/slot/pickaxe"),
+                        Identifier.withDefaultNamespace("container/slot/axe"),
+                        Identifier.withDefaultNamespace("container/slot/shovel"),
+                        Identifier.withDefaultNamespace("container/slot/hoe"),
+                        Identifier.withDefaultNamespace("container/slot/sword"),
+                        Identifier.withDefaultNamespace("container/slot/helmet"),
+                        Identifier.withDefaultNamespace("container/slot/chestplate"),
+                        Identifier.withDefaultNamespace("container/slot/leggings"),
+                        Identifier.withDefaultNamespace("container/slot/boots")),
                 List.of(Identifier.withDefaultNamespace("container/slot/ingot")),
                 properties
         );

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CHC",
+    "BXB",
+    "CCC"
+  ],
+  "key": {
+    "C": "jomender:reactor_casing",
+    "H": "minecraft:hopper",
+    "B": "minecraft:bucket",
+    "X": "jomender:machine_circuit"
+  },
+  "result": {
+    "id": "jomender:reactor_port",
+    "count": 1
+  }
+}

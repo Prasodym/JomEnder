@@ -1,0 +1,194 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "formed": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_controller"
+      }
+    },
+    {
+      "when": {
+        "formed": "true"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_controller_formed"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "north": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_border_north"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "south": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_border_south"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "east": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_border_east"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "west": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_border_west"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "up": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_border_up"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "down": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_border_down"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "north": "false",
+        "east": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_corner_north_east"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "north": "false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_corner_north_west"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "north": "false",
+        "up": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_corner_north_up"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "north": "false",
+        "down": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_corner_north_down"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "south": "false",
+        "east": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_corner_south_east"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "south": "false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_corner_south_west"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "south": "false",
+        "up": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_corner_south_up"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "south": "false",
+        "down": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_corner_south_down"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "east": "false",
+        "up": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_corner_east_up"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "east": "false",
+        "down": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_corner_east_down"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "west": "false",
+        "up": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_corner_west_up"
+      }
+    },
+    {
+      "when": {
+        "formed": "true",
+        "west": "false",
+        "down": "false"
+      },
+      "apply": {
+        "model": "jomender:block/reactor_corner_west_down"
+      }
+    }
+  ]
+}

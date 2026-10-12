@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "jomender:endarium"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "jomender:endarium"
+      }
+    ],
+    "humanoid_baby": [
+      {
+        "texture": "jomender:endarium"
+      }
+    ]
+  }
+}

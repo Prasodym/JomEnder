@@ -1,0 +1,63 @@
+{
+  "textures": {
+    "particle": "jomender:block/machinen_block",
+    "left": "jomender:block/machinen_border_left",
+    "right": "jomender:block/machinen_border_right"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#left",
+          "cullface": "north"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#right",
+          "cullface": "south"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#right",
+          "cullface": "up"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#right",
+          "cullface": "down"
+        }
+      }
+    }
+  ]
+}

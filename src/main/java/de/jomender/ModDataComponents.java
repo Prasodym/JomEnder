@@ -2,6 +2,7 @@
 package de.jomender;
 
 import com.mojang.serialization.Codec;
+import de.jomender.armor.ArmorUpgrades;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -26,6 +27,12 @@ public class ModDataComponents {
                     .persistent(Codec.INT)
                     .networkSynchronized(ByteBufCodecs.VAR_INT)
     );
+
+    /** Eingebaute Upgrades der Endarium-Rüstung. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ArmorUpgrades>> ARMOR_UPGRADES =
+            COMPONENTS.registerComponentType("armor_upgrades", builder -> builder
+                    .persistent(ArmorUpgrades.CODEC)
+                    .networkSynchronized(ArmorUpgrades.STREAM_CODEC));
 
     public static void register(IEventBus bus) {
         COMPONENTS.register(bus);

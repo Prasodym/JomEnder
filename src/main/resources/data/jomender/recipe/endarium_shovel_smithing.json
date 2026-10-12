@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "jomender:endarium_upgrade_smithing_template",
+  "base": "minecraft:netherite_shovel",
+  "addition": "jomender:endarium_block",
+  "result": {
+    "id": "jomender:endarium_shovel"
+  }
+}

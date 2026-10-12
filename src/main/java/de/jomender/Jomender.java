@@ -3,6 +3,7 @@ package de.jomender;
 import com.mojang.logging.LogUtils;
 import de.jomender.Events.ModOreEvents;
 
+import de.jomender.armor.ArmorUpgradeEffects;
 import de.jomender.compat.RecipeSync;
 import de.jomender.misc.ItemStyles;
 import de.jomender.misc.RadiationHandler;
@@ -44,6 +45,9 @@ public Jomender(IEventBus bus, ModContainer modContainer) {
         NeoForge.EVENT_BUS.addListener(RadiationHandler::onPlayerTick);
         // Arc-Fusion-Rezepte an Clients schicken (für JEI)
         NeoForge.EVENT_BUS.addListener(RecipeSync::onDatapackSync);
+        // Endarium-Rüstung: Upgrade-Wirkungen
+        NeoForge.EVENT_BUS.addListener(ArmorUpgradeEffects::onItemAttributes);
+        NeoForge.EVENT_BUS.addListener(ArmorUpgradeEffects::onPlayerTick);
 
         ModCreativeTabs.register(bus);
 

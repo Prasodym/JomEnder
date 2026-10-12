@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "jomender:endarium_upgrade_smithing_template",
+  "base": "minecraft:netherite_sword",
+  "addition": "jomender:endarium_shword_shard",
+  "result": {
+    "id": "jomender:endarium_shword"
+  }
+}

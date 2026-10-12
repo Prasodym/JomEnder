@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CXC",
+    "UKU",
+    "CXC"
+  ],
+  "key": {
+    "C": "jomender:reactor_casing",
+    "X": "jomender:machine_circuit",
+    "U": "jomender:uranium_ingot",
+    "K": "jomender:machine_core"
+  },
+  "result": {
+    "id": "jomender:reactor_controller",
+    "count": 1
+  }
+}

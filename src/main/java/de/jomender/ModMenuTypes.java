@@ -14,6 +14,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import de.jomender.reactor.ReactorMenu;
+
 import java.util.function.Supplier;
 
 public class ModMenuTypes {
@@ -51,6 +53,10 @@ public class ModMenuTypes {
             "arc_fusion_chamber",
             () -> IMenuTypeExtension.create(ArcFusionChamberMenu::new)
     );
+
+    public static final Supplier<MenuType<ReactorMenu>>
+            REACTOR_CONTROLLER = MENUS.register("reactor_controller",
+            () -> IMenuTypeExtension.create(ReactorMenu::new));
 
     public static void register(IEventBus bus) {
         MENUS.register(bus);

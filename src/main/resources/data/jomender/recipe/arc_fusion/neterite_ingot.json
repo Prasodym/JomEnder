@@ -1,0 +1,11 @@
+{
+  "type": "jomender:arc_fusion",
+  "input_a": "jomender:germanium_ingot",
+  "input_b": "minecraft:gold_ingot",
+  "result": {
+    "id": "minecraft:netherite_ingot",
+    "count": 1
+  },
+  "energy": 5000,
+  "time": 300
+}

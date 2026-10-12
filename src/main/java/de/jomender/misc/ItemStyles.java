@@ -82,6 +82,92 @@ public final class ItemStyles {
                 .info("Mines faster than Netherite.", ChatFormatting.AQUA)
                 .info("Can mine blocks that need Endarium tools.", ChatFormatting.LIGHT_PURPLE);
 
+        style(ModItems.ENDARIUM_AXE)
+                .color(0xB06CFF)
+                .info("Forged from Netherite and pure Endarium.")
+                .info("Chops faster than Netherite.", ChatFormatting.AQUA);
+
+        style(ModItems.ENDARIUM_SHOVEL)
+                .color(0xB06CFF)
+                .info("Forged from Netherite and pure Endarium.")
+                .info("Digs faster than Netherite.", ChatFormatting.AQUA);
+
+        style(ModItems.ENDARIUM_HOE)
+                .color(0xB06CFF)
+                .info("Forged from Netherite and pure Endarium.")
+                .info("Even the End can be farmed.", ChatFormatting.AQUA);
+
+        // Reaktor
+        style(ModBlocks.REACTOR_CONTROLLER)
+                .info("Heart of the reactor multiblock.")
+                .info("Build a hollow box from 3x3x3 up to 7x7x7:", ChatFormatting.GRAY)
+                .info("edges = Reactor Casing, walls = Casing/Port/Reactor Glass", ChatFormatting.GRAY)
+                .info("Bigger inside = more power and more heat.", ChatFormatting.AQUA)
+                .info("Burns Uranium Ingots, cool it with water!", ChatFormatting.YELLOW);
+
+        style(ModBlocks.REACTOR_CASING)
+                .info("Frame block for the reactor.");
+
+        style(ModBlocks.REACTOR_PORT)
+                .info("Connects the reactor to pipes and cables.")
+                .info("Right-click to switch mode:", ChatFormatting.GRAY)
+                .info("Input: Uranium + Water", ChatFormatting.AQUA)
+                .info("Energy: pushes FE out", ChatFormatting.GREEN)
+                .info("Waste: pushes Nuclear Waste out", ChatFormatting.YELLOW);
+
+        style(ModBlocks.REACTOR_GLASS)
+                .info("Connected glass - also great for windows in your base.")
+                .info("In a reactor: walls only, not on edges.", ChatFormatting.GRAY)
+                .info("Watch the cooling water rise inside!", ChatFormatting.AQUA);
+
+        style(ModBlocks.INFINITE_WATER)
+                .color(0x3F76E4)
+                .info("Endless water on every side, no transfer limit.")
+                .info("Works with pipes from any mod.", ChatFormatting.AQUA)
+                .info("Pushes water into anything next to it.", ChatFormatting.AQUA)
+                .info("Right-click with a bucket to fill it.", ChatFormatting.GRAY);
+
+        style(ModItems.NUCLEAR_WASTE)
+                .color(0x9ACD32)
+                .info("Spent reactor fuel. Highly radioactive!", ChatFormatting.YELLOW);
+
+        style(ModItems.ENDARIUM_HELMET)
+                .color(0xB06CFF)
+                .info("Upgrade at the Smithing Table (no template):")
+                .info("Golden Carrot \u2192 Night Vision", ChatFormatting.AQUA)
+                .info("Heart of the Sea \u2192 Water Breathing", ChatFormatting.AQUA)
+                .info("10 Endarium Ingots \u2192 +1 Heart (max 10x)", ChatFormatting.AQUA);
+
+        style(ModItems.ENDARIUM_CHESTPLATE)
+                .color(0xB06CFF)
+                .info("Upgrade at the Smithing Table (no template):")
+                .info("Nether Star \u2192 Creative Flight", ChatFormatting.AQUA)
+                .info("10 Endarium Ingots \u2192 +1 Heart (max 10x)", ChatFormatting.AQUA);
+
+        style(ModItems.ENDARIUM_LEGGINGS)
+                .color(0xB06CFF)
+                .info("Upgrade at the Smithing Table (no template):")
+                .info("Magma Cream \u2192 Fire Immunity", ChatFormatting.AQUA)
+                .info("16 Sugar \u2192 +15% Speed (max 3x)", ChatFormatting.AQUA)
+                .info("10 Endarium Ingots \u2192 +1 Heart (max 10x)", ChatFormatting.AQUA);
+
+        style(ModItems.ENDARIUM_BOOTS)
+                .color(0xB06CFF)
+                .info("Upgrade at the Smithing Table (no template):")
+                .info("Phantom Membrane \u2192 No Fall Damage", ChatFormatting.AQUA)
+                .info("Rabbit's Foot \u2192 Higher Jumps (max 3x)", ChatFormatting.AQUA)
+                .info("10 Endarium Ingots \u2192 +1 Heart (max 10x)", ChatFormatting.AQUA);
+
+        style(ModItems.ENDARIUM_SHWORD)
+                .color(0xB06CFF)
+                .info("A blade reforged from the Wither's remains.")
+                .info("Unbreakable.", ChatFormatting.AQUA);
+
+        style(ModItems.WEAPON_SCRAP)
+                .color(0xFF4FD8)
+                .info("Remains of a weapon, torn from the Wither.")
+                .info("50% chance to drop from the Wither", ChatFormatting.LIGHT_PURPLE);
+
         style(ModItems.ENDARIUM_UPGRADE_SMITHING_TEMPLATE)
                 .color(0xB06CFF)
                 .info("Found only in End City treasure chests.", ChatFormatting.LIGHT_PURPLE);

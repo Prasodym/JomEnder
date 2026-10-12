@@ -1,0 +1,43 @@
+{
+  "textures": {
+    "br": "jomender:block/machinen_glass_corner_br",
+    "tr": "jomender:block/machinen_glass_corner_tr",
+    "particle": "jomender:block/machinen_block_glass"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#tr",
+          "cullface": "up"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#br",
+          "cullface": "down"
+        }
+      }
+    }
+  ]
+}

@@ -1,12 +1,18 @@
 package de.jomender;
 
+import de.jomender.armor.EndariumArmor;
+import de.jomender.armor.EndariumArmorItem;
 import de.jomender.item.EndariumTools;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Unit;
+import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.SmithingTemplateItem;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -41,6 +47,8 @@ public class ModItems {
 
     public static final DeferredItem<Item> Magnetic =
             ITEMS.registerSimpleItem("magnetic");
+    public static final DeferredItem<Item> Endarium_Shword_Shard =
+            ITEMS.registerSimpleItem("endarium_shword_shard");
 
     // =========================
     // ENDARIUM-WERKZEUG
@@ -54,10 +62,84 @@ public class ModItems {
                     .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
                     .rarity(Rarity.EPIC));
 
+    // Angriffswerte wie bei Netherite - das Endarium-Material legt selbst noch +1 Schaden drauf.
+    public static final DeferredItem<AxeItem> ENDARIUM_AXE =
+            ITEMS.registerItem("endarium_axe",
+                    props -> new AxeItem(EndariumTools.ENDARIUM, 5.0F, -3.0F, props),
+                    props -> props
+                            .fireResistant()
+                            .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
+                            .rarity(Rarity.EPIC));
+
+    public static final DeferredItem<ShovelItem> ENDARIUM_SHOVEL =
+            ITEMS.registerItem("endarium_shovel",
+                    props -> new ShovelItem(EndariumTools.ENDARIUM, 1.5F, -3.0F, props),
+                    props -> props
+                            .fireResistant()
+                            .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
+                            .rarity(Rarity.EPIC));
+
+    /**
+     * Endarium-Schwert: unzerstörbar, 50 Angriffsschaden.
+     * Rechnung: 1 (Spieler) + 44 (hier) + 5 (Endarium-Material) = 50. Tempo wie Netherite-Schwert.
+     */
+    public static final DeferredItem<Item> ENDARIUM_SHWORD =
+            ITEMS.registerItem("endarium_shword", Item::new, props -> props
+                    .sword(EndariumTools.ENDARIUM, 44.0F, -2.4F)
+                    .fireResistant()
+                    .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
+                    .rarity(Rarity.EPIC));
+
+    // =========================
+    // ENDARIUM-RÜSTUNG (upgradebar am Schmiedetisch, siehe armor/ArmorUpgrade)
+    // =========================
+    public static final DeferredItem<EndariumArmorItem> ENDARIUM_HELMET = endariumArmor("endarium_helmet", ArmorType.HELMET);
+    public static final DeferredItem<EndariumArmorItem> ENDARIUM_CHESTPLATE = endariumArmor("endarium_chestplate", ArmorType.CHESTPLATE);
+    public static final DeferredItem<EndariumArmorItem> ENDARIUM_LEGGINGS = endariumArmor("endarium_leggings", ArmorType.LEGGINGS);
+    public static final DeferredItem<EndariumArmorItem> ENDARIUM_BOOTS = endariumArmor("endarium_boots", ArmorType.BOOTS);
+
+    private static DeferredItem<EndariumArmorItem> endariumArmor(String name, ArmorType type) {
+        return ITEMS.registerItem(name, EndariumArmorItem::new, props -> props
+                .humanoidArmor(EndariumArmor.MATERIAL, type)
+                .fireResistant()
+                .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
+                .rarity(Rarity.EPIC));
+    }
+
+    public static final DeferredItem<HoeItem> ENDARIUM_HOE =
+            ITEMS.registerItem("endarium_hoe",
+                    props -> new HoeItem(EndariumTools.ENDARIUM, -4.0F, 0.0F, props),
+                    props -> props
+                            .fireResistant()
+                            .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
+                            .rarity(Rarity.EPIC));
+
+    /** Drop vom Wither (50 %), schimmert wie verzaubert. Textur: textures/item/wapon_scrap.png */
+    public static final DeferredItem<Item> WEAPON_SCRAP =
+            ITEMS.registerItem("weapon_scrap", Item::new, props -> props
+                    .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .fireResistant()
+                    .rarity(Rarity.RARE));
+
     public static final DeferredItem<SmithingTemplateItem> ENDARIUM_UPGRADE_SMITHING_TEMPLATE =
             ITEMS.registerItem("endarium_upgrade_smithing_template",
                     EndariumTools::createUpgradeTemplate,
                     props -> props.rarity(Rarity.EPIC));
+
+    /** Atommüll aus dem Reaktor - radioaktiv in der Hand. */
+    public static final DeferredItem<Item> NUCLEAR_WASTE =
+            ITEMS.registerSimpleItem("nuclear_waste");
+
+    public static final DeferredItem<BlockItem> REACTOR_CASING =
+            ITEMS.registerSimpleBlockItem("reactor_casing", ModBlocks.REACTOR_CASING);
+    public static final DeferredItem<BlockItem> REACTOR_CONTROLLER =
+            ITEMS.registerSimpleBlockItem("reactor_controller", ModBlocks.REACTOR_CONTROLLER);
+    public static final DeferredItem<BlockItem> REACTOR_PORT =
+            ITEMS.registerSimpleBlockItem("reactor_port", ModBlocks.REACTOR_PORT);
+    public static final DeferredItem<BlockItem> REACTOR_GLASS =
+            ITEMS.registerSimpleBlockItem("reactor_glass", ModBlocks.REACTOR_GLASS);
+    public static final DeferredItem<BlockItem> INFINITE_WATER =
+            ITEMS.registerSimpleBlockItem("infinite_water", ModBlocks.INFINITE_WATER);
 
     public static final DeferredItem<Item> Raw_Uranium =
             ITEMS.registerSimpleItem("raw_uranium");

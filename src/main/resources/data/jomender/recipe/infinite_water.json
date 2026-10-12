@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CWC",
+    "WKW",
+    "CWC"
+  ],
+  "key": {
+    "C": "jomender:reactor_casing",
+    "W": "minecraft:water_bucket",
+    "K": "jomender:machine_core"
+  },
+  "result": {
+    "id": "jomender:infinite_water",
+    "count": 1
+  }
+}

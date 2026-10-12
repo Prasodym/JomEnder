@@ -1,0 +1,11 @@
+{
+  "type": "jomender:arc_fusion",
+  "input_a": "jomender:endarium_ingot",
+  "input_b": "jomender:weapon_scrap",
+  "result": {
+    "id": "jomender:endarium_shword_shard",
+    "count": 1
+  },
+  "energy": 20000,
+  "time": 1200
+}

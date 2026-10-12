@@ -42,6 +42,16 @@ public class ModCreativeTabs {
                                 output.accept(ModItems.Endarium_Block.get());
                                 output.accept(ModItems.ENDARIUM_UPGRADE_SMITHING_TEMPLATE.get());
                                 output.accept(ModItems.ENDARIUM_PICKAXE.get());
+                                output.accept(ModItems.ENDARIUM_AXE.get());
+                                output.accept(ModItems.ENDARIUM_SHOVEL.get());
+                                output.accept(ModItems.ENDARIUM_HOE.get());
+                                output.accept(ModItems.ENDARIUM_SHWORD.get());
+                                output.accept(ModItems.ENDARIUM_HELMET.get());
+                                output.accept(ModItems.ENDARIUM_CHESTPLATE.get());
+                                output.accept(ModItems.ENDARIUM_LEGGINGS.get());
+                                output.accept(ModItems.ENDARIUM_BOOTS.get());
+                                output.accept(ModItems.WEAPON_SCRAP.get());
+                                output.accept(ModItems.Endarium_Shword_Shard.get());
 
                                 // Ores Materials
                                 output.accept(ModItems.GERMANIUM_ORE.get());
@@ -80,6 +90,12 @@ public class ModCreativeTabs {
                                 output.accept(ModItems.COAL_GENERATOR.get());
                                 output.accept(ModItems.ELECTRIC_SMELTER.get());
                                 output.accept(ModItems.ARC_FUSION_CHAMBER.get());
+                                output.accept(ModItems.REACTOR_CONTROLLER.get());
+                                output.accept(ModItems.REACTOR_CASING.get());
+                                output.accept(ModItems.REACTOR_PORT.get());
+                                output.accept(ModItems.REACTOR_GLASS.get());
+                                output.accept(ModItems.INFINITE_WATER.get());
+                                output.accept(ModItems.NUCLEAR_WASTE.get());
                                 output.accept(ModItems.GERMANIUM_MINER.get());
                             })
                             .build()
