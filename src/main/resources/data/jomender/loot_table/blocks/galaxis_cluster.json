@@ -58,7 +58,7 @@
                 },
                 {
                   "type": "minecraft:item",
-                  "name": "jomender:galaxis_shard", 
+                  "name": "jomender:galaxis_shard",
                   "functions": [
                     {
                       "function": "minecraft:set_count",

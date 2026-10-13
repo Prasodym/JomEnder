@@ -2,7 +2,9 @@
 package de.jomender.blockentity;
 
 import de.jomender.ModBlockEntities;
-import de.jomender.ModItems;
+import de.jomender.ModRecipes;
+import de.jomender.recipe.AlloySmeltingInput;
+import de.jomender.recipe.AlloySmeltingRecipe;
 import de.jomender.menu.ElectricSmelterMenu;
 import de.jomender.sideconfig.SideConfig;
 import de.jomender.sideconfig.SideMode;
@@ -12,6 +14,7 @@ import de.jomender.upgrade.Upgrades;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.ContainerHelper;
@@ -22,6 +25,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -35,6 +39,9 @@ import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
+import org.jspecify.annotations.Nullable;
+
+import java.util.Optional;
 
 public class ElectricSmelterBlockEntity
         extends BlockEntity implements WorldlyContainer, MenuProvider {
@@ -75,6 +82,8 @@ public class ElectricSmelterBlockEntity
     private int maxProgress = MAX_PROGRESS;
     private int energyPerTick = ENERGY_PER_TICK;
     private int activeInput = -1;
+    /** Aktueller Auftrag (Rezept + Slots), damit der Fortschritt bei Änderungen neu startet. */
+    private String activeJob = "";
     private int nextInput = 0;
 
     private final NonNullList<ItemStack> items =
@@ -245,11 +254,6 @@ public class ElectricSmelterBlockEntity
             return ItemStack.EMPTY;
         }
 
-        // Exklusives Rezept: kein Vanilla-Ofen!
-        if (input.is(ModItems.GermaniumClump.get())) {
-            return new ItemStack(ModItems.Germanium.get());
-        }
-
         SingleRecipeInput recipeInput =
                 new SingleRecipeInput(input);
 
@@ -342,6 +346,45 @@ public class ElectricSmelterBlockEntity
     // SCHMELZLOGIK
     // =========================
 
+    /**
+     * Ein Auftrag: entweder ein Legierungsrezept (mehrere Slots) oder ein normales Ofenrezept (ein Slot).
+     * key erkennt, ob sich der Auftrag geändert hat (dann beginnt der Fortschritt von vorn).
+     */
+    private record Job(String key, ItemStack result, int baseTime, int baseEnergy, int[] slots, int[] counts) {}
+
+
+    private @Nullable Job findJob(ServerLevel level) {
+        AlloySmeltingInput input = new AlloySmeltingInput(items.get(0), items.get(1), items.get(2));
+        Optional<RecipeHolder<AlloySmeltingRecipe>> alloy =
+                level.recipeAccess().getRecipeFor(ModRecipes.ALLOY_SMELTING_TYPE.get(), input, level);
+        if (alloy.isPresent()) {
+            AlloySmeltingRecipe recipe = alloy.get().value();
+            int[] slots = recipe.assign(input);
+            if (slots != null) {
+                ItemStack result = recipe.resultStack();
+                if (!canOutput(result)) {
+                    return null; // Ausgabe voll: warten
+                }
+                int[] counts = recipe.parts().stream().mapToInt(AlloySmeltingRecipe.Part::count).toArray();
+                return new Job("alloy:" + alloy.get().id(), result, recipe.time(), recipe.energy(), slots, counts);
+            }
+        }
+
+        // Normale Ofenrezepte: aktuellen Slot weitermachen, sonst reihum den nächsten suchen
+        int slot = activeInput;
+        if (slot < 0 || slot >= INPUT_COUNT || !canOutput(getSmeltingResult(level, items.get(slot)))) {
+            slot = findNextInput(level);
+            activeInput = slot;
+        }
+        if (slot < 0) {
+            return null;
+        }
+        ItemStack stack = items.get(slot);
+        return new Job("smelt:" + slot + ":" + BuiltInRegistries.ITEM.getKey(stack.getItem()),
+                getSmeltingResult(level, stack), MAX_PROGRESS, MAX_PROGRESS * ENERGY_PER_TICK,
+                new int[]{slot}, new int[]{1});
+    }
+
     public static void serverTick(
             ServerLevel level,
             BlockPos pos,
@@ -354,59 +397,37 @@ public class ElectricSmelterBlockEntity
             smelter.pushOutputs(level);
         }
 
-        smelter.applyUpgrades();
-
-        int slot = smelter.activeInput;
-
-        if (slot < 0
-                || slot >= INPUT_COUNT
-                || !smelter.canOutput(
-                getSmeltingResult(
-                        level,
-                        smelter.items.get(slot)
-                )
-        )) {
-
-            slot = smelter.findNextInput(level);
-
-            if (slot != smelter.activeInput) {
-                smelter.progress = 0;
-            }
-
-            smelter.activeInput = slot;
+        Job job = smelter.findJob(level);
+        String key = job == null ? "" : job.key();
+        if (!key.equals(smelter.activeJob)) {
+            smelter.activeJob = key;
+            smelter.progress = 0;
+            smelter.setChanged();
         }
-
-        if (slot == -1) {
-            if (smelter.progress != 0) {
-                smelter.progress = 0;
-                smelter.setChanged();
-            }
+        if (job == null) {
             return;
         }
+
+        smelter.applyUpgrades(job.baseTime(), job.baseEnergy());
 
         if (smelter.getEnergy() < smelter.energyPerTick) {
             return;
         }
 
-        ItemStack result =
-                getSmeltingResult(level, smelter.items.get(slot));
-
-        if (result.isEmpty() || !smelter.canOutput(result)) {
-            return;
-        }
-
-        smelter.energyStorage.set(
-                smelter.getEnergy() - smelter.energyPerTick
-        );
-
+        smelter.energyStorage.set(smelter.getEnergy() - smelter.energyPerTick);
         smelter.progress++;
 
         if (smelter.progress >= smelter.maxProgress) {
-            smelter.items.get(slot).shrink(1);
-            smelter.insertOutput(result);
+            for (int i = 0; i < job.slots().length; i++) {
+                smelter.items.get(job.slots()[i]).shrink(job.counts()[i]);
+            }
+            smelter.insertOutput(job.result());
 
             smelter.progress = 0;
-            smelter.nextInput = (slot + 1) % INPUT_COUNT;
+            smelter.activeJob = "";
+            if (job.slots().length == 1) {
+                smelter.nextInput = (job.slots()[0] + 1) % INPUT_COUNT;
+            }
             smelter.activeInput = -1;
         }
 
@@ -417,12 +438,12 @@ public class ElectricSmelterBlockEntity
     // UPGRADES
     // =========================
 
-    /** Dauer und FE/t aus den Upgrade-Slots neu berechnen. */
-    private void applyUpgrades() {
+    /** Dauer und FE/t aus Rezept-Basiswerten und Upgrade-Slots berechnen. */
+    private void applyUpgrades(int baseTime, int baseEnergy) {
         int speed = Upgrades.speedLevel(this, UPGRADE_START, 4);
         int efficiency = Upgrades.efficiencyLevel(this, UPGRADE_START, 4);
         Upgrades.Process process = Upgrades.process(
-                MAX_PROGRESS, MAX_PROGRESS * ENERGY_PER_TICK, speed, efficiency, MAX_ENERGY);
+                baseTime, baseEnergy, speed, efficiency, MAX_ENERGY);
         maxProgress = process.time();
         energyPerTick = process.energyPerTick();
         // Doppelte FE/t annehmen können, damit der Speicher nicht leerläuft.
@@ -632,6 +653,7 @@ public class ElectricSmelterBlockEntity
         output.putInt("energy", getEnergy());
         output.putInt("progress", progress);
         output.putInt("activeInput", activeInput);
+        output.putString("activeJob", activeJob);
         output.putInt("nextInput", nextInput);
         sideConfig.save(output, "sideConfig");
 
@@ -654,8 +676,9 @@ public class ElectricSmelterBlockEntity
         progress = Math.clamp(
                 input.getIntOr("progress", 0),
                 0,
-                MAX_PROGRESS
+                32_000
         );
+        activeJob = input.getStringOr("activeJob", "");
 
         activeInput = Math.clamp(
                 input.getIntOr("activeInput", -1),

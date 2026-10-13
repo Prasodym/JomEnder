@@ -53,6 +53,7 @@
   "item.jomender.endarium_shword_shard": "Endarium Sword Shard",
     "jei.jomender.mob_drops": "Mob Drops",
     "jei.jomender.fluid_infusion": "Fluid Infusion",
+    "jei.jomender.alloy_smelting": "Alloy Smelting",
     "jei.jomender.fluid_infusion.drop": "Drop the items into %s",
     "jei.jomender.fluid_infusion.consumes": "Consumes the fluid source",
     "block.jomender.reactor_casing": "Reactor Casing",

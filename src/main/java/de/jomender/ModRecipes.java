@@ -1,5 +1,6 @@
 package de.jomender;
 
+import de.jomender.recipe.AlloySmeltingRecipe;
 import de.jomender.recipe.ArcFusionRecipe;
 import de.jomender.recipe.ArmorUpgradeRecipe;
 import de.jomender.recipe.FluidInfusionRecipe;
@@ -40,6 +41,14 @@ public final class ModRecipes {
 
     public static final Supplier<RecipeSerializer<FluidInfusionRecipe>> FLUID_INFUSION_SERIALIZER =
             RECIPE_SERIALIZERS.register("fluid_infusion", () -> FluidInfusionRecipe.SERIALIZER);
+
+    /** "type": "jomender:alloy_smelting" - Legierungsrezepte des Electric Smelters. */
+    public static final Supplier<RecipeType<AlloySmeltingRecipe>> ALLOY_SMELTING_TYPE =
+            RECIPE_TYPES.register("alloy_smelting",
+                    () -> RecipeType.simple(Identifier.fromNamespaceAndPath(Jomender.MOD_ID, "alloy_smelting")));
+
+    public static final Supplier<RecipeSerializer<AlloySmeltingRecipe>> ALLOY_SMELTING_SERIALIZER =
+            RECIPE_SERIALIZERS.register("alloy_smelting", () -> AlloySmeltingRecipe.SERIALIZER);
 
     public static void register(IEventBus bus) {
         RECIPE_TYPES.register(bus);

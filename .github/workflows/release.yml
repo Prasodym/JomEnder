@@ -1,0 +1,51 @@
+name: Release
+
+# Startet, sobald ein Tag wie "v1.1.2-Alpha" gepusht wird.
+# Kann zusätzlich manuell unter "Actions" -> "Release" -> "Run workflow" gestartet werden.
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Java 25 einrichten
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - name: Gradle einrichten
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: gradlew ausführbar machen
+        run: chmod +x gradlew
+
+      - name: Mod bauen
+        run: ./gradlew build --no-daemon
+
+      - name: Build als Artefakt hochladen
+        uses: actions/upload-artifact@v4
+        with:
+          name: jomender
+          path: build/libs/*.jar
+
+      - name: GitHub Release erstellen
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Jomlua Ender ${{ github.ref_name }}
+          files: build/libs/*.jar
+          generate_release_notes: true
+          # Tags mit Bindestrich (z.B. v1.1.2-Alpha) werden als Pre-Release markiert
+          prerelease: ${{ contains(github.ref_name, '-') }}

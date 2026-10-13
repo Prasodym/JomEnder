@@ -1,0 +1,8 @@
+{
+  "type": "jomender:alloy_smelting",
+  "slot_a": { "item": "jomender:galaxis_shard", "count": 1 },
+  "slot_b": { "item": "minecraft:quartz", "count":  2},
+  "result": { "id": "jomender:galaxis_quarz", "count": 1 },
+  "energy": 4000,
+  "time": 200
+}
