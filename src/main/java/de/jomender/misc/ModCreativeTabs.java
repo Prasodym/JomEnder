@@ -73,6 +73,7 @@ public class ModCreativeTabs {
                                 output.accept(ModItems.LARGE_GALAXIS_BUD.get());
                                 output.accept(ModItems.GALAXIS_CLUSTER.get());
                                 output.accept(ModItems.Galaxis_Quarz.get());
+                                output.accept(ModItems.Galaxis_Shard.get());
 
                                 // Upgrades
                                 output.accept(ModItems.Speed_upgrade.get());

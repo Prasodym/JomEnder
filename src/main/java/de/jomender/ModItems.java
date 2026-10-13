@@ -214,6 +214,8 @@ public class ModItems {
 
     public static final DeferredItem<Item> Galaxis_Quarz =
             ITEMS.registerSimpleItem("galaxis_quarz");
+    public static final DeferredItem<Item> Galaxis_Shard =
+            ITEMS.registerSimpleItem("galaxis_shard");
 
     public static final DeferredItem<BlockItem> BUDDING_GALAXIS =
             ITEMS.registerSimpleBlockItem(
