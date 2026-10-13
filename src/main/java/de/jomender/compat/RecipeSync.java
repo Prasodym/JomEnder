@@ -11,6 +11,6 @@ public final class RecipeSync {
     private RecipeSync() {}
 
     public static void onDatapackSync(OnDatapackSyncEvent event) {
-        event.sendRecipes(ModRecipes.ARC_FUSION_TYPE.get());
+        event.sendRecipes(ModRecipes.ARC_FUSION_TYPE.get(), ModRecipes.FLUID_INFUSION_TYPE.get());
     }
 }

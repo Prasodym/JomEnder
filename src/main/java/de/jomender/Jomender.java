@@ -48,6 +48,8 @@ public Jomender(IEventBus bus, ModContainer modContainer) {
         // Endarium-Rüstung: Upgrade-Wirkungen
         NeoForge.EVENT_BUS.addListener(ArmorUpgradeEffects::onItemAttributes);
         NeoForge.EVENT_BUS.addListener(ArmorUpgradeEffects::onPlayerTick);
+        // Flüssigkeits-Infusion: Items in Flüssigkeit werfen
+        NeoForge.EVENT_BUS.addListener(de.jomender.misc.FluidInfusionHandler::onEntityTick);
 
         ModCreativeTabs.register(bus);
 

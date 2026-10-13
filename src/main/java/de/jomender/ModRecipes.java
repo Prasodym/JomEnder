@@ -2,6 +2,7 @@ package de.jomender;
 
 import de.jomender.recipe.ArcFusionRecipe;
 import de.jomender.recipe.ArmorUpgradeRecipe;
+import de.jomender.recipe.FluidInfusionRecipe;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -31,6 +32,14 @@ public final class ModRecipes {
     /** "type": "jomender:armor_upgrade" - Rüstungs-Upgrades am Schmiedetisch (Typ ist der normale Smithing-Typ). */
     public static final Supplier<RecipeSerializer<ArmorUpgradeRecipe>> ARMOR_UPGRADE_SERIALIZER =
             RECIPE_SERIALIZERS.register("armor_upgrade", () -> ArmorUpgradeRecipe.SERIALIZER);
+
+    /** "type": "jomender:fluid_infusion" - Items in eine Flüssigkeit werfen. */
+    public static final Supplier<RecipeType<FluidInfusionRecipe>> FLUID_INFUSION_TYPE =
+            RECIPE_TYPES.register("fluid_infusion",
+                    () -> RecipeType.simple(Identifier.fromNamespaceAndPath(Jomender.MOD_ID, "fluid_infusion")));
+
+    public static final Supplier<RecipeSerializer<FluidInfusionRecipe>> FLUID_INFUSION_SERIALIZER =
+            RECIPE_SERIALIZERS.register("fluid_infusion", () -> FluidInfusionRecipe.SERIALIZER);
 
     public static void register(IEventBus bus) {
         RECIPE_TYPES.register(bus);

@@ -34,7 +34,7 @@
               "children": [
                 {
                   "type": "minecraft:item",
-                  "name": "jomender:galaxis_quarz",
+                  "name": "jomender:galaxis_shard",
                   "conditions": [
                     {
                       "condition": "minecraft:match_tool",
@@ -58,7 +58,7 @@
                 },
                 {
                   "type": "minecraft:item",
-                  "name": "jomender:galaxis_quarz",
+                  "name": "jomender:galaxis_shard",
                   "functions": [
                     {
                       "function": "minecraft:set_count",
