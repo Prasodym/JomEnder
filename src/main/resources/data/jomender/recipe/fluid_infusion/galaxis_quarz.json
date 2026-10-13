@@ -1,0 +1,11 @@
+{
+  "type": "jomender:fluid_infusion",
+  "ingredients": [
+    { "item": "jomender:galaxis_shard", "count": 1 },
+    { "item": "minecraft:quartz", "count": 1 }
+  ],
+  "fluid": "minecraft:water",
+  "result": { "id": "jomender:galaxis_quarz", "count": 1 },
+  "time": 60,
+  "consume_fluid": false
+}
