@@ -178,6 +178,19 @@ public class ModBlocks {
 
 
 
+    /** Crusher: zermahlt Erze, Rohmetalle und Barren zu Staub (auch Rezepte anderer Mods). */
+    public static final DeferredBlock<Block> CRUSHER =
+            BLOCKS.registerBlock(
+                    "crusher",
+                    CrusherBlock::new,
+                    props -> props
+                            .mapColor(MapColor.COLOR_GRAY)
+                            .strength(3.5f, 6.0f)
+                            .sound(SoundType.METAL)
+                            .requiresCorrectToolForDrops()
+                            .noOcclusion()
+            );
+
     public static final DeferredBlock<BuddingGalaxisBlock> BUDDING_GALAXIS =
             BLOCKS.registerBlock(
                     "budding_galaxis",

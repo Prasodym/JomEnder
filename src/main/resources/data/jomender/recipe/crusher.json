@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FPF",
+    "IMI",
+    "AGA"
+  ],
+  "key": {
+    "F": "minecraft:flint",
+    "P": "minecraft:piston",
+    "I": "minecraft:iron_ingot",
+    "M": "jomender:machine_motor",
+    "G": "jomender:machine_core",
+    "A": "jomender:galaxis_quarz"
+  },
+  "result": {
+    "id": "jomender:crusher",
+    "count": 1
+  }
+}

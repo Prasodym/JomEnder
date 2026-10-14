@@ -5,12 +5,14 @@ import de.jomender.Jomender;
 import de.jomender.ModMenuTypes;
 import de.jomender.ModBlockEntities;
 import de.jomender.client.render.ArcFusionChamberRenderer;
+import de.jomender.client.render.CrusherRollerRenderer;
 import de.jomender.client.render.ElectricSmelterCoreRenderer;
 import de.jomender.client.render.GermaniumMinerRangeRenderer;
 import de.jomender.client.render.ReactorWaterRenderer;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import de.jomender.client.screen.ArcFusionChamberScreen;
 import de.jomender.client.screen.CoalGeneratorScreen;
+import de.jomender.client.screen.CrusherScreen;
 import de.jomender.client.screen.ElectricSmelterScreen;
 import de.jomender.client.screen.GermaniumMinerScreen;
 import de.jomender.client.screen.ReactorScreen;
@@ -52,6 +54,16 @@ public class ClientScreens {
                 ModBlockEntities.ARC_FUSION_CHAMBER.get(),
                 ArcFusionChamberRenderer::new
         );
+        // Mahlwalzen des Crushers (drehen sich beim Arbeiten)
+        event.registerBlockEntityRenderer(
+                ModBlockEntities.CRUSHER.get(),
+                CrusherRollerRenderer::new
+        );
+        // Galaxius sieht aus wie ein Zombie (Rüstung und Schwert kommen von der Ausrüstung)
+        event.registerEntityRenderer(
+                de.jomender.ModEntities.GALAXIUS.get(),
+                net.minecraft.client.renderer.entity.ZombieRenderer::new
+        );
         // Kühlwasser im Reaktor (sichtbar durchs Reaktor-Glas)
         event.registerBlockEntityRenderer(
                 ModBlockEntities.REACTOR_CONTROLLER.get(),
@@ -74,6 +86,11 @@ public class ClientScreens {
         event.register(
                 ModMenuTypes.ELECTRIC_SMELTER.get(),
                 ElectricSmelterScreen::new
+        );
+
+        event.register(
+                ModMenuTypes.CRUSHER.get(),
+                CrusherScreen::new
         );
 
         event.register(

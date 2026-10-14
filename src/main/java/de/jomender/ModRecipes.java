@@ -3,6 +3,7 @@ package de.jomender;
 import de.jomender.recipe.AlloySmeltingRecipe;
 import de.jomender.recipe.ArcFusionRecipe;
 import de.jomender.recipe.ArmorUpgradeRecipe;
+import de.jomender.recipe.CrushingRecipe;
 import de.jomender.recipe.FluidInfusionRecipe;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -49,6 +50,14 @@ public final class ModRecipes {
 
     public static final Supplier<RecipeSerializer<AlloySmeltingRecipe>> ALLOY_SMELTING_SERIALIZER =
             RECIPE_SERIALIZERS.register("alloy_smelting", () -> AlloySmeltingRecipe.SERIALIZER);
+
+    /** "type": "jomender:crushing" - Rezepte des Crushers (Items zu Staub). */
+    public static final Supplier<RecipeType<CrushingRecipe>> CRUSHING_TYPE =
+            RECIPE_TYPES.register("crushing",
+                    () -> RecipeType.simple(Identifier.fromNamespaceAndPath(Jomender.MOD_ID, "crushing")));
+
+    public static final Supplier<RecipeSerializer<CrushingRecipe>> CRUSHING_SERIALIZER =
+            RECIPE_SERIALIZERS.register("crushing", () -> CrushingRecipe.SERIALIZER);
 
     public static void register(IEventBus bus) {
         RECIPE_TYPES.register(bus);

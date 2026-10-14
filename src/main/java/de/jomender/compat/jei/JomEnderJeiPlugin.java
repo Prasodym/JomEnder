@@ -26,7 +26,8 @@ public class JomEnderJeiPlugin implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registration) {
         IGuiHelper gui = registration.getJeiHelpers().getGuiHelper();
         registration.addRecipeCategories(new ArcFusionCategory(gui), new AlloySmeltingCategory(gui),
-                new MobDropCategory(gui), new ArmorUpgradeCategory(gui), new FluidInfusionCategory(gui));
+                new MobDropCategory(gui), new ArmorUpgradeCategory(gui), new FluidInfusionCategory(gui),
+                new CrushingCategory(gui));
     }
 
     @Override
@@ -35,6 +36,9 @@ public class JomEnderJeiPlugin implements IModPlugin {
                 ClientRecipeCache.arcFusionRecipes().stream().map(RecipeHolder::value).toList());
         registration.addRecipes(AlloySmeltingCategory.TYPE,
                 ClientRecipeCache.alloySmeltingRecipes().stream().map(RecipeHolder::value).toList());
+        // Crusher: eigene + übernommene Rezepte, dazu die Tag-Automatik (Erz/Rohmetall/Barren -> Staub)
+        registration.addRecipes(CrushingCategory.TYPE, de.jomender.crusher.CrusherRecipes.forDisplay(
+                ClientRecipeCache.ownCrushingRecipes(), ClientRecipeCache.importedCrushingRecipes()));
         registration.addRecipes(MobDropCategory.TYPE, MobDropCategory.recipes());
         registration.addRecipes(ArmorUpgradeCategory.TYPE, ArmorUpgradeCategory.recipes());
         registration.addRecipes(FluidInfusionCategory.TYPE,
@@ -58,6 +62,7 @@ public class JomEnderJeiPlugin implements IModPlugin {
         registration.addCraftingStation(ArmorUpgradeCategory.TYPE, net.minecraft.world.level.block.Blocks.SMITHING_TABLE);
         registration.addCraftingStation(ArcFusionCategory.TYPE, ModBlocks.ARC_FUSION_CHAMBER.get());
         registration.addCraftingStation(AlloySmeltingCategory.TYPE, ModBlocks.ELECTRIC_SMELTER.get());
+        registration.addCraftingStation(CrushingCategory.TYPE, ModBlocks.CRUSHER.get());
         // Der Electric Smelter kann alle normalen Ofenrezepte
         registration.addCraftingStation(RecipeTypes.SMELTING, ModBlocks.ELECTRIC_SMELTER.get());
     }

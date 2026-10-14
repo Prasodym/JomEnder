@@ -20,6 +20,19 @@
     "jomender:reactor_controller",
     "jomender:reactor_port",
     "jomender:reactor_glass",
-    "jomender:infinite_water"
+    "jomender:infinite_water",
+    "jomender:crusher",
+    "jomender:machine_plating",
+    "jomender:machine_plating_slab",
+    "jomender:machine_plating_stairs",
+    "jomender:germanium_plating",
+    "jomender:germanium_plating_slab",
+    "jomender:germanium_plating_stairs",
+    "jomender:endarium_tiles",
+    "jomender:endarium_tiles_slab",
+    "jomender:endarium_tiles_stairs",
+    "jomender:galaxis_bricks",
+    "jomender:galaxis_bricks_slab",
+    "jomender:galaxis_bricks_stairs"
   ]
 }

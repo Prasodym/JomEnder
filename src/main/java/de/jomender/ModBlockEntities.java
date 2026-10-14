@@ -3,6 +3,7 @@ package de.jomender;
 
 import de.jomender.blockentity.ArcFusionChamberBlockEntity;
 import de.jomender.blockentity.CoalGeneratorBlockEntity;
+import de.jomender.blockentity.CrusherBlockEntity;
 import de.jomender.blockentity.ElectricSmelterBlockEntity;
 
 import net.minecraft.core.registries.Registries;
@@ -56,6 +57,16 @@ public class ModBlockEntities {
             )
     );
 
+
+    public static final Supplier<BlockEntityType<CrusherBlockEntity>>
+            CRUSHER = BLOCK_ENTITIES.register(
+            "crusher",
+            () -> new BlockEntityType<>(
+                    CrusherBlockEntity::new,
+                    false,
+                    ModBlocks.CRUSHER.get()
+            )
+    );
 
     public static final Supplier<BlockEntityType<GermaniumMinerBlockEntity>>
             GERMANIUM_MINER = BLOCK_ENTITIES.register(

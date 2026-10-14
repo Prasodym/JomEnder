@@ -242,6 +242,30 @@ public class ModItems {
                     ModBlocks.ELECTRIC_SMELTER
             );
 
+    public static final DeferredItem<BlockItem> CRUSHER =
+            ITEMS.registerSimpleBlockItem(
+                    "crusher",
+                    ModBlocks.CRUSHER
+            );
+
+    // =========================
+    // STAUB (aus dem Crusher)
+    // =========================
+
+    public static final DeferredItem<Item> IRON_DUST = ITEMS.registerSimpleItem("iron_dust");
+    public static final DeferredItem<Item> GOLD_DUST = ITEMS.registerSimpleItem("gold_dust");
+    public static final DeferredItem<Item> COPPER_DUST = ITEMS.registerSimpleItem("copper_dust");
+    public static final DeferredItem<Item> COAL_DUST = ITEMS.registerSimpleItem("coal_dust");
+    public static final DeferredItem<Item> GERMANIUM_DUST = ITEMS.registerSimpleItem("germanium_dust");
+    public static final DeferredItem<Item> ENDARIUM_DUST = ITEMS.registerSimpleItem("endarium_dust");
+
+    /** Entwickler-Werkzeug: Spawner auf Galaxius umstellen / Galaxius beschwören. */
+    public static final DeferredItem<de.jomender.item.DevToolItem> DEV_TOOL =
+            ITEMS.registerItem("dev_tool", de.jomender.item.DevToolItem::new, props -> props
+                    .stacksTo(1)
+                    .rarity(Rarity.EPIC)
+                    .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true));
+
     public static final DeferredItem<BlockItem> GERMANIUM_MINER =
             ITEMS.registerSimpleBlockItem(
                     "germanium_miner",

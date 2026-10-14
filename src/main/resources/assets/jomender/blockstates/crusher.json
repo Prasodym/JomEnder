@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "jomender:block/crusher"
+    },
+    "facing=east": {
+      "model": "jomender:block/crusher",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "jomender:block/crusher",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "jomender:block/crusher",
+      "y": 270
+    }
+  }
+}

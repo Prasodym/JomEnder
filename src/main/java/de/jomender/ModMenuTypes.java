@@ -3,6 +3,7 @@ package de.jomender;
 
 import de.jomender.menu.ArcFusionChamberMenu;
 import de.jomender.menu.CoalGeneratorMenu;
+import de.jomender.menu.CrusherMenu;
 import de.jomender.menu.ElectricSmelterMenu;
 import de.jomender.menu.GermaniumMinerMenu;
 
@@ -37,6 +38,12 @@ public class ModMenuTypes {
             ELECTRIC_SMELTER = MENUS.register(
             "electric_smelter",
             () -> IMenuTypeExtension.create(ElectricSmelterMenu::new)
+    );
+
+    public static final Supplier<MenuType<CrusherMenu>>
+            CRUSHER = MENUS.register(
+            "crusher",
+            () -> IMenuTypeExtension.create(CrusherMenu::new)
     );
 
     public static final Supplier<MenuType<GermaniumMinerMenu>>
