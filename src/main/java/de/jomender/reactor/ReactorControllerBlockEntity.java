@@ -93,6 +93,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Contain
     public static final TagKey<Item> URANIUM_INGOTS =
             TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", "ingots/uranium"));
 
+
     private final NonNullList<ItemStack> items = NonNullList.withSize(2, ItemStack.EMPTY);
 
     private final MachineEnergyHandler energy =
@@ -111,6 +112,8 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Contain
     // =========================
 
     public enum Status { NOT_FORMED, OFF, RUNNING, NO_FUEL, ENERGY_FULL, WASTE_FULL, SCRAM }
+
+
 
     private int fuel;            // interner Brennstoff-Vorrat
     private int wasteProgress;   // verbrannte Einheiten seit dem letzten Müll-Item
