@@ -9,8 +9,10 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Minecraft-26.1.2-62B47A" alt="Minecraft 26.1.2">
   <img src="https://img.shields.io/badge/NeoForge-26.1.2.116-E68A00" alt="NeoForge 26.1.2.116">
-  <img src="https://img.shields.io/badge/version-1.1--Alpha-B06CFF" alt="Version 1.1-Alpha">
+  <img src="https://img.shields.io/badge/version-1.1.3--Beta-B06CFF" alt="Version 1.1.3-Beta">
   <img src="https://img.shields.io/badge/license-MIT-3F76E4" alt="MIT License">
+</br>
+  [![Release](https://github.com/Prasodym/JomEnder/actions/workflows/release.yml/badge.svg?branch=master&event=status)](https://github.com/Prasodym/JomEnder/actions/workflows/release.yml)
 </p>
 
 ---
