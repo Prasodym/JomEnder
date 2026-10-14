@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "jomender:raw_uranium"
+    "jomender:raw_uranium",
+    "jomender:germanium_clumb",
+    "jomender:endarium_raw"
   ]
 }

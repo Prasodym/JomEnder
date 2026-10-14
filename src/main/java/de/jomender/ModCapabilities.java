@@ -68,6 +68,22 @@ public class ModCapabilities {
         );
 
 
+        // =========================
+        // CRUSHER: FE-EINGANG UND ITEM-ROHRE
+        // =========================
+
+        event.registerBlockEntity(
+                Capabilities.Energy.BLOCK,
+                ModBlockEntities.CRUSHER.get(),
+                (crusher, side) -> crusher.getEnergyStorage()
+        );
+
+        event.registerBlockEntity(
+                Capabilities.Item.BLOCK,
+                ModBlockEntities.CRUSHER.get(),
+                (crusher, side) -> crusher.getItemHandler(side)
+        );
+
 // =========================
 // GERMANIUM MINER: FE-EINGANG
 // =========================

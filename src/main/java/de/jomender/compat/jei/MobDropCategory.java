@@ -33,7 +33,10 @@ public class MobDropCategory extends AbstractRecipeCategory<MobDropCategory.MobD
     public static List<MobDrop> recipes() {
         return List.of(
                 new MobDrop(new ItemStack(Items.WITHER_SPAWN_EGG), EntityType.WITHER.getDescription(),
-                        new ItemStack(ModItems.WEAPON_SCRAP.get()), 0.5F)
+                        new ItemStack(ModItems.WEAPON_SCRAP.get()), 0.5F),
+                // Galaxius: 1-3 Galaxis-Quarz (siehe loot_table/entities/galaxius.json)
+                new MobDrop(new ItemStack(Items.ZOMBIE_SPAWN_EGG), de.jomender.ModEntities.GALAXIUS.get().getDescription(),
+                        new ItemStack(ModItems.Galaxis_Quarz.get(), 2), 1.0F)
         );
     }
 

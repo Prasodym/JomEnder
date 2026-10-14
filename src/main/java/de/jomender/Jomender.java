@@ -53,10 +53,14 @@ public Jomender(IEventBus bus, ModContainer modContainer) {
 
         ModCreativeTabs.register(bus);
 
+        // Bausteine (Block/Stufe/Treppe) in ModBlocks/ModItems eintragen, bevor registriert wird
+        de.jomender.building.BuildingBlocks.init();
+
         ModBlocks.register(bus);
         ModItems.register(bus);
 
         ModBlockEntities.register(bus);
+        ModEntities.register(bus);
 
         ModMenuTypes.register(bus);
         ModRecipes.register(bus);
