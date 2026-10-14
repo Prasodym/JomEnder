@@ -1,0 +1,10 @@
+{
+  "type": "jomender:crushing",
+  "input": "minecraft:stone",
+  "outputs": [
+    {
+      "id": "minecraft:cobblestone"
+    }
+  ],
+  "energy": 1200
+}

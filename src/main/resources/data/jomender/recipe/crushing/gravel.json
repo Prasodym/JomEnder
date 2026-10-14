@@ -1,0 +1,14 @@
+{
+  "type": "jomender:crushing",
+  "input": "minecraft:gravel",
+  "outputs": [
+    {
+      "id": "minecraft:sand"
+    },
+    {
+      "id": "minecraft:flint",
+      "chance": 0.1
+    }
+  ],
+  "energy": 1200
+}

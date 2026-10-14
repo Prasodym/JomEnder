@@ -1,0 +1,9 @@
+{
+  "type": "jomender:crushing",
+  "input": "#c:ingots/gold",
+  "outputs": [
+    {
+      "id": "jomender:gold_dust"
+    }
+  ]
+}

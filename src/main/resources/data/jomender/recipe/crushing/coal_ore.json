@@ -1,0 +1,15 @@
+{
+  "type": "jomender:crushing",
+  "input": "#c:ores/coal",
+  "outputs": [
+    {
+      "id": "minecraft:coal",
+      "count": 2
+    },
+    {
+      "id": "jomender:coal_dust",
+      "chance": 0.25
+    }
+  ],
+  "energy": 2400
+}

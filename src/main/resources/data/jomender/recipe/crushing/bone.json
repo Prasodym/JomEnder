@@ -1,0 +1,10 @@
+{
+  "type": "jomender:crushing",
+  "input": "minecraft:bone",
+  "outputs": [
+    {
+      "id": "minecraft:bone_meal",
+      "count": 5
+    }
+  ]
+}

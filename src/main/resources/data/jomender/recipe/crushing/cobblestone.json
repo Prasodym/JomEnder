@@ -1,0 +1,10 @@
+{
+  "type": "jomender:crushing",
+  "input": "#c:cobblestones/normal",
+  "outputs": [
+    {
+      "id": "minecraft:gravel"
+    }
+  ],
+  "energy": 1200
+}

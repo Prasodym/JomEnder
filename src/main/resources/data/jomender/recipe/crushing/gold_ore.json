@@ -1,0 +1,11 @@
+{
+  "type": "jomender:crushing",
+  "input": "#c:ores/gold",
+  "outputs": [
+    {
+      "id": "jomender:gold_dust",
+      "count": 2
+    }
+  ],
+  "energy": 2400
+}

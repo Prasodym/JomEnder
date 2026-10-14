@@ -1,0 +1,13 @@
+{
+  "type": "jomender:crushing",
+  "input": "#c:raw_materials/iron",
+  "outputs": [
+    {
+      "id": "jomender:iron_dust"
+    },
+    {
+      "id": "jomender:iron_dust",
+      "chance": 0.33
+    }
+  ]
+}

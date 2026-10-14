@@ -1,0 +1,16 @@
+{
+  "type": "jomender:crushing",
+  "input": "#c:ores/redstone",
+  "outputs": [
+    {
+      "id": "minecraft:redstone",
+      "count": 6
+    },
+    {
+      "id": "minecraft:redstone",
+      "count": 2,
+      "chance": 0.5
+    }
+  ],
+  "energy": 2400
+}

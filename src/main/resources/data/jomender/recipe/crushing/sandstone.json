@@ -1,0 +1,11 @@
+{
+  "type": "jomender:crushing",
+  "input": "minecraft:sandstone",
+  "outputs": [
+    {
+      "id": "minecraft:sand",
+      "count": 2
+    }
+  ],
+  "energy": 1200
+}

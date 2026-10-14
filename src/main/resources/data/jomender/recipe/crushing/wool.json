@@ -1,0 +1,14 @@
+{
+  "type": "jomender:crushing",
+  "input": "#minecraft:wool",
+  "outputs": [
+    {
+      "id": "minecraft:string",
+      "count": 3
+    },
+    {
+      "id": "minecraft:string",
+      "chance": 0.25
+    }
+  ]
+}

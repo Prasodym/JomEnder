@@ -1,0 +1,9 @@
+{
+  "type": "jomender:crushing",
+  "input": "minecraft:coal",
+  "outputs": [
+    {
+      "id": "jomender:coal_dust"
+    }
+  ]
+}

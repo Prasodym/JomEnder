@@ -1,0 +1,11 @@
+{
+  "type": "jomender:crushing",
+  "input": "jomender:endarium_ore",
+  "outputs": [
+    {
+      "id": "jomender:endarium_dust",
+      "count": 2
+    }
+  ],
+  "energy": 4000
+}

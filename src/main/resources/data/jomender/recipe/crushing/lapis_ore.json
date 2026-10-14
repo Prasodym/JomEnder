@@ -1,0 +1,16 @@
+{
+  "type": "jomender:crushing",
+  "input": "#c:ores/lapis",
+  "outputs": [
+    {
+      "id": "minecraft:lapis_lazuli",
+      "count": 8
+    },
+    {
+      "id": "minecraft:lapis_lazuli",
+      "count": 2,
+      "chance": 0.5
+    }
+  ],
+  "energy": 2400
+}

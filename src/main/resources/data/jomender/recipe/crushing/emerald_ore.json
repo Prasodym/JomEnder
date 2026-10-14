@@ -1,0 +1,11 @@
+{
+  "type": "jomender:crushing",
+  "input": "#c:ores/emerald",
+  "outputs": [
+    {
+      "id": "minecraft:emerald",
+      "count": 2
+    }
+  ],
+  "energy": 4000
+}

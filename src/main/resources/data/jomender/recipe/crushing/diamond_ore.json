@@ -1,0 +1,11 @@
+{
+  "type": "jomender:crushing",
+  "input": "#c:ores/diamond",
+  "outputs": [
+    {
+      "id": "minecraft:diamond",
+      "count": 2
+    }
+  ],
+  "energy": 4000
+}

@@ -1,0 +1,10 @@
+{
+  "type": "jomender:crushing",
+  "input": "jomender:endarium_ingot",
+  "outputs": [
+    {
+      "id": "jomender:endarium_dust"
+    }
+  ],
+  "energy": 3000
+}

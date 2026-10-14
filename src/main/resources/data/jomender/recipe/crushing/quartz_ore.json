@@ -1,0 +1,15 @@
+{
+  "type": "jomender:crushing",
+  "input": "#c:ores/quartz",
+  "outputs": [
+    {
+      "id": "minecraft:quartz",
+      "count": 2
+    },
+    {
+      "id": "minecraft:quartz",
+      "chance": 0.5
+    }
+  ],
+  "energy": 2400
+}

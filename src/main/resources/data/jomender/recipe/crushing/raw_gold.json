@@ -1,0 +1,13 @@
+{
+  "type": "jomender:crushing",
+  "input": "#c:raw_materials/gold",
+  "outputs": [
+    {
+      "id": "jomender:gold_dust"
+    },
+    {
+      "id": "jomender:gold_dust",
+      "chance": 0.33
+    }
+  ]
+}

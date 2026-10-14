@@ -1,0 +1,14 @@
+{
+  "type": "jomender:crushing",
+  "input": "jomender:endarium_raw",
+  "outputs": [
+    {
+      "id": "jomender:endarium_dust"
+    },
+    {
+      "id": "jomender:endarium_dust",
+      "chance": 0.33
+    }
+  ],
+  "energy": 3000
+}

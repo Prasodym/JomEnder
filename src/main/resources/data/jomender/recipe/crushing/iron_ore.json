@@ -1,0 +1,11 @@
+{
+  "type": "jomender:crushing",
+  "input": "#c:ores/iron",
+  "outputs": [
+    {
+      "id": "jomender:iron_dust",
+      "count": 2
+    }
+  ],
+  "energy": 2400
+}
