@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "jomender:uranium_ingot"
+    "jomender:uranium_ingot",
+    "jomender:germanium_ingot",
+    "jomender:endarium_ingot"
   ]
 }

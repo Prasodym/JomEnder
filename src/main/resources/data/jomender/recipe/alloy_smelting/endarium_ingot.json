@@ -1,0 +1,13 @@
+{
+  "type": "jomender:alloy_smelting",
+  "slot_a": {
+    "item": "jomender:endarium_dust",
+    "count": 1
+  },
+  "result": {
+    "id": "jomender:endarium_ingot",
+    "count": 1
+  },
+  "energy": 4000,
+  "time": 200
+}

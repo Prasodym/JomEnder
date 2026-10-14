@@ -190,6 +190,24 @@ public final class ItemStyles {
                 .color(0x39FF14)
                 .info("Nine Uranium Ingots, compressed.");
 
+        // Crusher und Staub
+        style(ModItems.CRUSHER)
+                .info("Grinds ores, raw metals and ingots into dust.")
+                .info("Ores give double, raw metals a bonus chance.", ChatFormatting.AQUA)
+                .info("Also knows the crushing recipes of other mods.", ChatFormatting.AQUA);
+
+        style(ModItems.ENDARIUM_DUST)
+                .color(0xB06CFF)
+                .info("Fuse it with Galaxis Quartz in the Arc Fusion Chamber.", ChatFormatting.DARK_PURPLE);
+
+        style(ModItems.GERMANIUM_DUST)
+                .info("Smelts into an ingot in the Electric Smelter.");
+
+        style(ModItems.DEV_TOOL)
+                .color(0xB06CFF)
+                .info("Right-click a spawner: it spawns Galaxius.", ChatFormatting.LIGHT_PURPLE)
+                .info("Shift + right-click a block: summon Galaxius.", ChatFormatting.LIGHT_PURPLE);
+
         // Weitere Items hier ergänzen ...
     }
 

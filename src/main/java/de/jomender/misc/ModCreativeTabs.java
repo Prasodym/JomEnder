@@ -60,6 +60,12 @@ public class ModCreativeTabs {
                                 output.accept(ModItems.Raw_Uranium.get());
                                 output.accept(ModItems.RAW_URANIUM_BLOCK.get());
                                 output.accept(ModItems.Uranium_Dust.get());
+                                output.accept(ModItems.IRON_DUST.get());
+                                output.accept(ModItems.GOLD_DUST.get());
+                                output.accept(ModItems.COPPER_DUST.get());
+                                output.accept(ModItems.COAL_DUST.get());
+                                output.accept(ModItems.GERMANIUM_DUST.get());
+                                output.accept(ModItems.ENDARIUM_DUST.get());
                                 output.accept(ModItems.Uranium_Ingot.get());
                                 output.accept(ModItems.URANIUM_BLOCK.get());
                                 output.accept(ModItems.NETHER_GERMANIUM_ORE.get());
@@ -90,6 +96,7 @@ public class ModCreativeTabs {
                                 // Machines
                                 output.accept(ModItems.COAL_GENERATOR.get());
                                 output.accept(ModItems.ELECTRIC_SMELTER.get());
+                                output.accept(ModItems.CRUSHER.get());
                                 output.accept(ModItems.ARC_FUSION_CHAMBER.get());
                                 output.accept(ModItems.REACTOR_CONTROLLER.get());
                                 output.accept(ModItems.REACTOR_CASING.get());
@@ -98,6 +105,14 @@ public class ModCreativeTabs {
                                 output.accept(ModItems.INFINITE_WATER.get());
                                 output.accept(ModItems.NUCLEAR_WASTE.get());
                                 output.accept(ModItems.GERMANIUM_MINER.get());
+                                output.accept(ModItems.DEV_TOOL.get());
+
+                                // Bausteine
+                                for (var family : de.jomender.building.BuildingBlocks.ALL) {
+                                    output.accept(family.blockItem().get());
+                                    output.accept(family.slabItem().get());
+                                    output.accept(family.stairsItem().get());
+                                }
                             })
                             .build()
             );

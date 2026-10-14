@@ -1,6 +1,12 @@
 {
   "replace": false,
   "values": [
-    "jomender:uranium_dust"
+    "jomender:uranium_dust",
+    "jomender:iron_dust",
+    "jomender:gold_dust",
+    "jomender:copper_dust",
+    "jomender:coal_dust",
+    "jomender:germanium_dust",
+    "jomender:endarium_dust"
   ]
 }
