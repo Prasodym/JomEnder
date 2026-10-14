@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "XXX"
+  ],
+  "key": {
+    "X": "jomender:germanium_plating"
+  },
+  "result": {
+    "id": "jomender:germanium_plating_slab",
+    "count": 6
+  }
+}

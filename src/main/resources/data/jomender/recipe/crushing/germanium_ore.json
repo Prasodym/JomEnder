@@ -1,0 +1,16 @@
+{
+  "type": "jomender:crushing",
+  "input": [
+    "jomender:germanium_ore",
+    "jomender:deepslate_germanium_ore",
+    "jomender:nether_germanium_ore",
+    "jomender:end_germanium_ore"
+  ],
+  "outputs": [
+    {
+      "id": "jomender:germanium_dust",
+      "count": 2
+    }
+  ],
+  "energy": 2400
+}

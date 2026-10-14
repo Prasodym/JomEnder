@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "jomender:block/endarium_tiles_framed",
+    "top": "jomender:block/endarium_tiles_framed",
+    "side": "jomender:block/endarium_tiles_framed"
+  }
+}

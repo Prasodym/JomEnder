@@ -1,0 +1,66 @@
+{
+  "textures": {
+    "base": "jomender:block/endarium_tiles",
+    "top": "jomender:block/endarium_tiles_border_top",
+    "bottom": "jomender:block/endarium_tiles_border_bottom",
+    "left": "jomender:block/endarium_tiles_border_left",
+    "right": "jomender:block/endarium_tiles_border_right",
+    "particle": "jomender:block/endarium_tiles"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#right",
+          "cullface": "north"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#left",
+          "cullface": "south"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#left",
+          "cullface": "up"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#left",
+          "cullface": "down"
+        }
+      }
+    }
+  ]
+}

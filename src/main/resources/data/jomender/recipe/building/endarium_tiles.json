@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "SSS",
+    "SXS",
+    "SSS"
+  ],
+  "key": {
+    "S": "minecraft:end_stone_bricks",
+    "X": "jomender:endarium_dust"
+  },
+  "result": {
+    "id": "jomender:endarium_tiles",
+    "count": 8
+  }
+}

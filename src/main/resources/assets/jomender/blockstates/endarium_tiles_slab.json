@@ -1,0 +1,152 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "type": "bottom"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles_slab_bottom"
+      }
+    },
+    {
+      "when": {
+        "type": "bottom",
+        "north": "false"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles_slab_bottom_border_north"
+      }
+    },
+    {
+      "when": {
+        "type": "bottom",
+        "south": "false"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles_slab_bottom_border_south"
+      }
+    },
+    {
+      "when": {
+        "type": "bottom",
+        "east": "false"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles_slab_bottom_border_east"
+      }
+    },
+    {
+      "when": {
+        "type": "bottom",
+        "west": "false"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles_slab_bottom_border_west"
+      }
+    },
+    {
+      "when": {
+        "type": "top"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles_slab_top"
+      }
+    },
+    {
+      "when": {
+        "type": "top",
+        "north": "false"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles_slab_top_border_north"
+      }
+    },
+    {
+      "when": {
+        "type": "top",
+        "south": "false"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles_slab_top_border_south"
+      }
+    },
+    {
+      "when": {
+        "type": "top",
+        "east": "false"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles_slab_top_border_east"
+      }
+    },
+    {
+      "when": {
+        "type": "top",
+        "west": "false"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles_slab_top_border_west"
+      }
+    },
+    {
+      "when": {
+        "type": "double"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles"
+      }
+    },
+    {
+      "when": {
+        "type": "double"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles_border_up"
+      }
+    },
+    {
+      "when": {
+        "type": "double"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles_border_down"
+      }
+    },
+    {
+      "when": {
+        "type": "double",
+        "north": "false"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles_border_north"
+      }
+    },
+    {
+      "when": {
+        "type": "double",
+        "south": "false"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles_border_south"
+      }
+    },
+    {
+      "when": {
+        "type": "double",
+        "east": "false"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles_border_east"
+      }
+    },
+    {
+      "when": {
+        "type": "double",
+        "west": "false"
+      },
+      "apply": {
+        "model": "jomender:block/endarium_tiles_border_west"
+      }
+    }
+  ]
+}

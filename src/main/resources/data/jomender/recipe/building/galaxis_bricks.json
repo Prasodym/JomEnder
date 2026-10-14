@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "SSS",
+    "SXS",
+    "SSS"
+  ],
+  "key": {
+    "S": "minecraft:stone_bricks",
+    "X": "jomender:galaxis_shard"
+  },
+  "result": {
+    "id": "jomender:galaxis_bricks",
+    "count": 8
+  }
+}

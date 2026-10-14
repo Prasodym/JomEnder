@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "jomender:block/machine_plating_framed",
+    "top": "jomender:block/machine_plating_framed",
+    "side": "jomender:block/machine_plating_framed"
+  }
+}

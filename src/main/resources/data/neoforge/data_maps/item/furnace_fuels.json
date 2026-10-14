@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": {
+    "jomender:coal_dust": {
+      "burn_time": 1600
+    }
+  }
+}

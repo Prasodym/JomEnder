@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "jomender:machine_plating_slab",
+    "jomender:germanium_plating_slab",
+    "jomender:endarium_tiles_slab",
+    "jomender:galaxis_bricks_slab"
+  ]
+}

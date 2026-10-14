@@ -1,0 +1,13 @@
+{
+  "type": "jomender:alloy_smelting",
+  "slot_a": {
+    "item": "jomender:germanium_dust",
+    "count": 1
+  },
+  "result": {
+    "id": "jomender:germanium_ingot",
+    "count": 1
+  },
+  "energy": 4000,
+  "time": 200
+}

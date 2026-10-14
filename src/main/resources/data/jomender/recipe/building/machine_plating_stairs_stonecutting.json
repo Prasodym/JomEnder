@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "jomender:machine_plating",
+  "result": {
+    "id": "jomender:machine_plating_stairs",
+    "count": 1
+  }
+}

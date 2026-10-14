@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "jomender:germanium_plating",
+  "result": {
+    "id": "jomender:germanium_plating_slab",
+    "count": 2
+  }
+}

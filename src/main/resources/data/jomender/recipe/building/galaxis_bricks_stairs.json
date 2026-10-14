@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "key": {
+    "X": "jomender:galaxis_bricks"
+  },
+  "result": {
+    "id": "jomender:galaxis_bricks_stairs",
+    "count": 4
+  }
+}

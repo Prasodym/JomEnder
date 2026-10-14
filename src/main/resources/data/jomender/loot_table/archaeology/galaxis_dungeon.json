@@ -1,0 +1,41 @@
+{
+  "type": "minecraft:archaeology",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "jomender:galaxis_shard",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "name": "jomender:endarium_dust",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:emerald",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "jomender:weapon_scrap",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:echo_shard",
+          "weight": 2
+        }
+      ]
+    }
+  ],
+  "random_sequence": "jomender:archaeology/galaxis_dungeon"
+}

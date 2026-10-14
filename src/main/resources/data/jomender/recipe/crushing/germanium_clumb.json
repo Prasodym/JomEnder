@@ -1,0 +1,13 @@
+{
+  "type": "jomender:crushing",
+  "input": "jomender:germanium_clumb",
+  "outputs": [
+    {
+      "id": "jomender:germanium_dust"
+    },
+    {
+      "id": "jomender:germanium_dust",
+      "chance": 0.33
+    }
+  ]
+}

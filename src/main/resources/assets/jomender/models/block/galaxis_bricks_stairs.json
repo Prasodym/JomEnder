@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "jomender:block/galaxis_bricks_framed",
+    "top": "jomender:block/galaxis_bricks_framed",
+    "side": "jomender:block/galaxis_bricks_framed"
+  }
+}

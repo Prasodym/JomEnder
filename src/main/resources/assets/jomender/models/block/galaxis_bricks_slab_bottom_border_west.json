@@ -1,0 +1,65 @@
+{
+  "textures": {
+    "base": "jomender:block/galaxis_bricks",
+    "top": "jomender:block/galaxis_bricks_border_top",
+    "bottom": "jomender:block/galaxis_bricks_border_bottom",
+    "left": "jomender:block/galaxis_bricks_border_left",
+    "right": "jomender:block/galaxis_bricks_border_right",
+    "particle": "jomender:block/galaxis_bricks"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        8,
+        16
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#left"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#left",
+          "cullface": "down"
+        },
+        "north": {
+          "uv": [
+            0,
+            8,
+            16,
+            16
+          ],
+          "texture": "#right",
+          "cullface": "north"
+        },
+        "south": {
+          "uv": [
+            0,
+            8,
+            16,
+            16
+          ],
+          "texture": "#left",
+          "cullface": "south"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "SSS",
+    "SXS",
+    "SSS"
+  ],
+  "key": {
+    "S": "minecraft:stone",
+    "X": "jomender:germanium_ingot"
+  },
+  "result": {
+    "id": "jomender:germanium_plating",
+    "count": 8
+  }
+}

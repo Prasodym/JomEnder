@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "jomender:galaxis_bricks",
+  "result": {
+    "id": "jomender:galaxis_bricks_slab",
+    "count": 2
+  }
+}

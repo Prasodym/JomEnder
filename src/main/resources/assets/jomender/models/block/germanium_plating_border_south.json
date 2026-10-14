@@ -1,0 +1,66 @@
+{
+  "textures": {
+    "base": "jomender:block/germanium_plating",
+    "top": "jomender:block/germanium_plating_border_top",
+    "bottom": "jomender:block/germanium_plating_border_bottom",
+    "left": "jomender:block/germanium_plating_border_left",
+    "right": "jomender:block/germanium_plating_border_right",
+    "particle": "jomender:block/germanium_plating"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#left",
+          "cullface": "east"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#right",
+          "cullface": "west"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#bottom",
+          "cullface": "up"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#top",
+          "cullface": "down"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "key": {
+    "X": "jomender:germanium_plating"
+  },
+  "result": {
+    "id": "jomender:germanium_plating_stairs",
+    "count": 4
+  }
+}

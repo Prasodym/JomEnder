@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "jomender:endarium_tiles",
+  "result": {
+    "id": "jomender:endarium_tiles_slab",
+    "count": 2
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "jomender:machine_plating_stairs",
+    "jomender:germanium_plating_stairs",
+    "jomender:endarium_tiles_stairs",
+    "jomender:galaxis_bricks_stairs"
+  ]
+}

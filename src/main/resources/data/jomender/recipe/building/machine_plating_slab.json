@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "XXX"
+  ],
+  "key": {
+    "X": "jomender:machine_plating"
+  },
+  "result": {
+    "id": "jomender:machine_plating_slab",
+    "count": 6
+  }
+}

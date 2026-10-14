@@ -1,0 +1,9 @@
+{
+  "type": "jomender:crushing",
+  "input": "jomender:germanium_ingot",
+  "outputs": [
+    {
+      "id": "jomender:germanium_dust"
+    }
+  ]
+}
