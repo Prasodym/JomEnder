@@ -135,6 +135,7 @@
     "block.jomender.endarium_tiles_stairs": "Endarium Tiles Stairs",
     "block.jomender.galaxis_bricks": "Galaxis Bricks",
     "block.jomender.galaxis_bricks_slab": "Galaxis Bricks Slab",
-    "block.jomender.galaxis_bricks_stairs": "Galaxis Bricks Stairs"
-
+    "block.jomender.galaxis_bricks_stairs": "Galaxis Bricks Stairs",
+    "material.jomender.germanium": "Germanium",
+    "material.jomender.endarium": "Endarium"
 }
